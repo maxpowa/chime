@@ -1,0 +1,17 @@
+[
+{
+"modid": "WikiTool",
+"name": "WikiTool",
+"description": "A wiki-searching tool by maxpowa",
+"version": "Version [@VERSION@] for @MCVERSION@",
+"credits": "Created by maxpowa",
+"logoFile": "",
+"mcversion": "@MCVERSION@",
+"url": "",
+"updateUrl": "",
+"authors": [ "maxpowa" ],
+"parent":"",
+"screenshots": [],
+"dependencies": []
+}
+]
