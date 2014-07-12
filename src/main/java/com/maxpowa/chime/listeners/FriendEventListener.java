@@ -1,12 +1,15 @@
-package com.maxpowa.chime;
+package com.maxpowa.chime.listeners;
 
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.FirebaseError;
+import com.maxpowa.chime.Chime;
+import com.maxpowa.chime.util.Notification;
+import com.maxpowa.chime.util.Utils;
+import com.maxpowa.chime.util.Notification.NotificationType;
 
 public class FriendEventListener implements ChildEventListener {
 	
-	private User user;
 	private String refid = "";
 
 	public FriendEventListener(String key) {
@@ -15,7 +18,7 @@ public class FriendEventListener implements ChildEventListener {
 
 	@Override
 	public void onCancelled(FirebaseError error) {
-		Utils.log.error("FriendListener targeting "+ (user != null ? user.getUsername() : refid) +" has errored! ("+ error.getMessage() +")");
+		Utils.log.error("FriendListener targeting "+ (Utils.users.get(refid) != null ? Utils.users.get(refid).getUsername() : refid) +" has errored! ("+ error.getMessage() +")");
 	}
 
 	@Override
@@ -28,6 +31,8 @@ public class FriendEventListener implements ChildEventListener {
 	public void onChildChanged(DataSnapshot data, String key) {
 		if (data.getName().equalsIgnoreCase("seen")) {
 			Utils.log.info("Invoking notification: "+data.getName()+":"+data.getValue());
+			Notification notify = new Notification(Utils.users.get(refid).getUsername(), "Is now playing "+data.getValue(), 0, NotificationType.STATUS);
+			Chime.notificationOverlay.queueTemporaryNotification(notify);
 		} else if (data.getName().equalsIgnoreCase("username")) {
 			Utils.log.info("Invoking notification: "+data.getName()+":"+data.getValue());
 		} else if (data.getName().equalsIgnoreCase("lastSeen")) {

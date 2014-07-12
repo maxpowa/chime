@@ -1,4 +1,4 @@
-package com.maxpowa.chime;
+package com.maxpowa.chime.util;
 
 import java.util.HashMap;
 

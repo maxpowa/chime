@@ -7,9 +7,16 @@ import net.minecraft.util.Session;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.lwjgl.input.Mouse;
 
 import com.firebase.client.Firebase;
 import com.firebase.security.token.TokenGenerator;
+import com.maxpowa.chime.gui.GuiChimeButton;
+import com.maxpowa.chime.gui.GuiNotification;
+import com.maxpowa.chime.listeners.Initializer;
+import com.maxpowa.chime.util.Authenticator;
+import com.maxpowa.chime.util.User;
+import com.maxpowa.chime.util.Utils;
 import com.mojang.authlib.GameProfile;
 
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -17,20 +24,26 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
+import cpw.mods.fml.common.gameevent.TickEvent.RenderTickEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.Type;
 import cpw.mods.fml.relauncher.Side;
 
 @Mod(modid="Chime", name="Chime", version="v@VERSION@")
 public class Chime {
 
-	protected static Firebase users = new Firebase("https://sweltering-fire-4536.firebaseio.com/users/");
-	protected static Firebase public_requests = new Firebase("https://sweltering-fire-4536.firebaseio.com/public_requests/");
-	protected static Firebase me = null;
+	public static Firebase users = new Firebase("https://sweltering-fire-4536.firebaseio.com/users/");
+	public static Firebase public_requests = new Firebase("https://sweltering-fire-4536.firebaseio.com/public_requests/");
+	public static Firebase me = null;
 	
-	protected static User myUser = null;
-	private static GameProfile myProfile = null;
+	public static User myUser = null;
+	public static GameProfile myProfile = null;
+	public static GuiNotification notificationOverlay;
 	private boolean isDebug = true;
+	
+	private GuiChimeButton button = null;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
@@ -46,6 +59,24 @@ public class Chime {
 		authenticateClient();
     }
     
+    @SubscribeEvent
+    public void RenderTickEvent(RenderTickEvent event) {
+        Minecraft mc = Minecraft.getMinecraft();
+        if (button == null) {
+        	button = new GuiChimeButton(45346, 5, 5, "Chime GUI");
+        }
+        if ((event.type == Type.RENDER || event.type == Type.CLIENT) && event.phase == Phase.END && mc.currentScreen != null) {
+            int mouseX = Mouse.getX() * mc.currentScreen.width / mc.displayWidth;
+            int mouseY = mc.currentScreen.height - Mouse.getY() * mc.currentScreen.height / mc.displayHeight - 1; 
+            button.drawButton(mc, mouseX, mouseY);
+        }
+        if (event.type == TickEvent.Type.RENDER && Chime.notificationOverlay != null) {
+            Chime.notificationOverlay.updateNotificationWindow();
+        } else if (Chime.notificationOverlay == null) {
+        	Chime.notificationOverlay = new GuiNotification(mc);
+        }
+    }
+    
     private long lastTick = System.currentTimeMillis();
     
     @SubscribeEvent
@@ -59,7 +90,7 @@ public class Chime {
     	}
     }
     
-    protected static Session getSession() {
+    public static Session getSession() {
     	return Minecraft.getMinecraft().getSession();
     }
 	
@@ -68,7 +99,7 @@ public class Chime {
     	Utils.log.info("Authenticating client...");
     	
     	if (myProfile.getId() == null) {
-    		Utils.log.info("Authentication failed!");
+    		Utils.log.info("Authentication failed, please check your internet connection or buy the game.");
     		return;
     	}
     	

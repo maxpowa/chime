@@ -1,8 +1,9 @@
-package com.maxpowa.chime;
+package com.maxpowa.chime.util;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import net.minecraft.util.Session;
@@ -19,8 +20,10 @@ import com.mojang.api.http.HttpHeader;
 public class Utils {
 	
     private static HttpClient client;
+    
+    public static HashMap<String, User> users = new HashMap<String, User>();
 	
-	protected static Logger log = null;
+	public static Logger log = null;
     
     static {
     	client = BasicHttpClient.getInstance();

@@ -1,4 +1,4 @@
-package com.maxpowa.chime;
+package com.maxpowa.chime.util;
 
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
