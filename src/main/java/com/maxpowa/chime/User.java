@@ -5,7 +5,8 @@ import java.util.HashMap;
 public class User {
 
 	private long lastSeen = System.currentTimeMillis();
-	private String motd = "I'm new!";
+	private String username = "Steve";
+	private String motd = "I'm new here!";
 	private String seen = "Main Menu";
 	private HashMap<String, String> blocks = new HashMap<String,String>();
 	private HashMap<String, String> friends = new HashMap<String,String>();
@@ -35,10 +36,19 @@ public class User {
 		this.friends = friends;
 	}
 	public long getLastSeen() {
-		return lastSeen;
+		return System.currentTimeMillis();
+	}
+	public long lastSeen() {
+		return this.lastSeen;
 	}
 	public void setLastSeen(long lastSeen) {
 		this.lastSeen = lastSeen;
+	}
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
 	}
 	
 }

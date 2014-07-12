@@ -50,7 +50,11 @@ processResources
 
 configurations { packageLibs }
 
-dependencies { packageLibs 'com.firebase:firebase-client:1.0.15' }
+dependencies { 
+	packageLibs 'com.firebase:firebase-client:1.0.15' 
+	packageLibs 'com.firebase:firebase-token-generator:1.0.5'
+	packageLibs 'org.json:json:20090211'
+}
 
 task deobfJar(type: Jar) {
     from sourceSets.main.output

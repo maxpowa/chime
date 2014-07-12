@@ -1,8 +1,8 @@
 [
 {
-"modid": "WikiTool",
-"name": "WikiTool",
-"description": "A wiki-searching tool by maxpowa",
+"modid": "Chime",
+"name": "Chime",
+"description": "A social minecrafting experience. Brings a few social features to the table that are lacking from the base game.",
 "version": "Version [@VERSION@] for @MCVERSION@",
 "credits": "Created by maxpowa",
 "logoFile": "",
