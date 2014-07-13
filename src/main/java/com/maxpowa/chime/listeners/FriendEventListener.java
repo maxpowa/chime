@@ -1,12 +1,15 @@
 package com.maxpowa.chime.listeners;
 
+import net.minecraft.util.EnumChatFormatting;
+
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.FirebaseError;
 import com.maxpowa.chime.Chime;
 import com.maxpowa.chime.util.Notification;
-import com.maxpowa.chime.util.Utils;
 import com.maxpowa.chime.util.Notification.NotificationType;
+import com.maxpowa.chime.util.UserList;
+import com.maxpowa.chime.util.Utils;
 
 public class FriendEventListener implements ChildEventListener {
 	
@@ -18,7 +21,7 @@ public class FriendEventListener implements ChildEventListener {
 
 	@Override
 	public void onCancelled(FirebaseError error) {
-		Utils.log.error("FriendListener targeting "+ (Utils.users.get(refid) != null ? Utils.users.get(refid).getUsername() : refid) +" has errored! ("+ error.getMessage() +")");
+		Utils.log.error("FriendListener targeting "+ (UserList.users.get(refid) != null ? UserList.users.get(refid).getUsername() : refid) +" has errored! ("+ error.getMessage() +")");
 	}
 
 	@Override
@@ -30,13 +33,19 @@ public class FriendEventListener implements ChildEventListener {
 	@Override
 	public void onChildChanged(DataSnapshot data, String key) {
 		if (data.getName().equalsIgnoreCase("seen")) {
-			Utils.log.info("Invoking notification: "+data.getName()+":"+data.getValue());
-			Notification notify = new Notification(Utils.users.get(refid).getUsername(), "Is now playing "+data.getValue(), 0, NotificationType.STATUS);
-			Chime.notificationOverlay.queueTemporaryNotification(notify);
+			Notification notify = new Notification("",EnumChatFormatting.YELLOW+UserList.users.get(refid).getUsername()+" is now "+data.getValue(), 0, NotificationType.STATUS);
+			Chime.notificationOverlay.queueTemporaryNotification(notify, true);
 		} else if (data.getName().equalsIgnoreCase("username")) {
-			Utils.log.info("Invoking notification: "+data.getName()+":"+data.getValue());
+			Notification notify = new Notification("",EnumChatFormatting.YELLOW+UserList.users.get(refid).getUsername()+" is now known as "+data.getValue(), 0, NotificationType.STATUS);
+			Chime.notificationOverlay.queueTemporaryNotification(notify, true);
 		} else if (data.getName().equalsIgnoreCase("lastSeen")) {
-			// don't spam the log!
+			if (UserList.users.get(refid).lastSeen()+60000L < data.getValue(Long.class)) {
+				Notification notify = new Notification(EnumChatFormatting.YELLOW+UserList.users.get(refid).getUsername(),"Is online", 0, NotificationType.ONLINE);
+				Chime.notificationOverlay.queueTemporaryNotification(notify);
+				Utils.log.info("Online!");
+			} else {
+				Utils.log.info("Nope! "+data.getValue(Long.class)+" is less than "+(UserList.users.get(refid).lastSeen()+60000L));
+			}
 		} else {
 			Utils.log.info("Caught change of \""+data.getName()+"\" but ignored.");
 		}

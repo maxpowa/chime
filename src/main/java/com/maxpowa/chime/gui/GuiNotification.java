@@ -23,7 +23,7 @@ import com.maxpowa.chime.util.Notification;
 public class GuiNotification extends Gui
 {
     private static final ResourceLocation notificationTextures = new ResourceLocation("textures/gui/achievement/achievement_background.png");
-    private static final ResourceLocation windowParts = new ResourceLocation("chime:textures/windowParts.png");
+    private static final ResourceLocation windowParts = new ResourceLocation("chime:textures/gui/windowParts.png");
 
     /** Holds the instance of the game (Minecraft) */
     private Minecraft mc;
@@ -132,7 +132,7 @@ public class GuiNotification extends Gui
         this.zLevel += 100;
         if (this.theNotification != null && (this.notificationTime != 0L || this.notificationIsPermanent))
         {
-            double d0 = (double)(Minecraft.getSystemTime() - this.notificationTime) / 3000.0D;
+            double d0 = (double)(Minecraft.getSystemTime() - this.notificationTime) / 6000.0D;
 
             if (!this.haveNotification && (d0 < 0.0D || d0 > 1.0D) && !this.notificationIsPermanent)
             {
@@ -207,7 +207,8 @@ public class GuiNotification extends Gui
                         this.drawTexturedModalRect(i + 8, j + 8, 0, 118, 16, 16);
                         break;
                     case STATUS:
-                    	this.itemRender.renderItemIntoGUI(this.mc.fontRenderer, this.mc.getTextureManager(), new ItemStack(Blocks.beacon), i + 8, j + 8);
+                        this.mc.getTextureManager().bindTexture(windowParts);
+                        this.drawTexturedModalRect(i + 8, j + 8, 60, 70, 16, 16);
                     	break;
                 }
                 GL11.glDisable(GL11.GL_LIGHTING);

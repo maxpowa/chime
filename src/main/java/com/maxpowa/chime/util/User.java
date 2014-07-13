@@ -2,15 +2,19 @@ package com.maxpowa.chime.util;
 
 import java.util.HashMap;
 
+import com.shaded.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties({"online"})
 public class User {
 
-	private long lastSeen = System.currentTimeMillis();
+	private long lastSeen = 0L;
 	private String username = "Steve";
 	private String motd = "I'm new here!";
 	private String seen = "Main Menu";
 	private HashMap<String, String> blocks = new HashMap<String,String>();
 	private HashMap<String, String> friends = new HashMap<String,String>();
-
+	private String UUID = "";
+	
 	public String getMotd() {
 		return motd;
 	}
@@ -49,6 +53,15 @@ public class User {
 	}
 	public void setUsername(String username) {
 		this.username = username;
+	}
+	public String getUUID() {
+		return this.UUID;
+	}
+	public void setUUID(String uuid) {
+		this.UUID = uuid;
+	}
+	public boolean isOnline() {
+		return ((this.lastSeen + 60000L) >= System.currentTimeMillis());
 	}
 	
 }

@@ -23,14 +23,15 @@ public class Initializer implements ValueEventListener {
 			Utils.log.info("Retrieved data was null, creating new user at "+Chime.me.getPath());
 			Chime.myUser = new User();
 			Chime.myUser.setUsername(Chime.getSession().getPlayerID());
+			Chime.myUser.setUUID(Chime.myProfile.getId().toString());
 			Chime.me.setValue(Chime.myUser);
 		}
 		Chime.me.push();
 		
 		if (Chime.myUser.getFriends() != null) {
 			for (String key : Chime.myUser.getFriends().keySet()) {
-				Chime.users.child(key).addValueEventListener(new FriendListener(key));
 				Chime.users.child(key).addChildEventListener(new FriendEventListener(key));
+				Chime.users.child(key).addValueEventListener(new FriendListener(key));
 			}
 		}
 		

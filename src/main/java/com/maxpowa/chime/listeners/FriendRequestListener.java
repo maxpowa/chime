@@ -3,6 +3,9 @@ package com.maxpowa.chime.listeners;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.FirebaseError;
+import com.maxpowa.chime.Chime;
+import com.maxpowa.chime.util.Notification;
+import com.maxpowa.chime.util.Notification.NotificationType;
 import com.maxpowa.chime.util.Utils;
 
 public class FriendRequestListener implements ChildEventListener {
@@ -20,7 +23,9 @@ public class FriendRequestListener implements ChildEventListener {
 
 	@Override
 	public void onChildAdded(DataSnapshot data, String key) {
-		Utils.log.info("Got a new friend request from "+data.getName()+" \""+data.getValue()+"\"");
+		Utils.log.info("Got a new friend request from "+data.getValue()+" ("+data.getName()+")");
+		Notification notify = new Notification("Friend Request",data.getValue()+" wants to be friends with you.", 0, NotificationType.FRIENDREQUEST);
+		Chime.notificationOverlay.queueTemporaryNotification(notify);
 	}
 
 	@Override

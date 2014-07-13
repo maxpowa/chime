@@ -12,6 +12,7 @@ import org.lwjgl.input.Mouse;
 import com.firebase.client.Firebase;
 import com.firebase.security.token.TokenGenerator;
 import com.maxpowa.chime.gui.GuiChimeButton;
+import com.maxpowa.chime.gui.GuiFriendsList;
 import com.maxpowa.chime.gui.GuiNotification;
 import com.maxpowa.chime.listeners.Initializer;
 import com.maxpowa.chime.util.Authenticator;
@@ -34,9 +35,12 @@ import cpw.mods.fml.relauncher.Side;
 @Mod(modid="Chime", name="Chime", version="v@VERSION@")
 public class Chime {
 
-	public static Firebase users = new Firebase("https://sweltering-fire-4536.firebaseio.com/users/");
-	public static Firebase public_requests = new Firebase("https://sweltering-fire-4536.firebaseio.com/public_requests/");
+	public static final String rootURL = "https://sweltering-fire-4536.firebaseio.com";
+	public static Firebase users = new Firebase(rootURL+"/users/");
+	public static Firebase public_requests = new Firebase(rootURL+"/public_requests/");
 	public static Firebase me = null;
+	
+	public static final float[][] rainbowColors = new float[][] {{1.0F, 1.0F, 1.0F}, {0.85F, 0.5F, 0.2F}, {0.7F, 0.3F, 0.85F}, {0.4F, 0.6F, 0.85F}, {0.9F, 0.9F, 0.2F}, {0.5F, 0.8F, 0.1F}, {0.95F, 0.5F, 0.65F}, {0.3F, 0.3F, 0.3F}, {0.6F, 0.6F, 0.6F}, {0.3F, 0.5F, 0.6F}, {0.5F, 0.25F, 0.7F}, {0.2F, 0.3F, 0.7F}, {0.4F, 0.3F, 0.2F}, {0.4F, 0.5F, 0.2F}, {0.6F, 0.2F, 0.2F}, {0.1F, 0.1F, 0.1F}};
 	
 	public static User myUser = null;
 	public static GameProfile myProfile = null;
@@ -63,9 +67,9 @@ public class Chime {
     public void RenderTickEvent(RenderTickEvent event) {
         Minecraft mc = Minecraft.getMinecraft();
         if (button == null) {
-        	button = new GuiChimeButton(45346, 5, 5, "Chime GUI");
+        	button = new GuiChimeButton(5, 5);
         }
-        if ((event.type == Type.RENDER || event.type == Type.CLIENT) && event.phase == Phase.END && mc.currentScreen != null) {
+        if (event.type == Type.RENDER && event.phase == Phase.END && mc.currentScreen != null && !(mc.currentScreen instanceof GuiFriendsList)) {
             int mouseX = Mouse.getX() * mc.currentScreen.width / mc.displayWidth;
             int mouseY = mc.currentScreen.height - Mouse.getY() * mc.currentScreen.height / mc.displayHeight - 1; 
             button.drawButton(mc, mouseX, mouseY);
@@ -89,8 +93,8 @@ public class Chime {
     		}
     	}
     }
-    
-    public static Session getSession() {
+
+	public static Session getSession() {
     	return Minecraft.getMinecraft().getSession();
     }
 	
