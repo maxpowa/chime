@@ -11,7 +11,6 @@ import org.lwjgl.opengl.GL11;
 
 import com.google.common.collect.Lists;
 import com.maxpowa.chime.util.RequestList;
-import com.maxpowa.chime.util.UserList;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

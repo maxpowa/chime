@@ -81,8 +81,9 @@ public class GuiFriendsList extends GuiScreen implements GuiYesNoCallback
      */
     public void updateScreen()
     {
-        this.refreshScreen();
         super.updateScreen();
+        this.userList.loadUserList();
+        this.selectionList.addUserList(this.userList);
     }
 
     /**

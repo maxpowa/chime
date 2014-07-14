@@ -118,6 +118,10 @@ public class GuiScreenAddFriend extends GuiScreen
         this.uuidField.textboxKeyTyped(p_73869_1_, p_73869_2_);
         
         this.message = "";
+        
+        if (this.usernameField.isFocused() && this.uuidField.getText().length() > 0) {
+        	this.uuidField.setText("");
+        }
 
         if (p_73869_2_ == 15)
         {
@@ -139,7 +143,7 @@ public class GuiScreenAddFriend extends GuiScreen
         else 
         	((GuiButton)this.buttonList.get(2)).enabled = false;
 
-        if (this.uuidField.getText().matches("[a-f0-9]{8}-[a-f0-9]{4}-4[0-9]{3}-[89ab][a-f0-9]{3}-[0-9a-f]{12}"))
+        if (this.uuidField.getText().matches("[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[0-9a-f]{12}"))
         	((GuiButton)this.buttonList.get(0)).enabled = true;
         else
         	((GuiButton)this.buttonList.get(0)).enabled = false;

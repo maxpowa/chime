@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Session;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.lwjgl.input.Mouse;
@@ -39,8 +38,6 @@ public class Chime {
 	public static Firebase users = new Firebase(rootURL+"/users/");
 	public static Firebase public_requests = new Firebase(rootURL+"/public_requests/");
 	public static Firebase me = null;
-	
-	public static final float[][] rainbowColors = new float[][] {{1.0F, 1.0F, 1.0F}, {0.85F, 0.5F, 0.2F}, {0.7F, 0.3F, 0.85F}, {0.4F, 0.6F, 0.85F}, {0.9F, 0.9F, 0.2F}, {0.5F, 0.8F, 0.1F}, {0.95F, 0.5F, 0.65F}, {0.3F, 0.3F, 0.3F}, {0.6F, 0.6F, 0.6F}, {0.3F, 0.5F, 0.6F}, {0.5F, 0.25F, 0.7F}, {0.2F, 0.3F, 0.7F}, {0.4F, 0.3F, 0.2F}, {0.4F, 0.5F, 0.2F}, {0.6F, 0.2F, 0.2F}, {0.1F, 0.1F, 0.1F}};
 	
 	public static User myUser = null;
 	public static GameProfile myProfile = null;
@@ -85,10 +82,11 @@ public class Chime {
     
     @SubscribeEvent
     public void onClientTick(ClientTickEvent event) {
+    	// Updates the server's last seen value to keep your status "online"
+    	// If this somehow fails to update the server for 60 seconds, you may appear offline to other users.
     	if (event.side == Side.CLIENT && event.phase == Phase.START) {
     		if (lastTick+15000 < System.currentTimeMillis() && myUser != null) {
-    			me.setValue(myUser);
-    			Utils.log.info("Updating server-side cached user");
+    			me.child("lastSeen").setValue(System.currentTimeMillis());
     			lastTick = System.currentTimeMillis();
     		}
     	}
@@ -103,7 +101,7 @@ public class Chime {
     	Utils.log.info("Authenticating client...");
     	
     	if (myProfile.getId() == null) {
-    		Utils.log.info("Authentication failed, please check your internet connection or buy the game.");
+    		this.deauth();
     		return;
     	}
     	
@@ -122,9 +120,15 @@ public class Chime {
         
         me = users.child(myProfile.getId().toString());
 		
-    	me.auth(token, new Authenticator());
+    	me.auth(token, new Authenticator(this));
     	
     	Chime.me.addListenerForSingleValueEvent(new Initializer());
     }
+
+	public void deauth() {
+		Utils.log.error("Authentication failed, please check your internet connection or buy the game.");
+		Utils.log.error("Disabling due to authentication failure. This event will be logged for audit. (REF#"+System.currentTimeMillis()+")");
+		FMLCommonHandler.instance().bus().unregister(this);
+	}
 }
  

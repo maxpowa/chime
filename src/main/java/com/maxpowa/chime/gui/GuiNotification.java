@@ -9,7 +9,6 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.achievement.GuiAchievement;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -190,10 +189,6 @@ public class GuiNotification extends Gui
                     case MESSAGE:
                         this.mc.getTextureManager().bindTexture(windowParts);
                         this.drawTexturedModalRect(i + 8, j + 8, 16, 102, 16, 16);
-                        int unreadIndex = (this.theNotification.unread-1)*8;
-                        if (unreadIndex > 72)
-                            unreadIndex = 72;
-                        this.drawTexturedModalRect(i + 16, j + 8, 32+(unreadIndex), 102, 8, 8);
                         break;
                     case FRIENDREQUEST:
                         this.itemRender.renderItemIntoGUI(this.mc.fontRenderer, this.mc.getTextureManager(), new ItemStack(Items.diamond), i + 8, j + 8);
@@ -211,6 +206,15 @@ public class GuiNotification extends Gui
                         this.drawTexturedModalRect(i + 8, j + 8, 60, 70, 16, 16);
                     	break;
                 }
+                
+                if (this.theNotification.unread > 1) {
+	                this.mc.getTextureManager().bindTexture(windowParts);
+	                int unreadIndex = (this.theNotification.unread-1)*8;
+	                if (unreadIndex > 72)
+	                    unreadIndex = 72;
+	                this.drawTexturedModalRect(i + 16, j + 8, 32+(unreadIndex), 102, 8, 8);
+                }
+                
                 GL11.glDisable(GL11.GL_LIGHTING);
                 GL11.glDepthMask(true);
                 GL11.glEnable(GL11.GL_DEPTH_TEST);

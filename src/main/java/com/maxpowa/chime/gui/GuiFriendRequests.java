@@ -9,11 +9,8 @@ import net.minecraft.client.gui.ServerListEntryLanScan;
 import net.minecraft.client.gui.ServerListEntryNormal;
 
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.GL11;
-
 import com.maxpowa.chime.util.RequestList;
 import com.maxpowa.chime.util.User;
-import com.maxpowa.chime.util.UserList;
 import com.maxpowa.chime.util.Utils;
 
 import cpw.mods.fml.relauncher.Side;
@@ -84,6 +81,8 @@ public class GuiFriendRequests extends GuiScreen implements GuiYesNoCallback
     public void updateScreen()
     {
         super.updateScreen();
+        this.userList.loadUserList();
+        this.selectionList.addUserList(this.userList);
     }
 
     /**

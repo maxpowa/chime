@@ -3,7 +3,6 @@ package com.maxpowa.chime.util;
 import java.util.HashMap;
 
 import com.shaded.fasterxml.jackson.annotation.JsonIgnore;
-import com.shaded.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 public class User {
 

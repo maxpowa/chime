@@ -21,14 +21,12 @@ public class FriendRequestListener implements ChildEventListener {
 
 	@Override
 	public void onCancelled(FirebaseError error) {
-		Utils.log.error("FriendRequestListener has errored! ("+ error.getMessage() +")");
+		Utils.log.error("FriendRequestListener ("+refid+") has errored! ["+ error.getMessage() +"]");
 	}
 
 	@Override
 	public void onChildAdded(DataSnapshot data, String key) {
 		Utils.log.info("Got a new friend request from "+data.getValue()+" ("+data.getName()+")");
-		Notification notify = new Notification("Friend Request",data.getValue()+" wants to be friends with you.", 0, NotificationType.FRIENDREQUEST);
-		Chime.notificationOverlay.queueTemporaryNotification(notify);
 		Chime.users.child(data.getName()).addValueEventListener(new ValueEventListener() {
 
 			@Override
@@ -39,6 +37,8 @@ public class FriendRequestListener implements ChildEventListener {
 			@Override
 			public void onDataChange(DataSnapshot data) {
 				User tmp = data.getValue(User.class);
+				Notification notify = new Notification("Friend Request from",tmp.getUsername(), 12, NotificationType.FRIENDREQUEST);
+				Chime.notificationOverlay.queueTemporaryNotification(notify);
 				Utils.log.info("Got info for "+tmp.getUsername()+" ("+tmp.getUUID()+")");
 				RequestList.requests.put(data.getName(), tmp);
 			}
