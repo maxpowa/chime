@@ -9,7 +9,6 @@ import net.minecraft.client.gui.ServerListEntryLanScan;
 import net.minecraft.client.gui.ServerListEntryNormal;
 
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.GL11;
 
 import com.maxpowa.chime.util.User;
 import com.maxpowa.chime.util.UserList;
@@ -82,6 +81,7 @@ public class GuiFriendsList extends GuiScreen implements GuiYesNoCallback
      */
     public void updateScreen()
     {
+        this.refreshScreen();
         super.updateScreen();
     }
 
@@ -121,7 +121,7 @@ public class GuiFriendsList extends GuiScreen implements GuiYesNoCallback
             else if (button.id == 4)
             {
                 this.directConnect = true;
-                // direct connect
+                this.mc.displayGuiScreen(new GuiFriendRequests(this));
             }
             else if (button.id == 3)
             {

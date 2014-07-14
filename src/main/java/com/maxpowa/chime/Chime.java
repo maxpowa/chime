@@ -69,7 +69,7 @@ public class Chime {
         if (button == null) {
         	button = new GuiChimeButton(5, 5);
         }
-        if (event.type == Type.RENDER && event.phase == Phase.END && mc.currentScreen != null && !(mc.currentScreen instanceof GuiFriendsList)) {
+        if (event.type == Type.RENDER && event.phase == Phase.END && mc.currentScreen != null && !(mc.currentScreen instanceof GuiFriendsList) && Initializer.initialized) {
             int mouseX = Mouse.getX() * mc.currentScreen.width / mc.displayWidth;
             int mouseY = mc.currentScreen.height - Mouse.getY() * mc.currentScreen.height / mc.displayHeight - 1; 
             button.drawButton(mc, mouseX, mouseY);

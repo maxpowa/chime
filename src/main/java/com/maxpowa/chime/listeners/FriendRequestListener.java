@@ -3,10 +3,11 @@ package com.maxpowa.chime.listeners;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.maxpowa.chime.Chime;
 import com.maxpowa.chime.util.Notification;
-import com.maxpowa.chime.util.RequestList;
 import com.maxpowa.chime.util.Notification.NotificationType;
+import com.maxpowa.chime.util.RequestList;
 import com.maxpowa.chime.util.User;
 import com.maxpowa.chime.util.Utils;
 
@@ -28,7 +29,21 @@ public class FriendRequestListener implements ChildEventListener {
 		Utils.log.info("Got a new friend request from "+data.getValue()+" ("+data.getName()+")");
 		Notification notify = new Notification("Friend Request",data.getValue()+" wants to be friends with you.", 0, NotificationType.FRIENDREQUEST);
 		Chime.notificationOverlay.queueTemporaryNotification(notify);
-		RequestList.requests.put(data.getName(), data.getValue()+"");
+		Chime.users.child(data.getName()).addValueEventListener(new ValueEventListener() {
+
+			@Override
+			public void onCancelled(FirebaseError error) {
+				Utils.log.error("Fetching friend request info errored (" + error.getMessage() + ")");
+			}
+
+			@Override
+			public void onDataChange(DataSnapshot data) {
+				User tmp = data.getValue(User.class);
+				Utils.log.info("Got info for "+tmp.getUsername()+" ("+tmp.getUUID()+")");
+				RequestList.requests.put(data.getName(), tmp);
+			}
+			
+		});
 	}
 
 	@Override

@@ -1,7 +1,6 @@
 package com.maxpowa.chime.listeners;
 
 import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.maxpowa.chime.Chime;
@@ -10,6 +9,8 @@ import com.maxpowa.chime.util.Utils;
 
 public class Initializer implements ValueEventListener {
 
+	public static boolean initialized = false;
+	
 	@Override
 	public void onCancelled(FirebaseError err) {
 		Utils.log.error("Initializer errored ("+err.getMessage()+")");
@@ -22,7 +23,7 @@ public class Initializer implements ValueEventListener {
 		if (Chime.myUser == null) {
 			Utils.log.info("Retrieved data was null, creating new user at "+Chime.me.getPath());
 			Chime.myUser = new User();
-			Chime.myUser.setUsername(Chime.getSession().getPlayerID());
+			Chime.myUser.setUsername(Chime.getSession().getUsername());
 			Chime.myUser.setUUID(Chime.myProfile.getId().toString());
 			Chime.me.setValue(Chime.myUser);
 		}
@@ -37,6 +38,8 @@ public class Initializer implements ValueEventListener {
 		
 		Chime.public_requests.child(data.getRef().getPath()+"/requests").addChildEventListener(
 				new FriendRequestListener(Chime.myProfile.getId().toString()));
+		
+		initialized = true;
 	}
 
 }

@@ -2,9 +2,9 @@ package com.maxpowa.chime.util;
 
 import java.util.HashMap;
 
+import com.shaded.fasterxml.jackson.annotation.JsonIgnore;
 import com.shaded.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@JsonIgnoreProperties({"online"})
 public class User {
 
 	private long lastSeen = 0L;
@@ -42,6 +42,7 @@ public class User {
 	public long getLastSeen() {
 		return System.currentTimeMillis();
 	}
+	@JsonIgnore
 	public long lastSeen() {
 		return this.lastSeen;
 	}
@@ -60,6 +61,7 @@ public class User {
 	public void setUUID(String uuid) {
 		this.UUID = uuid;
 	}
+	@JsonIgnore
 	public boolean isOnline() {
 		return ((this.lastSeen + 60000L) >= System.currentTimeMillis());
 	}

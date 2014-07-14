@@ -334,7 +334,7 @@ public class GuiFriendRequests extends GuiScreen implements GuiYesNoCallback
         this.selectionList.func_148181_b(p_146286_1_, p_146286_2_, p_146286_3_);
     }
 
-    public UserList getUserList()
+    public RequestList getUserList()
     {
         return this.userList;
     }

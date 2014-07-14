@@ -141,8 +141,8 @@ public class GuiNotification extends Gui
             else
             {
                 if (mc.guiAchievement != null) {
-                    if ((long) ReflectionHelper.getPrivateValue(GuiAchievement.class, mc.guiAchievement, 7) != 0L)
-                        ReflectionHelper.setPrivateValue(GuiAchievement.class, mc.guiAchievement, 0L, 7);
+                    if (ReflectionHelper.<Long, GuiAchievement>getPrivateValue(GuiAchievement.class, mc.guiAchievement, "field_146263_l", "bcn.l", "notificationTime") != 0L)
+                        ReflectionHelper.setPrivateValue(GuiAchievement.class, mc.guiAchievement, 0L, "field_146263_l", "bcn.l", "notificationTime");
                 }
                 this.updateNotificationWindowScale();
                 GL11.glDisable(GL11.GL_DEPTH_TEST);

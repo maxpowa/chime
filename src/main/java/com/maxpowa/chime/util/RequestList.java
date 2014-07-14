@@ -1,28 +1,17 @@
 package com.maxpowa.chime.util;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map.Entry;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.nbt.CompressedStreamTools;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RequestList
 {
-	public static HashMap<String, String> requests = new HashMap<String, String>();
-    private ArrayList<Entry<String, String>> requestsArray = new ArrayList<Entry<String, String>>();
+	public static HashMap<String, User> requests = new HashMap<String, User>();
+    private ArrayList<User> requestsArray = new ArrayList<User>();
 
     public RequestList()
     {
@@ -31,15 +20,16 @@ public class RequestList
 
     public void loadUserList()
     {
-    	for (Entry<String, String> e : requests.entrySet()) {
-    		requestsArray.add(e);
+    	requestsArray.clear();
+    	for (Entry<String, User> e : requests.entrySet()) {
+    		requestsArray.add(e.getValue());
     	}
     }
 
     /**
      * Gets the ServerData instance stored for the given index in the list.
      */
-    public Entry<String, String> getUserData(int index)
+    public User getUserData(int index)
     {
         return this.requestsArray.get(index);
     }
@@ -74,26 +64,26 @@ public class RequestList
      */
     public void swapUsers(int index1, int index2)
     {
-        Entry<String,String> userdata = this.getUserData(index1);
+        User userdata = this.getUserData(index1);
         this.requestsArray.set(index1, this.getUserData(index2));
         this.requestsArray.set(index2, userdata);
     }
 
-    public void setUser(int index, Entry<String,String> user)
+    public void setUser(int index, User user)
     {
         this.requestsArray.set(index, user);
     }
 
-    public static void addUserAndShow(Entry<String,String> user)
+    public static void addUserAndShow(User user)
     {
         RequestList instance = new RequestList();
         instance.loadUserList();
 
         for (int i = 0; i < instance.countUsers(); ++i)
         {
-            Entry<String, String> userdata = instance.getUserData(i);
+            User userdata = instance.getUserData(i);
 
-            if (userdata.getValue().equals(user.getValue()) && userdata.getKey().equals(user.getKey()))
+            if (userdata.getUUID().equals(user.getUUID()) && userdata.getUsername().equals(user.getUsername()))
             {
                 instance.setUser(i, user);
                 break;

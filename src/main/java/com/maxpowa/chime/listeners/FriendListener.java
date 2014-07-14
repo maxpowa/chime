@@ -1,5 +1,7 @@
 package com.maxpowa.chime.listeners;
 
+import net.minecraft.client.Minecraft;
+
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
@@ -24,6 +26,7 @@ public class FriendListener implements ValueEventListener {
 	public void onDataChange(DataSnapshot data) {
 		UserList.users.put(refid, data.getValue(User.class));
 		Utils.log.info("Updating "+data.getRef().getPath()+" => "+data.getValue().toString());
+		Minecraft.getMinecraft().currentScreen.updateScreen();
 	}
 
 }

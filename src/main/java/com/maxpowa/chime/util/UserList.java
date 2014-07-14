@@ -1,22 +1,11 @@
 package com.maxpowa.chime.util;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map.Entry;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.nbt.CompressedStreamTools;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class UserList
@@ -30,12 +19,9 @@ public class UserList
         this.loadUserList();
     }
 
-    /**
-     * Loads a list of servers from servers.dat, by running ServerData.getServerDataFromNBTCompound on each NBT compound
-     * found in the "servers" tag list.
-     */
     public void loadUserList()
     {
+    	usersArray.clear();
     	for (Entry<String, User> e : users.entrySet()) {
     		usersArray.add(e.getValue());
     	}
