@@ -5,7 +5,9 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.FirebaseError;
 import com.maxpowa.chime.Chime;
 import com.maxpowa.chime.util.Notification;
+import com.maxpowa.chime.util.RequestList;
 import com.maxpowa.chime.util.Notification.NotificationType;
+import com.maxpowa.chime.util.User;
 import com.maxpowa.chime.util.Utils;
 
 public class FriendRequestListener implements ChildEventListener {
@@ -26,6 +28,7 @@ public class FriendRequestListener implements ChildEventListener {
 		Utils.log.info("Got a new friend request from "+data.getValue()+" ("+data.getName()+")");
 		Notification notify = new Notification("Friend Request",data.getValue()+" wants to be friends with you.", 0, NotificationType.FRIENDREQUEST);
 		Chime.notificationOverlay.queueTemporaryNotification(notify);
+		RequestList.requests.put(data.getName(), data.getValue()+"");
 	}
 
 	@Override
@@ -40,7 +43,10 @@ public class FriendRequestListener implements ChildEventListener {
 
 	@Override
 	public void onChildRemoved(DataSnapshot arg0) {
-		// TODO Auto-generated method stub
+		Utils.log.info(arg0.getValue()+"("+arg0.getName()+") has revoked their friend request");
+		RequestList.requests.remove(arg0.getName());
 	}
+	
+	
 
 }

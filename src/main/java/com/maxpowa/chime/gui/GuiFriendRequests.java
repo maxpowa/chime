@@ -11,6 +11,7 @@ import net.minecraft.client.gui.ServerListEntryNormal;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
+import com.maxpowa.chime.util.RequestList;
 import com.maxpowa.chime.util.User;
 import com.maxpowa.chime.util.UserList;
 import com.maxpowa.chime.util.Utils;
@@ -19,11 +20,11 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class GuiFriendsList extends GuiScreen implements GuiYesNoCallback
+public class GuiFriendRequests extends GuiScreen implements GuiYesNoCallback
 {
     private GuiScreen previousScreen;
-    private UserSelectionList selectionList;
-    private UserList userList;
+    private FriendRequestList selectionList;
+    private RequestList userList;
     private GuiButton editButton;
     private GuiButton selectButton;
     private GuiButton deleteButton;
@@ -33,7 +34,7 @@ public class GuiFriendsList extends GuiScreen implements GuiYesNoCallback
     private boolean directConnect;
     private boolean loaded;
 
-    public GuiFriendsList(GuiScreen parentScreen)
+    public GuiFriendRequests(GuiScreen parentScreen)
     {
         this.previousScreen = parentScreen;
     }
@@ -49,10 +50,10 @@ public class GuiFriendsList extends GuiScreen implements GuiYesNoCallback
         if (!this.loaded)
         {
             this.loaded = true;
-            this.userList = new UserList();
+            this.userList = new RequestList();
             this.userList.loadUserList();
 
-            this.selectionList = new UserSelectionList(this, this.mc, this.width, this.height, 32, this.height - 64, 36);
+            this.selectionList = new FriendRequestList(this, this.mc, this.width, this.height, 32, this.height - 64, 36);
             this.selectionList.addUserList(this.userList);
         }
         else
@@ -149,7 +150,7 @@ public class GuiFriendsList extends GuiScreen implements GuiYesNoCallback
 
     private void refreshScreen()
     {
-        this.mc.displayGuiScreen(new GuiFriendsList(this.previousScreen));
+        this.mc.displayGuiScreen(new GuiFriendRequests(this.previousScreen));
     }
 
     public void confirmClicked(boolean p_73878_1_, int p_73878_2_)
@@ -290,7 +291,7 @@ public class GuiFriendsList extends GuiScreen implements GuiYesNoCallback
         //this.drawDefaultBackground();
         this.selectionList.drawScreen(p_73863_1_, p_73863_2_, p_73863_3_);
         
-        this.drawCenteredString(this.fontRendererObj, "Chime Friends List", this.width / 2, 12, 16777215);
+        this.drawCenteredString(this.fontRendererObj, "Chime Friend Requests", this.width / 2, 12, 16777215);
         super.drawScreen(p_73863_1_, p_73863_2_, p_73863_3_);
     }
 

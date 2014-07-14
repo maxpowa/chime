@@ -89,6 +89,7 @@ public class GuiScreenAddFriend extends GuiScreen
                 
                 Firebase request = Chime.public_requests.child("users/"+this.uuidField.getText()+"/requests/"+Chime.myUser.getUUID());
                 request.setValue(Chime.myUser.getUsername());
+                Chime.me.child("friends").child(this.uuidField.getText()).setValue(System.currentTimeMillis());;
                 
                 Minecraft.getMinecraft().displayGuiScreen(this.parentScreen);
             } else if (button.id == 2) {
