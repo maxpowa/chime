@@ -105,6 +105,10 @@ public class GuiScreenAddFriend extends GuiScreen
                  } else {
                 	 this.message = EnumChatFormatting.RED+" Error: Username does not exist";
                  }
+                 
+                 if (this.uuidField.getText().equalsIgnoreCase(Chime.myProfile.getId().toString())) {
+                	 this.message = EnumChatFormatting.RED+" Error: You cannot add yourself as a friend!";
+                 }
             }
         }
     }
@@ -119,7 +123,7 @@ public class GuiScreenAddFriend extends GuiScreen
         
         this.message = "";
         
-        if (this.usernameField.isFocused() && this.uuidField.getText().length() > 0) {
+        if (this.usernameField.isFocused() && this.uuidField.getText().length() > 0 && Character.isLetterOrDigit(p_73869_1_)) {
         	this.uuidField.setText("");
         }
 
@@ -131,7 +135,11 @@ public class GuiScreenAddFriend extends GuiScreen
 
         if (p_73869_2_ == 28 || p_73869_2_ == 156)
         {
-            this.actionPerformed((GuiButton)this.buttonList.get(0));
+        	if (((GuiButton)this.buttonList.get(0)).enabled) {
+                this.actionPerformed((GuiButton)this.buttonList.get(0));
+        	} else if (((GuiButton)this.buttonList.get(2)).enabled) {
+                this.actionPerformed((GuiButton)this.buttonList.get(2));
+        	}
         }
         
         this.updateButtonStates();
@@ -143,11 +151,12 @@ public class GuiScreenAddFriend extends GuiScreen
         else 
         	((GuiButton)this.buttonList.get(2)).enabled = false;
 
-        if (this.uuidField.getText().matches("[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[0-9a-f]{12}"))
+        if (this.uuidField.getText().matches("[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[0-9a-f]{12}") && !(this.uuidField.getText().equalsIgnoreCase(Chime.myProfile.getId().toString()))) {
         	((GuiButton)this.buttonList.get(0)).enabled = true;
-        else
+        } else {
         	((GuiButton)this.buttonList.get(0)).enabled = false;
-	}
+        }
+    }
 
 	/**
      * Called when the mouse is clicked.
