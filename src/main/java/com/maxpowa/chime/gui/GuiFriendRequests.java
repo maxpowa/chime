@@ -9,6 +9,8 @@ import net.minecraft.client.gui.ServerListEntryLanScan;
 import net.minecraft.client.gui.ServerListEntryNormal;
 
 import org.lwjgl.input.Keyboard;
+
+import com.maxpowa.chime.Chime;
 import com.maxpowa.chime.util.RequestList;
 import com.maxpowa.chime.util.User;
 import com.maxpowa.chime.util.Utils;
@@ -22,14 +24,14 @@ public class GuiFriendRequests extends GuiScreen implements GuiYesNoCallback
     private GuiScreen previousScreen;
     private FriendRequestList selectionList;
     private RequestList userList;
-    private GuiButton editButton;
-    private GuiButton selectButton;
-    private GuiButton deleteButton;
-    private boolean dialogShowing;
+    private boolean blockYesNo;
     private boolean addingServer;
     private boolean editing;
     private boolean directConnect;
     private boolean loaded;
+	private GuiButton acceptButton;
+	private GuiButton rejectButton;
+	private GuiButton blockButton;
 
     public GuiFriendRequests(GuiScreen parentScreen)
     {
@@ -64,13 +66,10 @@ public class GuiFriendRequests extends GuiScreen implements GuiYesNoCallback
     @SuppressWarnings("unchecked")
 	public void createButtons()
     {
-        this.buttonList.add(this.editButton = new GuiButton(7, this.width / 2 - 154, this.height - 28, 70, 20, "Chat"));
-        this.buttonList.add(this.deleteButton = new GuiButton(2, this.width / 2 - 74, this.height - 28, 70, 20, "Un-friend"));
-        this.buttonList.add(this.selectButton = new GuiButton(1, this.width / 2 - 154, this.height - 52, 100, 20, "Join (SMP only)"));
-        this.buttonList.add(new GuiButton(4, this.width / 2 - 50, this.height - 52, 100, 20, "Friend Requests"));
-        this.buttonList.add(new GuiButton(3, this.width / 2 + 4 + 50, this.height - 52, 100, 20, "Add friend"));
-        this.buttonList.add(new GuiButton(8, this.width / 2 + 4, this.height - 28, 70, 20, "Refresh"));
-        this.buttonList.add(new GuiButton(0, this.width / 2 + 4 + 76, this.height - 28, 75, 20, "Cancel"));
+        this.buttonList.add(this.acceptButton = new GuiButton(0, this.width / 2 - 154, this.height - 28, 70, 20, "Accept"));
+        this.buttonList.add(this.rejectButton = new GuiButton(1, this.width / 2 - 74, this.height - 28, 70, 20, "Reject"));
+        this.buttonList.add(this.blockButton = new GuiButton(2, this.width / 2 + 4, this.height - 28, 70, 20, "Block"));
+        this.buttonList.add(new GuiButton(3, this.width / 2 + 4 + 76, this.height - 28, 75, 20, "Cancel"));
         this.buttonList.add(new GuiTextButton(12, 10, 10, "Please donate to keep this service running!", -1, 0.5f));
         this.setSelected(this.selectionList.getSelectedIndex());
     }
@@ -99,13 +98,13 @@ public class GuiFriendRequests extends GuiScreen implements GuiYesNoCallback
         {
             GuiListExtended.IGuiListEntry iguilistentry = this.selectionList.getSelectedIndex() < 0 ? null : this.selectionList.getListEntry(this.selectionList.getSelectedIndex());
 
-            if (button.id == 2 && iguilistentry instanceof ServerListEntryNormal)
+            if (button.id == 2)
             {
-                String s4 = ((ServerListEntryNormal)iguilistentry).func_148296_a().serverName;
+                String s4 = ((FriendRequestEntry)iguilistentry).getUser().getUsername();
 
                 if (s4 != null)
                 {
-                    this.dialogShowing = true;
+                    this.blockYesNo = true;
                     String s = "Are you sure you want to remove this friend?";
                     String s1 = "You may have to request friendship again if you remove " + s4 + " from your friends list.";
                     String s2 = "Remove";
@@ -125,21 +124,7 @@ public class GuiFriendRequests extends GuiScreen implements GuiYesNoCallback
             }
             else if (button.id == 3)
             {
-                this.addingServer = true;
-                this.mc.displayGuiScreen(new GuiScreenAddFriend(this, new User()));
-            }
-            else if (button.id == 7 && iguilistentry instanceof ServerListEntryNormal)
-            {
-                this.editing = true;
-                // maybe chat?
-            }
-            else if (button.id == 0)
-            {
                 this.mc.displayGuiScreen(this.previousScreen);
-            }
-            else if (button.id == 8)
-            {
-                this.refreshScreen();
             }
             else if (button.id == 12) {
             	Utils.log.info("Click!");
@@ -156,11 +141,15 @@ public class GuiFriendRequests extends GuiScreen implements GuiYesNoCallback
     {
         GuiListExtended.IGuiListEntry iguilistentry = this.selectionList.getSelectedIndex() < 0 ? null : this.selectionList.getListEntry(this.selectionList.getSelectedIndex());
 
-        if (this.dialogShowing)
+        if (this.blockYesNo)
         {
-            this.dialogShowing = false;
-
-	        // remove friend logic
+            this.blockYesNo = false;
+            
+            User tmp = ((FriendRequestEntry)iguilistentry).getUser();
+            Chime.public_requests.child(Chime.myUser.getUUID()+"/requests/"+tmp.getUUID()).removeValue();
+            Chime.me.child("blocks/"+tmp.getUUID()).setValue(System.currentTimeMillis());
+            
+            this.mc.displayGuiScreen(this);
         }
         else if (this.directConnect)
         {
@@ -272,7 +261,7 @@ public class GuiFriendRequests extends GuiScreen implements GuiYesNoCallback
                 }
                 else
                 {
-                    this.actionPerformed((GuiButton)this.buttonList.get(2));
+                    this.actionPerformed((GuiButton)this.buttonList.get(1));
                 }
             }
             else
@@ -298,19 +287,15 @@ public class GuiFriendRequests extends GuiScreen implements GuiYesNoCallback
     {
         this.selectionList.setSelectedIndex(p_146790_1_);
         GuiListExtended.IGuiListEntry iguilistentry = p_146790_1_ < 0 ? null : this.selectionList.getListEntry(p_146790_1_);
-        this.selectButton.enabled = false;
-        this.editButton.enabled = false;
-        this.deleteButton.enabled = false;
+        this.acceptButton.enabled = false;
+        this.rejectButton.enabled = false;
+        this.blockButton.enabled = false;
 
-        if (iguilistentry != null && !(iguilistentry instanceof ServerListEntryLanScan))
+        if (iguilistentry != null)
         {
-            this.selectButton.enabled = true;
-
-            if (iguilistentry instanceof ServerListEntryNormal)
-            {
-                this.editButton.enabled = true;
-                this.deleteButton.enabled = true;
-            }
+            this.acceptButton.enabled = true;
+            this.rejectButton.enabled = true;
+            this.blockButton.enabled = true;
         }
     }
 
