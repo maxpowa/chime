@@ -21,6 +21,11 @@ public class ServerInfo {
 		this.multiplayer = mp;
 	}
 
+	@JsonIgnore
+	public ServerData getServerData() {
+		return new ServerData(this.serverName, this.serverIP);
+	}
+
 	public String getName() {
 		return this.serverName;
 	}
@@ -35,11 +40,6 @@ public class ServerInfo {
 	
 	public void setIP(String ip) {
 		this.serverIP = ip;
-	}
-
-	@JsonIgnore
-	public ServerData getServerData() {
-		return new ServerData(this.serverName, this.serverIP);
 	}
 
 	public String getVersion() {
