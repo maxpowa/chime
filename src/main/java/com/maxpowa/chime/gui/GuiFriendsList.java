@@ -7,6 +7,7 @@ import net.minecraft.client.gui.GuiYesNo;
 import net.minecraft.client.gui.GuiYesNoCallback;
 import net.minecraft.client.gui.ServerListEntryLanScan;
 import net.minecraft.client.gui.ServerListEntryNormal;
+import net.minecraft.client.multiplayer.ServerData;
 
 import org.lwjgl.input.Keyboard;
 
@@ -14,6 +15,7 @@ import com.maxpowa.chime.util.User;
 import com.maxpowa.chime.util.UserList;
 import com.maxpowa.chime.util.Utils;
 
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -65,13 +67,13 @@ public class GuiFriendsList extends GuiScreen implements GuiYesNoCallback
     @SuppressWarnings("unchecked")
 	public void createButtons()
     {
-        this.buttonList.add(this.editButton = new GuiButton(7, this.width / 2 - 154, this.height - 28, 70, 20, "Chat"));
-        this.buttonList.add(this.deleteButton = new GuiButton(2, this.width / 2 - 74, this.height - 28, 70, 20, "Un-friend"));
+        this.buttonList.add(this.editButton = new GuiButton(7, this.width / 2 - 154, this.height - 28, 73, 20, "Chat"));
+        this.buttonList.add(this.deleteButton = new GuiButton(2, this.width / 2 - 75, this.height - 28, 73, 20, "Un-friend"));
         this.buttonList.add(this.selectButton = new GuiButton(1, this.width / 2 - 154, this.height - 52, 100, 20, "Join (SMP only)"));
         this.buttonList.add(new GuiButton(4, this.width / 2 - 50, this.height - 52, 100, 20, "Friend Requests"));
         this.buttonList.add(new GuiButton(3, this.width / 2 + 4 + 50, this.height - 52, 100, 20, "Add friend"));
-        this.buttonList.add(new GuiButton(8, this.width / 2 + 4, this.height - 28, 70, 20, "Refresh"));
-        this.buttonList.add(new GuiButton(0, this.width / 2 + 4 + 76, this.height - 28, 75, 20, "Cancel"));
+        this.buttonList.add(new GuiButton(8, this.width / 2 + 4, this.height - 28, 73, 20, "Refresh"));
+        this.buttonList.add(new GuiButton(0, this.width / 2 + 82, this.height - 28, 73, 20, "Cancel"));
         this.buttonList.add(new GuiTextButton(12, 10, 10, "Please donate to keep this service running!", -1, 0.5f));
         this.setSelected(this.selectionList.getSelectedIndex());
     }
@@ -118,6 +120,9 @@ public class GuiFriendsList extends GuiScreen implements GuiYesNoCallback
             else if (button.id == 1)
             {
                 // join a server
+            	ServerData sd = new ServerData(null, null);
+            	
+            	FMLClientHandler.instance().connectToServer(this, sd);
             }
             else if (button.id == 4)
             {

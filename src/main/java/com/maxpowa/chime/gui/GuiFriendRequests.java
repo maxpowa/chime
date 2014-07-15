@@ -26,9 +26,9 @@ public class GuiFriendRequests extends GuiScreen implements GuiYesNoCallback
     private FriendRequestList selectionList;
     private RequestList userList;
     private boolean blockYesNo;
-    private boolean addingServer;
+    private boolean acceptRequest;
     private boolean editing;
-    private boolean directConnect;
+    private boolean rejectRequest;
     private boolean loaded;
 	private GuiButton acceptButton;
 	private GuiButton rejectButton;
@@ -67,10 +67,10 @@ public class GuiFriendRequests extends GuiScreen implements GuiYesNoCallback
     @SuppressWarnings("unchecked")
 	public void createButtons()
     {
-        this.buttonList.add(this.acceptButton = new GuiButton(0, this.width / 2 - 154, this.height - 28, 70, 20, EnumChatFormatting.GREEN+"Accept"));
-        this.buttonList.add(this.rejectButton = new GuiButton(1, this.width / 2 - 74, this.height - 28, 70, 20, EnumChatFormatting.RED+"Reject"));
-        this.buttonList.add(this.blockButton = new GuiButton(2, this.width / 2 + 4, this.height - 28, 70, 20, "Block"));
-        this.buttonList.add(new GuiButton(3, this.width / 2 + 4 + 76, this.height - 28, 75, 20, "Cancel"));
+        this.buttonList.add(this.acceptButton = new GuiButton(0, this.width / 2 - 154, this.height - 28, 73, 20, EnumChatFormatting.GREEN+"Accept"));
+        this.buttonList.add(this.rejectButton = new GuiButton(1, this.width / 2 - 75, this.height - 28, 73, 20, EnumChatFormatting.RED+"Reject"));
+        this.buttonList.add(this.blockButton = new GuiButton(2, this.width / 2 + 4, this.height - 28, 73, 20, "Block"));
+        this.buttonList.add(new GuiButton(3, this.width / 2 + 82, this.height - 28, 73, 20, "Cancel"));
         this.buttonList.add(new GuiTextButton(12, 10, 10, "Please donate to keep this service running!", -1, 0.5f));
         this.setSelected(this.selectionList.getSelectedIndex());
     }
@@ -97,11 +97,10 @@ public class GuiFriendRequests extends GuiScreen implements GuiYesNoCallback
     {
         if (button.enabled)
         {
-            GuiListExtended.IGuiListEntry iguilistentry = this.selectionList.getSelectedIndex() < 0 ? null : this.selectionList.getListEntry(this.selectionList.getSelectedIndex());
-
+        	// Initiate user block confirmation dialog
             if (button.id == 2)
             {
-                String s4 = ((FriendRequestEntry)iguilistentry).getUser().getUsername();
+                String s4 = ((FriendRequestEntry)this.selectionList.getListEntry(this.selectionList.getSelectedIndex())).getUser().getUsername();
 
                 if (s4 != null)
                 {
@@ -114,14 +113,16 @@ public class GuiFriendRequests extends GuiScreen implements GuiYesNoCallback
                     this.mc.displayGuiScreen(guiyesno);
                 }
             }
+            // Jump to confirmClicked because we don't need a dialog here.
             else if (button.id == 1)
             {
-                // join a server
+            	this.rejectRequest = true;
+            	this.confirmClicked(true, this.selectionList.getSelectedIndex());
             }
-            else if (button.id == 4)
+            else if (button.id == 0)
             {
-                this.directConnect = true;
-                // direct connect
+            	this.acceptRequest = true;
+            	this.confirmClicked(true, this.selectionList.getSelectedIndex());
             }
             else if (button.id == 3)
             {
@@ -155,22 +156,31 @@ public class GuiFriendRequests extends GuiScreen implements GuiYesNoCallback
             
             this.mc.displayGuiScreen(this);
         }
-        else if (this.directConnect)
+        else if (this.rejectRequest)
         {
-            this.directConnect = false;
+            this.rejectRequest = false;
+            
+            if (result) {
+	            User tmp = ((FriendRequestEntry)this.selectionList.getListEntry(id)).getUser();
+            	Utils.log.info("Rejecting "+tmp.getUsername()+" ("+tmp.getUUID()+")");
+	            Chime.public_requests.child("users/"+Chime.myUser.getUUID()+"/requests/"+tmp.getUUID()).removeValue();
+            }
 
-            // whatever we want to do when dc calls back
+            this.mc.displayGuiScreen(this);
         }
-        else if (this.addingServer)
+        else if (this.acceptRequest)
         {
-            this.addingServer = false;
-        }
-        else if (this.editing)
-        {
-            this.editing = false;
+            this.acceptRequest = false;
+            
+            if (result) {
+	            User tmp = ((FriendRequestEntry)this.selectionList.getListEntry(id)).getUser();
+            	Utils.log.info("Accepting "+tmp.getUsername()+" ("+tmp.getUUID()+")");
+	            Chime.public_requests.child("users/"+Chime.myUser.getUUID()+"/requests/"+tmp.getUUID()).removeValue();
+	            Chime.me.child("friends/"+tmp.getUUID()).setValue(System.currentTimeMillis());
+            }
 
-            // whatever we want to do when editing calls back
-        }
+            this.mc.displayGuiScreen(this);
+        } 
     }
 
     /**
@@ -295,11 +305,16 @@ public class GuiFriendRequests extends GuiScreen implements GuiYesNoCallback
         this.rejectButton.enabled = false;
         this.blockButton.enabled = false;
 
+        this.acceptButton.displayString = "Accept";
+        this.rejectButton.displayString = "Reject";
+
         if (iguilistentry != null)
         {
             this.acceptButton.enabled = true;
             this.rejectButton.enabled = true;
             this.blockButton.enabled = true;
+            this.acceptButton.displayString = EnumChatFormatting.GREEN+"Accept";
+            this.rejectButton.displayString = EnumChatFormatting.RED+"Reject";
         }
     }
 

@@ -12,6 +12,7 @@ public class User {
 	private String seen = "Main Menu";
 	private HashMap<String, String> blocks = new HashMap<String,String>();
 	private HashMap<String, String> friends = new HashMap<String,String>();
+	private ServerInfo currentServer = new ServerInfo();
 	private String UUID = "";
 	
 	public String getMotd() {
@@ -62,7 +63,13 @@ public class User {
 	}
 	@JsonIgnore
 	public boolean isOnline() {
-		return ((this.lastSeen + 60000L) >= System.currentTimeMillis());
+		return ((this.lastSeen + 30000L) >= System.currentTimeMillis());
+	}
+	public ServerInfo getCurrentServer() {
+		return currentServer;
+	}
+	public void setCurrentServer(ServerInfo currentServer) {
+		this.currentServer = currentServer;
 	}
 	
 }

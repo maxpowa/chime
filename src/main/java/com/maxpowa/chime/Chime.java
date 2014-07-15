@@ -85,7 +85,7 @@ public class Chime {
     	// Updates the server's last seen value to keep your status "online"
     	// If this somehow fails to update the server for 60 seconds, you may appear offline to other users.
     	if (event.side == Side.CLIENT && event.phase == Phase.START) {
-    		if (lastTick+15000 < System.currentTimeMillis() && myUser != null) {
+    		if (lastTick+10000 < System.currentTimeMillis() && myUser != null) {
     			me.child("lastSeen").setValue(System.currentTimeMillis());
     			lastTick = System.currentTimeMillis();
     		}
