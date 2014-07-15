@@ -7,6 +7,7 @@ import net.minecraft.client.gui.GuiYesNo;
 import net.minecraft.client.gui.GuiYesNoCallback;
 import net.minecraft.client.gui.ServerListEntryLanScan;
 import net.minecraft.client.gui.ServerListEntryNormal;
+import net.minecraft.util.EnumChatFormatting;
 
 import org.lwjgl.input.Keyboard;
 
@@ -52,12 +53,12 @@ public class GuiFriendRequests extends GuiScreen implements GuiYesNoCallback
             this.userList = new RequestList();
             this.userList.loadUserList();
 
-            this.selectionList = new FriendRequestList(this, this.mc, this.width, this.height, 32, this.height - 64, 36);
+            this.selectionList = new FriendRequestList(this, this.mc, this.width, this.height, 32, this.height - 36, 36);
             this.selectionList.addUserList(this.userList);
         }
         else
         {
-            this.selectionList.func_148122_a(this.width, this.height, 32, this.height - 64);
+            this.selectionList.func_148122_a(this.width, this.height, 32, this.height - 36);
         }
 
         this.createButtons();
@@ -66,8 +67,8 @@ public class GuiFriendRequests extends GuiScreen implements GuiYesNoCallback
     @SuppressWarnings("unchecked")
 	public void createButtons()
     {
-        this.buttonList.add(this.acceptButton = new GuiButton(0, this.width / 2 - 154, this.height - 28, 70, 20, "Accept"));
-        this.buttonList.add(this.rejectButton = new GuiButton(1, this.width / 2 - 74, this.height - 28, 70, 20, "Reject"));
+        this.buttonList.add(this.acceptButton = new GuiButton(0, this.width / 2 - 154, this.height - 28, 70, 20, EnumChatFormatting.GREEN+"Accept"));
+        this.buttonList.add(this.rejectButton = new GuiButton(1, this.width / 2 - 74, this.height - 28, 70, 20, EnumChatFormatting.RED+"Reject"));
         this.buttonList.add(this.blockButton = new GuiButton(2, this.width / 2 + 4, this.height - 28, 70, 20, "Block"));
         this.buttonList.add(new GuiButton(3, this.width / 2 + 4 + 76, this.height - 28, 75, 20, "Cancel"));
         this.buttonList.add(new GuiTextButton(12, 10, 10, "Please donate to keep this service running!", -1, 0.5f));
@@ -105,11 +106,11 @@ public class GuiFriendRequests extends GuiScreen implements GuiYesNoCallback
                 if (s4 != null)
                 {
                     this.blockYesNo = true;
-                    String s = "Are you sure you want to remove this friend?";
-                    String s1 = "You may have to request friendship again if you remove " + s4 + " from your friends list.";
-                    String s2 = "Remove";
+                    String s = "Are you sure you want to block "+s4+"?";
+                    String s1 = "You will no longer recieve requests from this user and they will not be able to access any of your information.";
+                    String s2 = EnumChatFormatting.RED+"Block";
                     String s3 = "Cancel";
-                    GuiYesNo guiyesno = new GuiYesNo(this, s, s1, s2, s3, this.selectionList.getSelectedIndex());
+                    GuiConfirmation guiyesno = new GuiConfirmation(this, s, s1, s2, s3, this.selectionList.getSelectedIndex());
                     this.mc.displayGuiScreen(guiyesno);
                 }
             }
@@ -136,18 +137,21 @@ public class GuiFriendRequests extends GuiScreen implements GuiYesNoCallback
     {
         this.mc.displayGuiScreen(new GuiFriendRequests(this.previousScreen));
     }
+    
+    
 
-    public void confirmClicked(boolean p_73878_1_, int p_73878_2_)
+    public void confirmClicked(boolean result, int id)
     {
-        GuiListExtended.IGuiListEntry iguilistentry = this.selectionList.getSelectedIndex() < 0 ? null : this.selectionList.getListEntry(this.selectionList.getSelectedIndex());
-
         if (this.blockYesNo)
         {
             this.blockYesNo = false;
             
-            User tmp = ((FriendRequestEntry)iguilistentry).getUser();
-            Chime.public_requests.child(Chime.myUser.getUUID()+"/requests/"+tmp.getUUID()).removeValue();
-            Chime.me.child("blocks/"+tmp.getUUID()).setValue(System.currentTimeMillis());
+            if (result) {
+	            User tmp = ((FriendRequestEntry)this.selectionList.getListEntry(id)).getUser();
+            	Utils.log.info("Blocking "+tmp.getUsername()+" ("+tmp.getUUID()+")");
+	            Chime.public_requests.child("users/"+Chime.myUser.getUUID()+"/requests/"+tmp.getUUID()).removeValue();
+	            Chime.me.child("blocks/"+tmp.getUUID()).setValue(System.currentTimeMillis());
+            }
             
             this.mc.displayGuiScreen(this);
         }
