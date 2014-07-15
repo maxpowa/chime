@@ -58,6 +58,8 @@ public class Chime {
     	}
     	
 		authenticateClient();
+		
+		Chime.notificationOverlay = new GuiNotification(Minecraft.getMinecraft());
     }
     
     @SubscribeEvent
@@ -73,8 +75,6 @@ public class Chime {
         }
         if (event.type == TickEvent.Type.RENDER && Chime.notificationOverlay != null) {
             Chime.notificationOverlay.updateNotificationWindow();
-        } else if (Chime.notificationOverlay == null) {
-        	Chime.notificationOverlay = new GuiNotification(mc);
         }
     }
     
