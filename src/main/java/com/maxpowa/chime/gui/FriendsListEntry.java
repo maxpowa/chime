@@ -47,6 +47,8 @@ public class FriendsListEntry implements GuiListExtended.IGuiListEntry
         String activity = this.userData.getCurrentServer().toString();
         if (activity.equalsIgnoreCase("Minecraft") && !this.userData.isOnline())
         	activity = Utils.millisToTimeSpan(System.currentTimeMillis() - this.userData.lastSeen())+ " ago";
+        else if (activity.equalsIgnoreCase("singleplayer") && !this.userData.isOnline())
+        	activity = "playing singleplayer";
         String output = EnumChatFormatting.YELLOW+prefix+" "+activity;
         this.mc.fontRenderer.drawString(output, p_148279_2_ + 35, p_148279_3_ + 23, 8421504);
 

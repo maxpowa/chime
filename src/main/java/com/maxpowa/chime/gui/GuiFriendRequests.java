@@ -3,7 +3,6 @@ package com.maxpowa.chime.gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiListExtended;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiYesNo;
 import net.minecraft.client.gui.GuiYesNoCallback;
 import net.minecraft.client.gui.ServerListEntryLanScan;
 import net.minecraft.client.gui.ServerListEntryNormal;
@@ -27,7 +26,6 @@ public class GuiFriendRequests extends GuiScreen implements GuiYesNoCallback
     private RequestList userList;
     private boolean blockYesNo;
     private boolean acceptRequest;
-    private boolean editing;
     private boolean rejectRequest;
     private boolean loaded;
 	private GuiButton acceptButton;
@@ -138,8 +136,6 @@ public class GuiFriendRequests extends GuiScreen implements GuiYesNoCallback
     {
         this.mc.displayGuiScreen(new GuiFriendRequests(this.previousScreen));
     }
-    
-    
 
     public void confirmClicked(boolean result, int id)
     {

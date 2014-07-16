@@ -25,7 +25,7 @@ public class FriendListener implements ValueEventListener {
 	@Override
 	public void onDataChange(DataSnapshot data) {
 		UserList.users.put(refid, data.getValue(User.class));
-		Utils.log.info("Updating "+data.getRef().getPath()+" => "+data.getValue().toString());
+		//Utils.log.info("Updating "+data.getRef().getPath()+" => "+data.getValue().toString());
 		if (Minecraft.getMinecraft() != null && Minecraft.getMinecraft().currentScreen != null)
 			Minecraft.getMinecraft().currentScreen.updateScreen();
 	}

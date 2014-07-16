@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Session;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.lwjgl.input.Mouse;
@@ -13,6 +14,7 @@ import com.firebase.security.token.TokenGenerator;
 import com.maxpowa.chime.gui.GuiChimeButton;
 import com.maxpowa.chime.gui.GuiFriendsList;
 import com.maxpowa.chime.gui.GuiNotification;
+import com.maxpowa.chime.listeners.ConnectionListener;
 import com.maxpowa.chime.listeners.Initializer;
 import com.maxpowa.chime.util.Authenticator;
 import com.maxpowa.chime.util.User;
@@ -30,7 +32,9 @@ import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.RenderTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Type;
 import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 @Mod(modid="Chime", name="Chime", version="v@VERSION@")
 public class Chime {
 
@@ -49,6 +53,7 @@ public class Chime {
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
     	FMLCommonHandler.instance().bus().register(this);
+    	FMLCommonHandler.instance().bus().register(new ConnectionListener());
     	Utils.log = event.getModLog();
     	
     	myProfile = getSession().func_148256_e();
