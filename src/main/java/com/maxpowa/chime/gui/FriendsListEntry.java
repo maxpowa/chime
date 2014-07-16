@@ -10,6 +10,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 
 import com.maxpowa.chime.util.User;
+import com.maxpowa.chime.util.Utils;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -39,12 +40,15 @@ public class FriendsListEntry implements GuiListExtended.IGuiListEntry
     {
     	
         this.mc.fontRenderer.drawString(this.userData.getUsername(), p_148279_2_ + 32 + 3, p_148279_3_ + 1, 16777215);
-        List<String> list = this.mc.fontRenderer.listFormattedStringToWidth(this.userData.getMotd(), p_148279_4_ - 32 - 2);
 
-        for (int l1 = 0; l1 < Math.min(list.size(), 2); ++l1)
-        {
-            this.mc.fontRenderer.drawString((String)list.get(l1), p_148279_2_ + 32 + 3, p_148279_3_ + 12 + this.mc.fontRenderer.FONT_HEIGHT * l1, 8421504);
-        }
+        this.mc.fontRenderer.drawString(this.userData.getMotd(), p_148279_2_ + 35, p_148279_3_ + 12, 8421504);
+        
+        String prefix = this.userData.isOnline() ? "Playing" : "Last seen";
+        String activity = this.userData.getCurrentServer().toString();
+        if (activity.equalsIgnoreCase("Minecraft") && !this.userData.isOnline())
+        	activity = Utils.millisToTimeSpan(System.currentTimeMillis() - this.userData.lastSeen())+ " ago";
+        String output = EnumChatFormatting.YELLOW+prefix+" "+activity;
+        this.mc.fontRenderer.drawString(output, p_148279_2_ + 35, p_148279_3_ + 23, 8421504);
 
         String s2 = this.userData.isOnline() ? EnumChatFormatting.GREEN + "Online" : EnumChatFormatting.RED + "Offline";
         int i2 = this.mc.fontRenderer.getStringWidth(s2);

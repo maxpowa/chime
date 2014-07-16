@@ -39,16 +39,14 @@ public class FriendEventListener implements ChildEventListener {
 			Notification notify = new Notification("",EnumChatFormatting.YELLOW+UserList.users.get(refid).getUsername()+" is now known as "+data.getValue(), 0, NotificationType.STATUS);
 			Chime.notificationOverlay.queueTemporaryNotification(notify, true);
 		} else if (data.getName().equalsIgnoreCase("lastSeen")) {
-			if (UserList.users.get(refid).lastSeen()+60000L < data.getValue(Long.class)) {
+			if (UserList.users.get(refid).lastSeen()+30000L < data.getValue(Long.class)) {
 				Notification notify = new Notification(EnumChatFormatting.YELLOW+UserList.users.get(refid).getUsername(),"Is online", 0, NotificationType.ONLINE);
 				Chime.notificationOverlay.queueTemporaryNotification(notify);
-				Utils.log.info("Online!");
-			} else {
-				Utils.log.info("Nope! "+data.getValue(Long.class)+" is less than "+(UserList.users.get(refid).lastSeen()+60000L));
 			}
-		} else {
-			Utils.log.info("Caught change of \""+data.getName()+"\" but ignored.");
-		}
+		} 
+		//else {
+			//Utils.log.info("Caught change of \""+data.getName()+"\" but ignored.");
+		//}
 	}
 
 	@Override

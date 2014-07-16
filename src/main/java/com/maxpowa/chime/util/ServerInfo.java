@@ -9,21 +9,40 @@ public class ServerInfo {
 	private String serverName = "";   
 	private String serverIP = "";     
 	private String serverVersion = "";
-	private boolean multiplayer = false;
+	private boolean hidden = false;
+	private Type type = Type.NONE;
 	
 	public ServerInfo() {
 	}
 	
-	public ServerInfo(String name, String ip, String version, boolean mp) {
+	public ServerInfo(String name, String ip, String version, Type type, boolean hidden) {
 		this.serverName = name;
 		this.serverIP = ip;
 		this.serverVersion = version;
-		this.multiplayer = mp;
+		this.type = type;
+		this.hidden = hidden;
 	}
 
 	@JsonIgnore
 	public ServerData getServerData() {
 		return new ServerData(this.serverName, this.serverIP);
+	}
+	
+	@Override
+	@JsonIgnore
+	public String toString() {
+		String returnStatement = "";
+		if (this.type == Type.SP) {
+			returnStatement = "singleplayer";
+		} else if (this.type == Type.MP) {
+			returnStatement = "on "+this.serverName+" ("+this.serverIP+")";
+			if (hidden) {
+				returnStatement = "on a multiplayer server";
+			}
+		} else if (this.type == Type.NONE) {
+			returnStatement = "Minecraft";
+		}
+		return returnStatement;
 	}
 
 	public String getName() {
@@ -50,12 +69,24 @@ public class ServerInfo {
 		this.serverVersion = serverVersion;
 	}
 
-	public boolean isMultiplayer() {
-		return multiplayer;
+	public Type getType() {
+		return type;
 	}
 
-	public void setMultiplayer(boolean multiplayer) {
-		this.multiplayer = multiplayer;
+	public void setType(Type type) {
+		this.type = type;
+	}
+
+	public boolean isHidden() {
+		return hidden;
+	}
+
+	public void setHidden(boolean hidden) {
+		this.hidden = hidden;
+	}
+	
+	public enum Type {
+		MP,SP,NONE;
 	}
 	
 }

@@ -14,6 +14,7 @@ import org.lwjgl.input.Keyboard;
 import com.maxpowa.chime.util.User;
 import com.maxpowa.chime.util.UserList;
 import com.maxpowa.chime.util.Utils;
+import com.maxpowa.chime.util.ServerInfo.Type;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -25,9 +26,9 @@ public class GuiFriendsList extends GuiScreen implements GuiYesNoCallback
     private GuiScreen previousScreen;
     private UserSelectionList selectionList;
     private UserList userList;
-    private GuiButton editButton;
-    private GuiButton selectButton;
-    private GuiButton deleteButton;
+    private GuiButton chatButton;
+    private GuiButton joinButton;
+    private GuiButton unfriendButton;
     private boolean dialogShowing;
     private boolean addingServer;
     private boolean editing;
@@ -67,9 +68,9 @@ public class GuiFriendsList extends GuiScreen implements GuiYesNoCallback
     @SuppressWarnings("unchecked")
 	public void createButtons()
     {
-        this.buttonList.add(this.editButton = new GuiButton(7, this.width / 2 - 154, this.height - 28, 73, 20, "Chat"));
-        this.buttonList.add(this.deleteButton = new GuiButton(2, this.width / 2 - 75, this.height - 28, 73, 20, "Un-friend"));
-        this.buttonList.add(this.selectButton = new GuiButton(1, this.width / 2 - 154, this.height - 52, 100, 20, "Join (SMP only)"));
+        this.buttonList.add(this.chatButton = new GuiButton(7, this.width / 2 - 154, this.height - 28, 73, 20, "[Redacted]"));
+        this.buttonList.add(this.unfriendButton = new GuiButton(2, this.width / 2 - 75, this.height - 28, 73, 20, "Un-friend"));
+        this.buttonList.add(this.joinButton = new GuiButton(1, this.width / 2 - 154, this.height - 52, 100, 20, "Join (SMP only)"));
         this.buttonList.add(new GuiButton(4, this.width / 2 - 50, this.height - 52, 100, 20, "Friend Requests"));
         this.buttonList.add(new GuiButton(3, this.width / 2 + 4 + 50, this.height - 52, 100, 20, "Add friend"));
         this.buttonList.add(new GuiButton(8, this.width / 2 + 4, this.height - 28, 73, 20, "Refresh"));
@@ -119,9 +120,7 @@ public class GuiFriendsList extends GuiScreen implements GuiYesNoCallback
             }
             else if (button.id == 1)
             {
-                // join a server
-            	ServerData sd = new ServerData(null, null);
-            	
+            	ServerData sd = ((FriendsListEntry)iguilistentry).getUser().getCurrentServer().getServerData();
             	FMLClientHandler.instance().connectToServer(this, sd);
             }
             else if (button.id == 4)
@@ -304,19 +303,17 @@ public class GuiFriendsList extends GuiScreen implements GuiYesNoCallback
     {
         this.selectionList.setSelectedIndex(p_146790_1_);
         GuiListExtended.IGuiListEntry iguilistentry = p_146790_1_ < 0 ? null : this.selectionList.getListEntry(p_146790_1_);
-        this.selectButton.enabled = false;
-        this.editButton.enabled = false;
-        this.deleteButton.enabled = false;
+        this.joinButton.enabled = false;
+        this.chatButton.enabled = false;
+        this.unfriendButton.enabled = false;       
 
-        if (iguilistentry != null && !(iguilistentry instanceof ServerListEntryLanScan))
+        if (iguilistentry != null)
         {
-            this.selectButton.enabled = true;
-
-            if (iguilistentry instanceof ServerListEntryNormal)
-            {
-                this.editButton.enabled = true;
-                this.deleteButton.enabled = true;
-            }
+        	if (((FriendsListEntry)iguilistentry).getUser().getCurrentServer().getType() == Type.MP) {
+        		this.joinButton.enabled = true;
+        	}
+            //TODO: CHAT this.chatButton.enabled = true;
+            this.unfriendButton.enabled = true;
         }
     }
 
