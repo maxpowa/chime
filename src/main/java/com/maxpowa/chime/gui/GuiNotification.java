@@ -207,14 +207,6 @@ public class GuiNotification extends Gui
                     	break;
                 }
                 
-                if (this.theNotification.unread > 1) {
-	                this.mc.getTextureManager().bindTexture(windowParts);
-	                int unreadIndex = (this.theNotification.unread-1)*8;
-	                if (unreadIndex > 72)
-	                    unreadIndex = 72;
-	                this.drawTexturedModalRect(i + 16, j + 8, 32+(unreadIndex), 102, 8, 8);
-                }
-                
                 GL11.glDisable(GL11.GL_LIGHTING);
                 GL11.glDepthMask(true);
                 GL11.glEnable(GL11.GL_DEPTH_TEST);
