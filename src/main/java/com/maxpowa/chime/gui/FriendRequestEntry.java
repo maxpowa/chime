@@ -5,9 +5,7 @@ import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiListExtended;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.ResourceLocation;
 
 import com.maxpowa.chime.util.User;
 
@@ -21,17 +19,17 @@ public class FriendRequestEntry implements GuiListExtended.IGuiListEntry
     private final Minecraft mc;
     private final User userData;
     private long lastTick;
-    private String base64Icon;
-    private DynamicTexture dynamicTexture;
-    private ResourceLocation resourceLocation;
+    //private String base64Icon;
+    //private DynamicTexture dynamicTexture;
+    //private ResourceLocation resourceLocation;
 
     protected FriendRequestEntry(GuiFriendRequests parentScreen2, User user)
     {
         this.parentScreen = parentScreen2;
         this.userData = user;
         this.mc = Minecraft.getMinecraft();
-        this.resourceLocation = new ResourceLocation("users/" + user.getUUID() + "/icon");
-        this.dynamicTexture = (DynamicTexture)this.mc.getTextureManager().getTexture(this.resourceLocation);
+        //this.resourceLocation = new ResourceLocation("users/" + user.getUUID() + "/icon");
+        //this.dynamicTexture = (DynamicTexture)this.mc.getTextureManager().getTexture(this.resourceLocation);
     }
 
     @SuppressWarnings("unchecked")

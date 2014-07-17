@@ -1,14 +1,11 @@
 package com.maxpowa.chime.gui;
 
-import java.util.List;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiListExtended;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.ResourceLocation;
 
+import com.maxpowa.chime.util.ServerInfo.Type;
 import com.maxpowa.chime.util.User;
 import com.maxpowa.chime.util.Utils;
 
@@ -22,20 +19,19 @@ public class FriendListEntry implements GuiListExtended.IGuiListEntry
     private final Minecraft mc;
     private User userData;
     private long lastTick;
-    private String base64Icon;
-    private DynamicTexture dynamicTexture;
-    private ResourceLocation resourceLocation;
+    //private String base64Icon;
+    //private DynamicTexture dynamicTexture;
+    //private ResourceLocation resourceLocation;
 
     protected FriendListEntry(GuiFriendsList p_i45048_1_, User p_i45048_2_)
     {
         this.parentScreen = p_i45048_1_;
         this.userData = p_i45048_2_;
         this.mc = Minecraft.getMinecraft();
-        this.resourceLocation = new ResourceLocation("users/" + p_i45048_2_.getUUID() + "/icon");
-        this.dynamicTexture = (DynamicTexture)this.mc.getTextureManager().getTexture(this.resourceLocation);
+        //this.resourceLocation = new ResourceLocation("users/" + p_i45048_2_.getUUID() + "/icon");
+        //this.dynamicTexture = (DynamicTexture)this.mc.getTextureManager().getTexture(this.resourceLocation);
     }
 
-    @SuppressWarnings("unchecked")
 	public void drawEntry(int p_148279_1_, int p_148279_2_, int p_148279_3_, int p_148279_4_, int p_148279_5_, Tessellator p_148279_6_, int p_148279_7_, int p_148279_8_, boolean p_148279_9_)
     {
     	
@@ -48,7 +44,9 @@ public class FriendListEntry implements GuiListExtended.IGuiListEntry
         if (activity.equalsIgnoreCase("Minecraft") && !this.userData.isOnline())
         	activity = Utils.millisToTimeSpan(System.currentTimeMillis() - this.userData.lastSeen())+ " ago";
         else if (activity.equalsIgnoreCase("singleplayer") && !this.userData.isOnline())
-        	activity = "playing singleplayer";
+        	activity = Utils.millisToTimeSpan(System.currentTimeMillis() - this.userData.lastSeen())+ " ago playing singleplayer";
+        else if (!this.userData.isOnline() && this.userData.getCurrentServer().getType() == Type.MP)
+        	activity = Utils.millisToTimeSpan(System.currentTimeMillis() - this.userData.lastSeen())+ " ago "+activity;
         String output = EnumChatFormatting.YELLOW+prefix+" "+activity;
         this.mc.fontRenderer.drawString(output, p_148279_2_ + 35, p_148279_3_ + 23, 8421504);
 
