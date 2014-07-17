@@ -12,6 +12,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import com.firebase.client.Firebase;
+import com.maxpowa.chime.listeners.ListenerRegistry;
 import com.maxpowa.chime.util.User;
 import com.mojang.api.profiles.HttpProfileRepository;
 import com.mojang.api.profiles.Profile;
@@ -87,9 +88,8 @@ public class GuiScreenAddFriend extends GuiScreen
                 this.user.setUsername(this.usernameField.getText());
                 this.user.setUUID(this.uuidField.getText());
                 
-                Firebase request = Chime.public_requests.child("users/"+this.uuidField.getText()+"/requests/"+Chime.myUser.getUUID());
-                request.setValue(Chime.myUser.getUsername());
-                Chime.me.child("friends").child(this.uuidField.getText()).setValue(System.currentTimeMillis());;
+                Chime.public_requests.child("users/"+this.user.getUUID()+"/requests/"+Chime.myUser.getUUID()).setValue(Chime.myUser.getUsername());
+                Chime.me.child("friends/"+this.user.getUUID()).setValue(System.currentTimeMillis());
                 
                 Minecraft.getMinecraft().displayGuiScreen(this.parentScreen);
             } else if (button.id == 2) {

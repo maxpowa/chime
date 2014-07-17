@@ -43,7 +43,7 @@ public class FriendEventListener implements ChildEventListener {
 				Notification notify = new Notification(EnumChatFormatting.YELLOW+UserList.users.get(refid).getUsername(),"Is online", 0, NotificationType.ONLINE);
 				Chime.notificationOverlay.queueTemporaryNotification(notify);
 			}
-		} 
+		}
 		//else {
 			//Utils.log.info("Caught change of \""+data.getName()+"\" but ignored.");
 		//}
@@ -56,9 +56,7 @@ public class FriendEventListener implements ChildEventListener {
 	}
 
 	@Override
-	public void onChildRemoved(DataSnapshot arg0) {
-		// TODO Auto-generated method stub
-		
+	public void onChildRemoved(DataSnapshot data) {
 	}
 
 }

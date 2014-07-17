@@ -13,6 +13,7 @@ import org.lwjgl.input.Keyboard;
 import com.maxpowa.chime.Chime;
 import com.maxpowa.chime.util.RequestList;
 import com.maxpowa.chime.util.User;
+import com.maxpowa.chime.util.UserList;
 import com.maxpowa.chime.util.Utils;
 
 import cpw.mods.fml.relauncher.Side;
@@ -148,6 +149,7 @@ public class GuiFriendRequests extends GuiScreen implements GuiYesNoCallback
             	Utils.log.info("Blocking "+tmp.getUsername()+" ("+tmp.getUUID()+")");
 	            Chime.public_requests.child("users/"+Chime.myUser.getUUID()+"/requests/"+tmp.getUUID()).removeValue();
 	            Chime.me.child("blocks/"+tmp.getUUID()).setValue(System.currentTimeMillis());
+	            RequestList.requests.remove(tmp.getUUID());
             }
             
             this.mc.displayGuiScreen(this);

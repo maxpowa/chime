@@ -2,8 +2,10 @@ package com.maxpowa.chime.util;
 
 import java.util.HashMap;
 
-import com.shaded.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties({"online"})
 public class User {
 
 	private long lastSeen = 0L;

@@ -28,6 +28,7 @@ public class Initializer implements ValueEventListener {
 			Chime.me.setValue(Chime.myUser);
 		}
 		Chime.me.child("lastSeen").setValue(System.currentTimeMillis()); // Should make me appear online to other clients \o/
+		Chime.me.child("friends").addChildEventListener(new FriendsListListener());
 		
 		if (Chime.myUser.getFriends() != null) {
 			for (String key : Chime.myUser.getFriends().keySet()) {

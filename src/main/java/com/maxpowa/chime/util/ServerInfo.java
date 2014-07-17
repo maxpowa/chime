@@ -1,9 +1,10 @@
 package com.maxpowa.chime.util;
 
-import com.shaded.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import net.minecraft.client.multiplayer.ServerData;
 
+@JsonIgnoreProperties({"serverData"})
 public class ServerInfo {
 
 	private String serverName = "";   
@@ -23,13 +24,11 @@ public class ServerInfo {
 		this.hidden = hidden;
 	}
 
-	@JsonIgnore
 	public ServerData getServerData() {
 		return new ServerData(this.serverName, this.serverIP);
 	}
 	
 	@Override
-	@JsonIgnore
 	public String toString() {
 		String returnStatement = "";
 		if (this.type == Type.SP) {

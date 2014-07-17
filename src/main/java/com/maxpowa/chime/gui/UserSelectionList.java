@@ -20,7 +20,7 @@ public class UserSelectionList extends GuiListExtended
 {
 	private ResourceLocation bg = new ResourceLocation("chime:textures/gui/bgTrans.png");
     private final GuiFriendsList parentScreen;
-    private final List<FriendsListEntry> userHolder = Lists.newArrayList();
+    private final List<FriendListEntry> userHolder = Lists.newArrayList();
     private int selectedIndex = -1;
     
     private ResourceLocation stone = new ResourceLocation("textures/blocks/stone.png");
@@ -135,7 +135,7 @@ public class UserSelectionList extends GuiListExtended
 
         for (int i = 0; i < p_148195_1_.countUsers(); ++i)
         {
-            this.userHolder.add(new FriendsListEntry(this.parentScreen, p_148195_1_.getUserData(i)));
+            this.userHolder.add(new FriendListEntry(this.parentScreen, p_148195_1_.getUserData(i)));
         }
     }
 

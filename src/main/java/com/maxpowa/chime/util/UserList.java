@@ -41,15 +41,6 @@ public class UserList
     public void removeUserData(int index)
     {
         this.usersArray.remove(index);
-        //TODO: Remove from hashmap too
-    }
-
-    /**
-     * Adds the given ServerData instance to the list.
-     */
-    public void addUserData(String username)
-    {
-    	//TODO: UUID searching
     }
 
     /**

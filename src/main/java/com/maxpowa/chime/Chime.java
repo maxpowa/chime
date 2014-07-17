@@ -58,9 +58,9 @@ public class Chime {
     	
     	myProfile = getSession().func_148256_e();
     	
-    	if (isDebug) {
-    		myProfile = new GameProfile(UUID.fromString("AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA"),getSession().getPlayerID());
-    	}
+//    	if (isDebug) {
+//    		myProfile = new GameProfile(UUID.fromString("AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA"),getSession().getPlayerID());
+//    	}
     	
 		authenticateClient();
 		
