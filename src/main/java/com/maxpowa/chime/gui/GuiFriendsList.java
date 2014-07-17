@@ -3,20 +3,20 @@ package com.maxpowa.chime.gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiListExtended;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiYesNo;
 import net.minecraft.client.gui.GuiYesNoCallback;
 import net.minecraft.client.gui.ServerListEntryLanScan;
 import net.minecraft.client.gui.ServerListEntryNormal;
 import net.minecraft.client.multiplayer.ServerData;
+import net.minecraft.util.EnumChatFormatting;
 
 import org.lwjgl.input.Keyboard;
 
 import com.maxpowa.chime.Chime;
 import com.maxpowa.chime.listeners.ListenerRegistry;
+import com.maxpowa.chime.util.ServerInfo.Type;
 import com.maxpowa.chime.util.User;
 import com.maxpowa.chime.util.UserList;
 import com.maxpowa.chime.util.Utils;
-import com.maxpowa.chime.util.ServerInfo.Type;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -113,7 +113,7 @@ public class GuiFriendsList extends GuiScreen implements GuiYesNoCallback
                     this.removingFriend = true;
                     String s = "Are you sure you want to remove this friend?";
                     String s1 = "You may have to request friendship again if you remove " + s4 + " from your friends list.";
-                    String s2 = "Remove";
+                    String s2 = EnumChatFormatting.RED+"Remove";
                     String s3 = "Cancel";
                     GuiConfirmation guiyesno = new GuiConfirmation(this, s, s1, s2, s3, this.selectionList.getSelectedIndex());
                     this.mc.displayGuiScreen(guiyesno);
@@ -121,6 +121,7 @@ public class GuiFriendsList extends GuiScreen implements GuiYesNoCallback
             }
             else if (button.id == 1)
             {
+            	// TODO FIX THIS CRASH
             	ServerData sd = ((FriendListEntry)iguilistentry).getUser().getCurrentServer().getServerData();
             	FMLClientHandler.instance().connectToServer(this, sd);
             }
@@ -133,7 +134,7 @@ public class GuiFriendsList extends GuiScreen implements GuiYesNoCallback
             {
                 this.mc.displayGuiScreen(new GuiScreenAddFriend(this, new User()));
             }
-            else if (button.id == 7 && iguilistentry instanceof ServerListEntryNormal)
+            else if (button.id == 7)
             {
                 this.editing = true;
                 // maybe chat?
@@ -157,7 +158,8 @@ public class GuiFriendsList extends GuiScreen implements GuiYesNoCallback
         this.mc.displayGuiScreen(new GuiFriendsList(this.previousScreen));
     }
 
-    public void confirmClicked(boolean result, int id)
+    @SuppressWarnings("unused")
+	public void confirmClicked(boolean result, int id)
     {
         GuiListExtended.IGuiListEntry iguilistentry = this.selectionList.getSelectedIndex() < 0 ? null : this.selectionList.getListEntry(this.selectionList.getSelectedIndex());
 
@@ -313,7 +315,8 @@ public class GuiFriendsList extends GuiScreen implements GuiYesNoCallback
 
         if (iguilistentry != null)
         {
-        	if (((FriendListEntry)iguilistentry).getUser().getCurrentServer().getType() == Type.MP) {
+        	User user = ((FriendListEntry)iguilistentry).getUser();
+        	if (user.getCurrentServer().getType() == Type.MP && user.isOnline()) {
         		this.joinButton.enabled = true;
         	}
             //TODO: CHAT this.chatButton.enabled = true;
