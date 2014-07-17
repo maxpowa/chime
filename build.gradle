@@ -35,9 +35,6 @@ processResources
     // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
-                
-        // replace version and mcversion
-        expand '@VERSION@':project.version, '@MCVERSION@':project.minecraft.version
     }
         
     // copy everything else, thats not the mcmod.info
@@ -46,6 +43,12 @@ processResources
     }
     
     from {configurations.packageLibs.collect {zipTree(it)}}
+}
+
+minecraft {
+    replaceIn "com/maxpowa/chime/Chime.java"
+    replace "sweltering-fire-4536", project.property("firebase.url")
+    replace "UON7iIE2AJT2eJcAXXWhRKUiXlwUe1Pu5LzkGYta", project.property("firebase.secret")
 }
 
 configurations { packageLibs }
@@ -67,6 +70,7 @@ task sourceJar(type: Jar) {
     classifier = 'sources'
 }
 
+// build a dependency jar
 task depJar(type: Jar) {
 	from processResources
     classifier = 'deps'
