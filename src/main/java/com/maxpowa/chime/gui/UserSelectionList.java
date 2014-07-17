@@ -69,19 +69,22 @@ public class UserSelectionList extends GuiListExtended
     @Override
     protected void drawContainerBackground(Tessellator tessellator)
     {
-    	if (Minecraft.getMinecraft().theWorld != null)
-    		Minecraft.getMinecraft().getTextureManager().bindTexture(this.bg);
-    	else 
-            Minecraft.getMinecraft().getTextureManager().bindTexture(stone);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        float f1 = 32.0F;
-        tessellator.startDrawingQuads();
-        tessellator.setColorOpaque_I(2105376);
-        tessellator.addVertexWithUV((double)this.left, (double)this.bottom, 0.0D, (double)((float)this.left / f1), (double)((float)(this.bottom + (int)this.getAmountScrolled()) / f1));
-        tessellator.addVertexWithUV((double)this.right, (double)this.bottom, 0.0D, (double)((float)this.right / f1), (double)((float)(this.bottom + (int)this.getAmountScrolled()) / f1));
-        tessellator.addVertexWithUV((double)this.right, (double)this.top, 0.0D, (double)((float)this.right / f1), (double)((float)(this.top + (int)this.getAmountScrolled()) / f1));
-        tessellator.addVertexWithUV((double)this.left, (double)this.top, 0.0D, (double)((float)this.left / f1), (double)((float)(this.top + (int)this.getAmountScrolled()) / f1));
-        tessellator.draw();
+		GL11.glPushMatrix();
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		if (Minecraft.getMinecraft().theWorld != null)
+			Minecraft.getMinecraft().getTextureManager().bindTexture(this.bg);
+		else 
+			Minecraft.getMinecraft().getTextureManager().bindTexture(stone);
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		float f1 = 32.0F;
+		tessellator.startDrawingQuads();
+		tessellator.setColorOpaque_I(2105376);
+		tessellator.addVertexWithUV((double)this.left, (double)this.bottom, 0.0D, (double)((float)this.left / f1), (double)((float)(this.bottom + (int)this.getAmountScrolled()) / f1));
+		tessellator.addVertexWithUV((double)this.right, (double)this.bottom, 0.0D, (double)((float)this.right / f1), (double)((float)(this.bottom + (int)this.getAmountScrolled()) / f1));
+		tessellator.addVertexWithUV((double)this.right, (double)this.top, 0.0D, (double)((float)this.right / f1), (double)((float)(this.top + (int)this.getAmountScrolled()) / f1));
+		tessellator.addVertexWithUV((double)this.left, (double)this.top, 0.0D, (double)((float)this.left / f1), (double)((float)(this.top + (int)this.getAmountScrolled()) / f1));
+		tessellator.draw();
+		GL11.glPopMatrix();
     }
     
     @Override
@@ -99,29 +102,29 @@ public class UserSelectionList extends GuiListExtended
             {
                 if (this.isSelected(j1))
                 {
-                    int i2 = this.left + (this.width / 2 - this.getListWidth() / 2);
-                    int j2 = this.left + this.width / 2 + this.getListWidth() / 2;
-                    GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-                    GL11.glDisable(GL11.GL_TEXTURE_2D);
-                    tessellator.startDrawingQuads();
-                    tessellator.setColorOpaque_I(8421504);
-                    tessellator.addVertexWithUV((double)i2, (double)(k1 + l1 + 2), 0.0D, 0.0D, 1.0D);
-                    tessellator.addVertexWithUV((double)j2, (double)(k1 + l1 + 2), 0.0D, 1.0D, 1.0D);
-                    tessellator.addVertexWithUV((double)j2, (double)(k1 - 2), 0.0D, 1.0D, 0.0D);
-                    tessellator.addVertexWithUV((double)i2, (double)(k1 - 2), 0.0D, 0.0D, 0.0D);
-                    if (Minecraft.getMinecraft().theWorld != null) {
-                        GL11.glEnable(GL11.GL_TEXTURE_2D);
-                    	Minecraft.getMinecraft().getTextureManager().bindTexture(this.bg);
-                    } else {
-                        tessellator.setColorOpaque_I(0);
-                    }
-                    tessellator.addVertexWithUV((double)(i2 + 1), (double)(k1 + l1 + 1), 0.0D, 0.0D, 1.0D);
-                    tessellator.addVertexWithUV((double)(j2 - 1), (double)(k1 + l1 + 1), 0.0D, 1.0D, 1.0D);
-                    tessellator.addVertexWithUV((double)(j2 - 1), (double)(k1 - 1), 0.0D, 1.0D, 0.0D);
-                    tessellator.addVertexWithUV((double)(i2 + 1), (double)(k1 - 1), 0.0D, 0.0D, 0.0D);
-                    tessellator.draw();
-                    if (Minecraft.getMinecraft().theWorld == null)
-                        GL11.glEnable(GL11.GL_TEXTURE_2D);
+                	int i2 = this.left + (this.width / 2 - this.getListWidth() / 2);
+					int j2 = this.left + this.width / 2 + this.getListWidth() / 2;
+					GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+					GL11.glDisable(GL11.GL_TEXTURE_2D);
+					tessellator.startDrawingQuads();
+					tessellator.setColorOpaque_I(8421504);
+					tessellator.addVertexWithUV((double)i2, (double)(k1 + l1 + 2), 0.0D, 0.0D, 1.0D);
+					tessellator.addVertexWithUV((double)j2, (double)(k1 + l1 + 2), 0.0D, 1.0D, 1.0D);
+					tessellator.addVertexWithUV((double)j2, (double)(k1 - 2), 0.0D, 1.0D, 0.0D);
+					tessellator.addVertexWithUV((double)i2, (double)(k1 - 2), 0.0D, 0.0D, 0.0D);
+					GL11.glEnable(GL11.GL_TEXTURE_2D);
+					if (Minecraft.getMinecraft().theWorld != null) {
+						Minecraft.getMinecraft().getTextureManager().bindTexture(this.bg);
+					} else {
+						GL11.glDisable(GL11.GL_TEXTURE_2D);
+						tessellator.setColorOpaque_I(0);
+					}
+					tessellator.addVertexWithUV((double)(i2 + 1), (double)(k1 + l1 + 1), 0.0D, 0.0D, 1.0D);
+					tessellator.addVertexWithUV((double)(j2 - 1), (double)(k1 + l1 + 1), 0.0D, 1.0D, 1.0D);
+					tessellator.addVertexWithUV((double)(j2 - 1), (double)(k1 - 1), 0.0D, 1.0D, 0.0D);
+					tessellator.addVertexWithUV((double)(i2 + 1), (double)(k1 - 1), 0.0D, 0.0D, 0.0D);
+					tessellator.draw();
+					GL11.glEnable(GL11.GL_TEXTURE_2D);
                 }
 
                 this.drawSlot(j1, p_148120_1_, k1, l1, tessellator, p_148120_3_, p_148120_4_);
