@@ -16,16 +16,15 @@ public class ServerInfo {
 	public ServerInfo() {
 	}
 	
-	public ServerInfo(String name, String ip, String version, Type type, boolean hidden) {
+	public ServerInfo(String name, String ip, String version, Type type) {
 		this.serverName = name;
 		this.serverIP = ip;
 		this.serverVersion = version;
 		this.type = type;
-		this.hidden = hidden;
 	}
 
 	public ServerData getServerData() {
-		return new ServerData(this.serverName, this.serverIP);
+		return new ServerData(this.serverName, this.serverIP, true);
 	}
 	
 	@Override

@@ -136,6 +136,7 @@ public class GuiNotification extends Gui
             if (!this.haveNotification && (d0 < 0.0D || d0 > 1.0D) && !this.notificationIsPermanent)
             {
                 this.notificationTime = 0L;
+                this.theNotification = null;
             }
             else
             {

@@ -33,7 +33,6 @@ public class GuiFriendsList extends GuiScreen implements GuiYesNoCallback
     private GuiButton unfriendButton;
     private boolean removingFriend;
     private boolean editing;
-    private boolean directConnect;
     private boolean loaded;
 
     public GuiFriendsList(GuiScreen parentScreen)
@@ -121,13 +120,13 @@ public class GuiFriendsList extends GuiScreen implements GuiYesNoCallback
             }
             else if (button.id == 1)
             {
-            	// TODO FIX THIS CRASH
             	ServerData sd = ((FriendListEntry)iguilistentry).getUser().getCurrentServer().getServerData();
+            	FMLClientHandler.instance().setupServerList();
+            	//FMLClientHandler.instance().bindServerListData(sd, new ServerStatusResponse());
             	FMLClientHandler.instance().connectToServer(this, sd);
             }
             else if (button.id == 4)
             {
-                this.directConnect = true;
                 this.mc.displayGuiScreen(new GuiFriendRequests(this));
             }
             else if (button.id == 3)
@@ -176,12 +175,6 @@ public class GuiFriendsList extends GuiScreen implements GuiYesNoCallback
             }
             
             this.mc.displayGuiScreen(this);
-        }
-        else if (this.directConnect)
-        {
-            this.directConnect = false;
-
-            // whatever we want to do when dc calls back
         }
         else if (this.editing)
         {

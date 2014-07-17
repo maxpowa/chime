@@ -18,10 +18,10 @@ public class ConnectionListener {
     public void clientLoggedIn(ClientConnectedToServerEvent event) {
         if (Minecraft.getMinecraft().isIntegratedServerRunning()) {
         	String name = Minecraft.getMinecraft().getIntegratedServer().getWorldName();
-            Chime.myUser.setCurrentServer(new ServerInfo(name, "", "", ServerInfo.Type.SP, false));
+            Chime.myUser.setCurrentServer(new ServerInfo(name, "", "", ServerInfo.Type.SP));
         } else {
             ServerData sd = Utils.getServerData();
-            ServerInfo si = new ServerInfo(sd.serverName, sd.serverIP, sd.gameVersion, ServerInfo.Type.MP, sd.func_152585_d());
+            ServerInfo si = new ServerInfo(sd.serverName, sd.serverIP, sd.gameVersion, ServerInfo.Type.MP);
             Chime.myUser.setCurrentServer(si);
         }
         this.syncServerInfo();

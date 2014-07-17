@@ -1,5 +1,7 @@
 package com.maxpowa.chime;
 
+import java.util.UUID;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Session;
 
@@ -130,7 +132,7 @@ public class Chime {
 
 	public void deauth() {
 		Utils.log.error("Authentication failed, please check your internet connection or buy the game.");
-		Utils.log.error("Disabling due to authentication failure. This event will be logged for audit. (REF#"+System.currentTimeMillis()+")");
+		Utils.log.error("Disabling due to authentication failure. This event will be logged for audit. (REF#"+Long.toHexString(System.currentTimeMillis())+")");
 		FMLCommonHandler.instance().bus().unregister(this);
 	}
 }

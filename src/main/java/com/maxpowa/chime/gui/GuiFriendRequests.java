@@ -152,6 +152,7 @@ public class GuiFriendRequests extends GuiScreen implements GuiYesNoCallback
 	            RequestList.requests.remove(tmp.getUUID());
             }
             
+            this.loaded = false;
             this.mc.displayGuiScreen(this);
         }
         else if (this.rejectRequest)
@@ -164,6 +165,7 @@ public class GuiFriendRequests extends GuiScreen implements GuiYesNoCallback
 	            Chime.public_requests.child("users/"+Chime.myUser.getUUID()+"/requests/"+tmp.getUUID()).removeValue();
             }
 
+            this.loaded = false;
             this.mc.displayGuiScreen(this);
         }
         else if (this.acceptRequest)
@@ -178,6 +180,7 @@ public class GuiFriendRequests extends GuiScreen implements GuiYesNoCallback
 	            ListenerRegistry.addFriend(tmp.getUUID());
             }
 
+            this.loaded = false;
             this.mc.displayGuiScreen(this);
         } 
     }
