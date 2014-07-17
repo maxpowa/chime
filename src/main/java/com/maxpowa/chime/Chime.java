@@ -1,7 +1,5 @@
 package com.maxpowa.chime;
 
-import java.util.UUID;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Session;
 
@@ -46,7 +44,7 @@ public class Chime {
 	public static User myUser = null;
 	public static GameProfile myProfile = null;
 	public static GuiNotification notificationOverlay;
-	private boolean isDebug = true;
+	//private boolean isDebug = true;
 	
 	private GuiChimeButton button = null;
 
