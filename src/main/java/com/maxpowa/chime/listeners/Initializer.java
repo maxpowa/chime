@@ -4,6 +4,7 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.maxpowa.chime.Chime;
+import com.maxpowa.chime.util.ServerInfo;
 import com.maxpowa.chime.util.User;
 import com.maxpowa.chime.util.Utils;
 
@@ -27,6 +28,7 @@ public class Initializer implements ValueEventListener {
 			Chime.myUser.setUUID(Chime.myProfile.getId().toString());
 			Chime.me.setValue(Chime.myUser);
 		}
+		Chime.me.child("currentServer").setValue(new ServerInfo());
 		Chime.me.child("lastSeen").setValue(System.currentTimeMillis()); // Should make me appear online to other clients \o/
 		Chime.me.child("friends").addChildEventListener(new FriendsListListener());
 		

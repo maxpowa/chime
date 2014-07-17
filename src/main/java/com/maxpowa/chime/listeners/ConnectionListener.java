@@ -22,6 +22,8 @@ public class ConnectionListener {
         } else {
             ServerData sd = Utils.getServerData();
             ServerInfo si = new ServerInfo(sd.serverName, sd.serverIP, sd.gameVersion, ServerInfo.Type.MP);
+            if (Utils.isPrivateIPAddress(sd.serverIP)) 
+            	si = new ServerInfo(sd.serverName, "", "", ServerInfo.Type.LAN);
             Chime.myUser.setCurrentServer(si);
         }
         this.syncServerInfo();

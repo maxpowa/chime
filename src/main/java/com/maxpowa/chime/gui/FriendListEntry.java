@@ -45,7 +45,7 @@ public class FriendListEntry implements GuiListExtended.IGuiListEntry
         	activity = Utils.millisToTimeSpan(System.currentTimeMillis() - this.userData.lastSeen())+ " ago";
         else if (activity.equalsIgnoreCase("singleplayer") && !this.userData.isOnline())
         	activity = Utils.millisToTimeSpan(System.currentTimeMillis() - this.userData.lastSeen())+ " ago playing singleplayer";
-        else if (!this.userData.isOnline() && this.userData.getCurrentServer().getType() == Type.MP)
+        else if (!this.userData.isOnline() && this.userData.getCurrentServer().getType() == Type.MP || this.userData.getCurrentServer().getType() == Type.LAN)
         	activity = Utils.millisToTimeSpan(System.currentTimeMillis() - this.userData.lastSeen())+ " ago "+activity;
         String output = EnumChatFormatting.YELLOW+prefix+" "+activity;
         this.mc.fontRenderer.drawString(output, p_148279_2_ + 35, p_148279_3_ + 23, 8421504);

@@ -37,6 +37,8 @@ public class ServerInfo {
 			if (hidden) {
 				returnStatement = "on a multiplayer server";
 			}
+		} else if (this.type == Type.LAN) {
+			returnStatement = "on a local server";
 		} else if (this.type == Type.NONE) {
 			returnStatement = "Minecraft";
 		}
@@ -84,7 +86,7 @@ public class ServerInfo {
 	}
 	
 	public enum Type {
-		MP,SP,NONE;
+		MP,SP,NONE, LAN;
 	}
 	
 }

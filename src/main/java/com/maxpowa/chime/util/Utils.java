@@ -1,5 +1,8 @@
 package com.maxpowa.chime.util;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
 
@@ -35,5 +38,18 @@ public class Utils {
 	private static long roundUp(double d) {
 		return Math.round(d * 10.0) / 10;
 	} 
+
+	public static boolean isPrivateIPAddress(String ipAddress) {
+		InetAddress ia = null;
+		try {
+			InetAddress ad = InetAddress.getByName(ipAddress);
+			byte[] ip = ad.getAddress();
+			ia = InetAddress.getByAddress(ip);
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+		return ia.isSiteLocalAddress();
+
+	}
 
 }
