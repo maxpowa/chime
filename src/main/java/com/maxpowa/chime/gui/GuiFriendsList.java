@@ -11,6 +11,8 @@ import net.minecraft.client.multiplayer.ServerData;
 
 import org.lwjgl.input.Keyboard;
 
+import com.maxpowa.chime.Chime;
+import com.maxpowa.chime.listeners.ListenerRegistry;
 import com.maxpowa.chime.util.User;
 import com.maxpowa.chime.util.UserList;
 import com.maxpowa.chime.util.Utils;
@@ -29,8 +31,7 @@ public class GuiFriendsList extends GuiScreen implements GuiYesNoCallback
     private GuiButton chatButton;
     private GuiButton joinButton;
     private GuiButton unfriendButton;
-    private boolean dialogShowing;
-    private boolean addingServer;
+    private boolean removingFriend;
     private boolean editing;
     private boolean directConnect;
     private boolean loaded;
@@ -103,24 +104,24 @@ public class GuiFriendsList extends GuiScreen implements GuiYesNoCallback
         {
             GuiListExtended.IGuiListEntry iguilistentry = this.selectionList.getSelectedIndex() < 0 ? null : this.selectionList.getListEntry(this.selectionList.getSelectedIndex());
 
-            if (button.id == 2 && iguilistentry instanceof ServerListEntryNormal)
+            if (button.id == 2 && iguilistentry instanceof FriendListEntry)
             {
-                String s4 = ((ServerListEntryNormal)iguilistentry).func_148296_a().serverName;
+                String s4 = ((FriendListEntry)iguilistentry).getUser().getUsername();
 
                 if (s4 != null)
                 {
-                    this.dialogShowing = true;
+                    this.removingFriend = true;
                     String s = "Are you sure you want to remove this friend?";
                     String s1 = "You may have to request friendship again if you remove " + s4 + " from your friends list.";
                     String s2 = "Remove";
                     String s3 = "Cancel";
-                    GuiYesNo guiyesno = new GuiYesNo(this, s, s1, s2, s3, this.selectionList.getSelectedIndex());
+                    GuiConfirmation guiyesno = new GuiConfirmation(this, s, s1, s2, s3, this.selectionList.getSelectedIndex());
                     this.mc.displayGuiScreen(guiyesno);
                 }
             }
             else if (button.id == 1)
             {
-            	ServerData sd = ((FriendsListEntry)iguilistentry).getUser().getCurrentServer().getServerData();
+            	ServerData sd = ((FriendListEntry)iguilistentry).getUser().getCurrentServer().getServerData();
             	FMLClientHandler.instance().connectToServer(this, sd);
             }
             else if (button.id == 4)
@@ -130,7 +131,6 @@ public class GuiFriendsList extends GuiScreen implements GuiYesNoCallback
             }
             else if (button.id == 3)
             {
-                this.addingServer = true;
                 this.mc.displayGuiScreen(new GuiScreenAddFriend(this, new User()));
             }
             else if (button.id == 7 && iguilistentry instanceof ServerListEntryNormal)
@@ -157,25 +157,29 @@ public class GuiFriendsList extends GuiScreen implements GuiYesNoCallback
         this.mc.displayGuiScreen(new GuiFriendsList(this.previousScreen));
     }
 
-    public void confirmClicked(boolean p_73878_1_, int p_73878_2_)
+    public void confirmClicked(boolean result, int id)
     {
         GuiListExtended.IGuiListEntry iguilistentry = this.selectionList.getSelectedIndex() < 0 ? null : this.selectionList.getListEntry(this.selectionList.getSelectedIndex());
 
-        if (this.dialogShowing)
+        if (this.removingFriend)
         {
-            this.dialogShowing = false;
+            this.removingFriend = false;
 
-	        // remove friend logic
+            if (result) {
+	            User tmp = ((FriendListEntry)this.selectionList.getListEntry(id)).getUser();
+            	Utils.log.info("Removing "+tmp.getUsername()+" ("+tmp.getUUID()+") from friends list");
+	            Chime.users.child(tmp.getUUID()+"/friends/"+Chime.myUser.getUUID()).removeValue();
+	            Chime.me.child("friends/"+tmp.getUUID()).removeValue();
+	            ListenerRegistry.removeFriend(tmp.getUUID());
+            }
+            
+            this.mc.displayGuiScreen(this);
         }
         else if (this.directConnect)
         {
             this.directConnect = false;
 
             // whatever we want to do when dc calls back
-        }
-        else if (this.addingServer)
-        {
-            this.addingServer = false;
         }
         else if (this.editing)
         {
@@ -309,7 +313,7 @@ public class GuiFriendsList extends GuiScreen implements GuiYesNoCallback
 
         if (iguilistentry != null)
         {
-        	if (((FriendsListEntry)iguilistentry).getUser().getCurrentServer().getType() == Type.MP) {
+        	if (((FriendListEntry)iguilistentry).getUser().getCurrentServer().getType() == Type.MP) {
         		this.joinButton.enabled = true;
         	}
             //TODO: CHAT this.chatButton.enabled = true;

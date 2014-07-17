@@ -16,7 +16,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class FriendsListEntry implements GuiListExtended.IGuiListEntry
+public class FriendListEntry implements GuiListExtended.IGuiListEntry
 {
     private final GuiFriendsList parentScreen;
     private final Minecraft mc;
@@ -26,7 +26,7 @@ public class FriendsListEntry implements GuiListExtended.IGuiListEntry
     private DynamicTexture dynamicTexture;
     private ResourceLocation resourceLocation;
 
-    protected FriendsListEntry(GuiFriendsList p_i45048_1_, User p_i45048_2_)
+    protected FriendListEntry(GuiFriendsList p_i45048_1_, User p_i45048_2_)
     {
         this.parentScreen = p_i45048_1_;
         this.userData = p_i45048_2_;
