@@ -11,7 +11,6 @@ public class User {
 	private long lastSeen = 0L;
 	private String username = "Steve";
 	private String motd = "I'm new here!";
-	private String seen = "Main Menu";
 	private HashMap<String, String> blocks = new HashMap<String,String>();
 	private HashMap<String, String> friends = new HashMap<String,String>();
 	private ServerInfo currentServer = new ServerInfo();
@@ -22,12 +21,6 @@ public class User {
 	}
 	public void setMotd(String motd) {
 		this.motd = motd;
-	}
-	public String getSeen() {
-		return seen;
-	}
-	public void setSeen(String seen) {
-		this.seen = seen;
 	}
 	public HashMap<String, String> getBlocks() {
 		return blocks;

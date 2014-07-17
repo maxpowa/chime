@@ -11,16 +11,13 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import com.firebase.client.Firebase;
-import com.maxpowa.chime.listeners.ListenerRegistry;
+import com.maxpowa.chime.Chime;
 import com.maxpowa.chime.util.User;
 import com.mojang.api.profiles.HttpProfileRepository;
 import com.mojang.api.profiles.Profile;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-
-import com.maxpowa.chime.Chime;
 
 @SideOnly(Side.CLIENT)
 public class GuiScreenAddFriend extends GuiScreen

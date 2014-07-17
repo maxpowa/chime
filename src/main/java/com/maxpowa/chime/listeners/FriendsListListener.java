@@ -3,8 +3,6 @@ package com.maxpowa.chime.listeners;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.FirebaseError;
-import com.maxpowa.chime.util.UserList;
-import com.maxpowa.chime.util.Utils;
 
 public class FriendsListListener implements ChildEventListener {
 

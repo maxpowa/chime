@@ -27,6 +27,7 @@ public class GuiConfirmation extends GuiYesNo {
     /**
      * Adds the buttons (and other controls) to the screen in question.
      */
+	@SuppressWarnings("unchecked")
 	@Override
     public void initGui()
     {

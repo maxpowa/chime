@@ -34,7 +34,7 @@ public class ServerInfo {
 		if (this.type == Type.SP) {
 			returnStatement = "singleplayer";
 		} else if (this.type == Type.MP) {
-			returnStatement = "on "+this.serverName+" ("+this.serverIP+")";
+			returnStatement = "on "+this.serverIP+"";
 			if (hidden) {
 				returnStatement = "on a multiplayer server";
 			}
