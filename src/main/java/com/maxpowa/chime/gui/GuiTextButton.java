@@ -1,5 +1,7 @@
 package com.maxpowa.chime.gui;
 
+import java.awt.Color;
+
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
@@ -9,6 +11,8 @@ public class GuiTextButton extends GuiButton {
 
 	private int textColor = 0xFFFFFF;
 	private float scale = 1.0f;
+	private float increment = 0f;
+	private long nextTick = 0;
 
 	public GuiTextButton(int id, int xpos, int ypos, String text, int textColor) {
 		super(id, xpos, ypos, text);
@@ -40,14 +44,11 @@ public class GuiTextButton extends GuiButton {
             
             int rgb = textColor;
             if (textColor < 0) {
-            	int red   = Math.round(Math.round(Math.sin(System.currentTimeMillis()/100 + 0) * 127 + 128));
-                int green = Math.round(Math.round(Math.sin(System.currentTimeMillis()/100 + 2*Math.PI/3) * 127 + 128));
-                int blue  = Math.round(Math.round(Math.sin(System.currentTimeMillis()/100 + 4*Math.PI/3) * 127 + 128));
-                rgb = red;
-                rgb = rgb << 8;
-                rgb |= green;
-                rgb = rgb << 8;
-                rgb |= blue;
+            	rgb = Color.getHSBColor(increment, 1, 1).getRGB();
+            	if (nextTick < System.currentTimeMillis()) {
+            		increment+=0.01f;
+            		nextTick = System.currentTimeMillis()+500;
+            	}
             }
             
             this.drawCenteredString(mc.fontRenderer, this.displayString, Math.round((this.xPosition + this.width / 2)/this.scale), Math.round((this.yPosition + (this.height - 6) / 2)/this.scale), rgb);
