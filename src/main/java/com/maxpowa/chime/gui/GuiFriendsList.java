@@ -38,6 +38,7 @@ public class GuiFriendsList extends GuiScreen implements GuiYesNoCallback
     public GuiFriendsList(GuiScreen parentScreen)
     {
         this.previousScreen = parentScreen;
+        FMLClientHandler.instance().setupServerList();
     }
 
     /**
@@ -121,8 +122,7 @@ public class GuiFriendsList extends GuiScreen implements GuiYesNoCallback
             else if (button.id == 1)
             {
             	ServerData sd = ((FriendListEntry)iguilistentry).getUser().getCurrentServer().getServerData();
-            	FMLClientHandler.instance().setupServerList();
-            	//FMLClientHandler.instance().bindServerListData(sd, new ServerStatusResponse());
+
             	FMLClientHandler.instance().connectToServer(this, sd);
             }
             else if (button.id == 4)
@@ -309,7 +309,7 @@ public class GuiFriendsList extends GuiScreen implements GuiYesNoCallback
         if (iguilistentry != null)
         {
         	User user = ((FriendListEntry)iguilistentry).getUser();
-        	if (user.getCurrentServer().getType() == Type.MP && user.isOnline()) {
+        	if (user.getCurrentServer().getType() == Type.MP/**&& user.isOnline()**/) {
         		this.joinButton.enabled = true;
         	}
             //TODO: CHAT this.chatButton.enabled = true;

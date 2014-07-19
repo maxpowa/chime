@@ -46,14 +46,17 @@ public class Chime {
 	public static User myUser = null;
 	public static GameProfile myProfile = null;
 	public static GuiNotification notificationOverlay;
-	//private boolean isDebug = true;
+	
+	private ConnectionListener conListener = new ConnectionListener();
+	
+//	private boolean isDebug = true;
 	
 	private GuiChimeButton button = null;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
     	FMLCommonHandler.instance().bus().register(this);
-    	FMLCommonHandler.instance().bus().register(new ConnectionListener());
+    	FMLCommonHandler.instance().bus().register(conListener);
     	Utils.log = event.getModLog();
     	
     	myProfile = getSession().func_148256_e();
@@ -134,6 +137,7 @@ public class Chime {
 		Utils.log.error("Authentication failed, please check your internet connection or buy the game.");
 		Utils.log.error("Disabling due to authentication failure. This event will be logged for audit. (REF#"+Long.toHexString(System.currentTimeMillis())+")");
 		FMLCommonHandler.instance().bus().unregister(this);
+		FMLCommonHandler.instance().bus().unregister(conListener);
 	}
 }
  
