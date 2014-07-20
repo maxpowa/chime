@@ -1,7 +1,9 @@
 package com.maxpowa.chime.gui;
 
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiListExtended;
+import net.minecraft.client.gui.GuiNewChat;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiYesNoCallback;
 import net.minecraft.client.gui.ServerListEntryLanScan;
@@ -39,6 +41,9 @@ public class GuiFriendsList extends GuiScreen implements GuiYesNoCallback
     public GuiFriendsList(GuiScreen parentScreen)
     {
         this.previousScreen = parentScreen;
+        if (this.previousScreen instanceof GuiChat) {
+        	this.previousScreen = null;
+        }
         FMLClientHandler.instance().setupServerList();
     }
 
