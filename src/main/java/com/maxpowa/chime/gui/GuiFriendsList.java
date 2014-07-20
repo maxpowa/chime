@@ -10,6 +10,7 @@ import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.util.EnumChatFormatting;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.GL11;
 
 import com.maxpowa.chime.Chime;
 import com.maxpowa.chime.listeners.ListenerRegistry;
@@ -88,6 +89,7 @@ public class GuiFriendsList extends GuiScreen implements GuiYesNoCallback
         super.updateScreen();
         this.userList.loadUserList();
         this.selectionList.addUserList(this.userList);
+        this.setSelected(this.selectionList.getSelectedIndex());
     }
 
     /**
@@ -291,11 +293,14 @@ public class GuiFriendsList extends GuiScreen implements GuiYesNoCallback
      */
     public void drawScreen(int p_73863_1_, int p_73863_2_, float p_73863_3_)
     {
+    	GL11.glPushMatrix();
+    	GL11.glEnable(GL11.GL_BLEND); 
         //this.drawDefaultBackground();
         this.selectionList.drawScreen(p_73863_1_, p_73863_2_, p_73863_3_);
         
         this.drawCenteredString(this.fontRendererObj, "Chime Friends List", this.width / 2, 12, 16777215);
         super.drawScreen(p_73863_1_, p_73863_2_, p_73863_3_);
+        GL11.glPopMatrix();
     }
 
     public void setSelected(int p_146790_1_)

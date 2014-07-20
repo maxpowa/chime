@@ -27,7 +27,7 @@ public class FriendRequestListener implements ChildEventListener {
 	@Override
 	public void onChildAdded(DataSnapshot data, String key) {
 		Utils.log.info("Got a new friend request from "+data.getValue()+" ("+data.getName()+")");
-		Chime.users.child(data.getName()).addValueEventListener(new ValueEventListener() {
+		Chime.users.child(data.getName()).addListenerForSingleValueEvent(new ValueEventListener() {
 
 			@Override
 			public void onCancelled(FirebaseError error) {
@@ -58,8 +58,9 @@ public class FriendRequestListener implements ChildEventListener {
 
 	@Override
 	public void onChildRemoved(DataSnapshot arg0) {
-		Utils.log.info(arg0.getValue()+"("+arg0.getName()+") has revoked their friend request");
-		RequestList.requests.remove(arg0.getName());
+		Utils.log.info("The friend request from "+arg0.getValue()+"("+arg0.getName()+") has been removed, this is normal if you have added them as a friend");
+		if (RequestList.requests.containsKey(arg0.getName()))
+			RequestList.requests.remove(arg0.getName());
 	}
 	
 	

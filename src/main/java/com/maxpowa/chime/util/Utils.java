@@ -49,7 +49,6 @@ public class Utils {
 			e.printStackTrace();
 		}
 		return ia.isSiteLocalAddress();
-
 	}
 
 }

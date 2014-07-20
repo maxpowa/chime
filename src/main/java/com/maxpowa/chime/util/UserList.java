@@ -1,5 +1,6 @@
 package com.maxpowa.chime.util;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -22,9 +23,15 @@ public class UserList
     public void loadUserList()
     {
     	usersArray.clear();
+    	// Basic sorting, offline at the bottom and online up at the top of the list
+    	ArrayDeque<User> temp  = new ArrayDeque<User>();
     	for (Entry<String, User> e : users.entrySet()) {
-    		usersArray.add(e.getValue());
+    		if (e.getValue().isOnline())
+    			temp.addFirst(e.getValue());
+    		else
+    			temp.addLast(e.getValue());
     	}
+    	usersArray = new ArrayList<User>(temp);
     }
 
     /**
