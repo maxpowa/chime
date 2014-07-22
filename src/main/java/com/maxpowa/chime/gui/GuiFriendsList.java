@@ -3,7 +3,6 @@ package com.maxpowa.chime.gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiListExtended;
-import net.minecraft.client.gui.GuiNewChat;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiYesNoCallback;
 import net.minecraft.client.gui.ServerListEntryLanScan;
@@ -83,6 +82,7 @@ public class GuiFriendsList extends GuiScreen implements GuiYesNoCallback
         this.buttonList.add(new GuiButton(8, this.width / 2 + 4, this.height - 28, 73, 20, "Refresh"));
         this.buttonList.add(new GuiButton(0, this.width / 2 + 82, this.height - 28, 73, 20, "Cancel"));
         this.buttonList.add(new GuiTextButton(12, 10, 10, "Please donate to keep this service running!", -1, 0.5f));
+        this.buttonList.add(new GuiFaceButton(10, this.width - 27, 5, Chime.myUser));
         this.setSelected(this.selectionList.getSelectedIndex());
     }
 
@@ -152,6 +152,9 @@ public class GuiFriendsList extends GuiScreen implements GuiYesNoCallback
             else if (button.id == 8)
             {
                 this.refreshScreen();
+            }
+            else if (button.id == 10) {
+            	Utils.log.info("Clicked face!");
             }
             else if (button.id == 12) {
             	Utils.log.info("Click!");
@@ -302,6 +305,14 @@ public class GuiFriendsList extends GuiScreen implements GuiYesNoCallback
     	GL11.glEnable(GL11.GL_BLEND); 
         //this.drawDefaultBackground();
         this.selectionList.drawScreen(p_73863_1_, p_73863_2_, p_73863_3_);
+        
+        if (Chime.myUser.getSkin() != null)
+        {
+            int headX = this.width - 27;
+            
+            this.mc.fontRenderer.drawString(Chime.myUser.getUsername(), headX-5-this.mc.fontRenderer.getStringWidth(Chime.myUser.getUsername()), 7, 0xFFFFFF);
+    		this.mc.fontRenderer.drawString(Chime.myUser.getMotd(), headX-5-this.mc.fontRenderer.getStringWidth(Chime.myUser.getMotd()), 17, 8421504);
+        }
         
         this.drawCenteredString(this.fontRendererObj, "Chime Friends List", this.width / 2, 12, 16777215);
         super.drawScreen(p_73863_1_, p_73863_2_, p_73863_3_);
