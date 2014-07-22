@@ -102,29 +102,26 @@ public class UserSelectionList extends GuiListExtended
             {
                 if (this.isSelected(j1))
                 {
+                	GL11.glPushMatrix();
                 	int i2 = this.left + (this.width / 2 - this.getListWidth() / 2);
-					int j2 = this.left + this.width / 2 + this.getListWidth() / 2;
-					GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-					GL11.glDisable(GL11.GL_TEXTURE_2D);
-					tessellator.startDrawingQuads();
-					tessellator.setColorOpaque_I(8421504);
-					tessellator.addVertexWithUV((double)i2, (double)(k1 + l1 + 2), 0.0D, 0.0D, 1.0D);
-					tessellator.addVertexWithUV((double)j2, (double)(k1 + l1 + 2), 0.0D, 1.0D, 1.0D);
-					tessellator.addVertexWithUV((double)j2, (double)(k1 - 2), 0.0D, 1.0D, 0.0D);
-					tessellator.addVertexWithUV((double)i2, (double)(k1 - 2), 0.0D, 0.0D, 0.0D);
-					GL11.glEnable(GL11.GL_TEXTURE_2D);
-					if (Minecraft.getMinecraft().theWorld != null) {
-						Minecraft.getMinecraft().getTextureManager().bindTexture(this.bg);
-					} else {
-						GL11.glDisable(GL11.GL_TEXTURE_2D);
-						tessellator.setColorOpaque_I(0);
-					}
-					tessellator.addVertexWithUV((double)(i2 + 1), (double)(k1 + l1 + 1), 0.0D, 0.0D, 1.0D);
-					tessellator.addVertexWithUV((double)(j2 - 1), (double)(k1 + l1 + 1), 0.0D, 1.0D, 1.0D);
-					tessellator.addVertexWithUV((double)(j2 - 1), (double)(k1 - 1), 0.0D, 1.0D, 0.0D);
-					tessellator.addVertexWithUV((double)(i2 + 1), (double)(k1 - 1), 0.0D, 0.0D, 0.0D);
-					tessellator.draw();
-					GL11.glEnable(GL11.GL_TEXTURE_2D);
+                    int j2 = this.left + this.width / 2 + this.getListWidth() / 2;
+                    GL11.glEnable(GL11.GL_BLEND);
+                    GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.25F);
+                    GL11.glDisable(GL11.GL_TEXTURE_2D);
+                    tessellator.startDrawingQuads();
+                    tessellator.setColorRGBA_I(0xFFFFFF, 80);
+                    tessellator.addVertexWithUV((double)i2, (double)(k1 + l1 + 2), 0.0D, 0.0D, 1.0D);
+                    tessellator.addVertexWithUV((double)j2, (double)(k1 + l1 + 2), 0.0D, 1.0D, 1.0D);
+                    tessellator.addVertexWithUV((double)j2, (double)(k1 - 2), 0.0D, 1.0D, 0.0D);
+                    tessellator.addVertexWithUV((double)i2, (double)(k1 - 2), 0.0D, 0.0D, 0.0D);
+                    tessellator.setColorRGBA_I(0, 128);
+                    tessellator.addVertexWithUV((double)(i2 + 1), (double)(k1 + l1 + 1), 0.0D, 0.0D, 1.0D);
+                    tessellator.addVertexWithUV((double)(j2 - 1), (double)(k1 + l1 + 1), 0.0D, 1.0D, 1.0D);
+                    tessellator.addVertexWithUV((double)(j2 - 1), (double)(k1 - 1), 0.0D, 1.0D, 0.0D);
+                    tessellator.addVertexWithUV((double)(i2 + 1), (double)(k1 - 1), 0.0D, 0.0D, 0.0D);
+                    tessellator.draw();
+                    GL11.glEnable(GL11.GL_TEXTURE_2D);
+					GL11.glPopMatrix();
                 }
 
                 this.drawSlot(j1, p_148120_1_, k1, l1, tessellator, p_148120_3_, p_148120_4_);
