@@ -10,7 +10,6 @@ import net.minecraft.client.renderer.Tessellator;
 import org.lwjgl.opengl.GL11;
 
 import com.maxpowa.chime.util.User;
-import com.maxpowa.chime.util.Utils;
 
 public class GuiFaceButton extends GuiButton {
 
