@@ -3,10 +3,12 @@ package com.maxpowa.chime;
 import java.util.UUID;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.Session;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 import com.firebase.client.Firebase;
@@ -21,11 +23,13 @@ import com.maxpowa.chime.util.User;
 import com.maxpowa.chime.util.Utils;
 import com.mojang.authlib.GameProfile;
 
+import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
@@ -35,7 +39,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-@Mod(modid="Chime", name="Chime", version="v@VERSION@")
+@Mod(modid="Chime", name="Chime", version="@VERSION@ for @MCVERSION@")
 public class Chime {
 
 	public static final String rootURL = "https://sweltering-fire-4536.firebaseio.com";
@@ -47,6 +51,8 @@ public class Chime {
 	public static GameProfile myProfile = null;
 	public static GuiNotification notificationOverlay;
 	
+    public static KeyBinding friendsListKB = new KeyBinding("\u00a7a[Chime] Friends List", Keyboard.KEY_F, "key.categories.misc");
+	
 	private ConnectionListener conListener = new ConnectionListener();
 	
 //	private boolean isDebug = true;
@@ -55,6 +61,8 @@ public class Chime {
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+    	ClientRegistry.registerKeyBinding(friendsListKB);
+    	
     	FMLCommonHandler.instance().bus().register(this);
     	FMLCommonHandler.instance().bus().register(conListener);
     	Utils.log = event.getModLog();
@@ -68,6 +76,14 @@ public class Chime {
 		authenticateClient();
 		
 		Chime.notificationOverlay = new GuiNotification(Minecraft.getMinecraft());
+    }
+    
+    @SubscribeEvent
+    public void KeyInputEvent(KeyInputEvent event) {
+        Minecraft mc = Minecraft.getMinecraft();
+        if (friendsListKB.isPressed() && mc.currentScreen == null) {
+            mc.displayGuiScreen(new GuiFriendsList(mc.currentScreen));
+        }
     }
     
     @SubscribeEvent
