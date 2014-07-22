@@ -1,5 +1,6 @@
 package com.maxpowa.chime.util;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.util.HashMap;
@@ -24,7 +25,9 @@ public class User {
 	private BufferedImage bufferedimage;
 	@JsonIgnore
 	private boolean preparingSkin;
-	
+	@JsonIgnore
+	public Color averageColor = new Color(0);
+
 	private long lastSeen = 0L;
 	private String username = "Steve";
 	private String motd = "I'm new here!";
@@ -32,7 +35,7 @@ public class User {
 	private HashMap<String, String> friends = new HashMap<String,String>();
 	private ServerInfo currentServer = new ServerInfo();
 	private String UUID = "";
-	
+
 	public String getMotd() {
 		return motd;
 	}
@@ -80,6 +83,7 @@ public class User {
 	public void prepareSkin() {
 		this.preparingSkin = true;
 		this.skin = (DynamicTexture)Minecraft.getMinecraft().getTextureManager().getTexture(this.resourceLocation);
+
 		try
 		{
 			URL url = new URL(String.format("http://skins.minecraft.net/MinecraftSkins/%s.png",this.getUsername()));
@@ -96,6 +100,29 @@ public class User {
 		{
 			this.skin = new DynamicTexture(bufferedimage.getWidth(), bufferedimage.getHeight());
 			Minecraft.getMinecraft().getTextureManager().loadTexture(this.resourceLocation, this.skin);
+		}
+
+		if (this.averageColor == null) {
+			int[] pixels = new int[bufferedimage.getWidth()*bufferedimage.getHeight()];
+			bufferedimage.getRGB(0, 0, bufferedimage.getWidth(), bufferedimage.getHeight(), pixels, 0, bufferedimage.getWidth());
+			
+			long pixelCount = 0;
+			long redTot = 0;
+			long greenTot = 0;
+			long blueTot = 0;
+			
+			for (int i : pixels) {
+				Color c = new Color(i);
+				if (c.getAlpha() > 0) {
+					pixelCount++;
+					redTot += c.getRed();
+					greenTot += c.getGreen();
+					blueTot += c.getBlue();
+				}
+				
+			}
+
+			averageColor = new Color((redTot / pixelCount) / 255f, (greenTot / pixelCount) / 255f, (blueTot / pixelCount) / 255f);
 		}
 
 		bufferedimage.getRGB(0, 0, bufferedimage.getWidth(), bufferedimage.getHeight(), this.skin.getTextureData(), 0, bufferedimage.getWidth());
@@ -124,5 +151,5 @@ public class User {
 	public boolean isOnline() {
 		return ((this.lastSeen + 30000L) >= System.currentTimeMillis());
 	}
-	
+
 }
