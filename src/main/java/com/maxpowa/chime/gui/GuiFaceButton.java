@@ -3,7 +3,6 @@ package com.maxpowa.chime.gui;
 import java.awt.Color;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.Tessellator;
 
@@ -24,15 +23,7 @@ public class GuiFaceButton extends GuiButton {
 	@Override
 	public void drawButton(Minecraft mc, int mouseX, int mouseY) {
         this.drawSolidRect(this.xPosition, this.yPosition, this.xPosition+24, this.yPosition+24, user.averageColor.getRGB());
-       
-        GL11.glPushMatrix();
-        GL11.glScalef(2.75f,  2.75f, 1.0f);
-        GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-        GL11.glTranslatef((this.xPosition+1)/2.75f, (this.yPosition+1)/2.75f, 1.0f);
-        mc.getTextureManager().bindTexture(user.getSkin());
-        Gui.func_146110_a(0, 0, 8.0F, 8.0F, 8, 8, user.getSkinWidth(), user.getSkinHeight());
-        Gui.func_146110_a(0, 0, 40.0F, 8.0F, 8, 8, user.getSkinWidth(), user.getSkinHeight());
-        GL11.glPopMatrix();
+        GuiHelper.drawFace(mc, user, this.xPosition+1, this.yPosition+1, 2.75f);
 	}
     
     public void drawSolidRect(int vertex1, int vertex2, int vertex3,
