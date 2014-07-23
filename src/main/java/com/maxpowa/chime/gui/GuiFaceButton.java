@@ -26,13 +26,8 @@ public class GuiFaceButton extends GuiButton {
 	public void drawButton(Minecraft mc, int mouseX, int mouseY) {
         hovering  = mouseX >= xPosition && mouseY >= yPosition && mouseX < xPosition + width && mouseY < yPosition + height;
         
-        if (!hovering) {
-        	this.drawSolidRect(this.xPosition, this.yPosition, this.xPosition+24, this.yPosition+24, user.averageColor.getRGB());
-        } else {
-        	if (altColor == new Color(0))
-        		altColor = user.averageColor.brighter().brighter().brighter();
-        	this.drawSolidRect(this.xPosition, this.yPosition, this.xPosition+24, this.yPosition+24, altColor.getRGB());
-        }
+        this.drawSolidRect(this.xPosition, this.yPosition, this.xPosition+24, this.yPosition+24, user.averageColor.getRGB());
+       
         GL11.glPushMatrix();
         GL11.glScalef(2.75f,  2.75f, 1.0f);
         GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
