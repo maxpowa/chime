@@ -6,9 +6,9 @@ import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.FirebaseError;
 import com.maxpowa.chime.Chime;
+import com.maxpowa.chime.data.UserList;
 import com.maxpowa.chime.util.Notification;
 import com.maxpowa.chime.util.Notification.NotificationType;
-import com.maxpowa.chime.util.UserList;
 import com.maxpowa.chime.util.Utils;
 
 public class FriendEventListener implements ChildEventListener {

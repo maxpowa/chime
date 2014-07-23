@@ -1,4 +1,4 @@
-package com.maxpowa.chime.util;
+package com.maxpowa.chime.data;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;

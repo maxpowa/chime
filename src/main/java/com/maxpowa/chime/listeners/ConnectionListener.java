@@ -4,7 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
 
 import com.maxpowa.chime.Chime;
-import com.maxpowa.chime.util.ServerInfo;
+import com.maxpowa.chime.data.ServerInfo;
 import com.maxpowa.chime.util.Utils;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;

@@ -5,7 +5,7 @@ import net.minecraft.client.gui.Gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.maxpowa.chime.util.User;
+import com.maxpowa.chime.data.User;
 
 public class GuiHelper {
 

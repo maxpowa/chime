@@ -12,7 +12,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import com.maxpowa.chime.Chime;
-import com.maxpowa.chime.util.User;
+import com.maxpowa.chime.data.User;
 import com.mojang.api.profiles.HttpProfileRepository;
 import com.mojang.api.profiles.Profile;
 

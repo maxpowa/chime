@@ -1,4 +1,4 @@
-package com.maxpowa.chime.util;
+package com.maxpowa.chime.data;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

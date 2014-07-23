@@ -1,4 +1,4 @@
-package com.maxpowa.chime.gui;
+package com.maxpowa.chime.gui.list;
 
 import java.util.List;
 
@@ -7,7 +7,8 @@ import net.minecraft.client.gui.GuiListExtended;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.EnumChatFormatting;
 
-import com.maxpowa.chime.util.User;
+import com.maxpowa.chime.data.User;
+import com.maxpowa.chime.gui.GuiFriendRequests;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

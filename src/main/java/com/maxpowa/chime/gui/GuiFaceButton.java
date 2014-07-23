@@ -9,13 +9,12 @@ import net.minecraft.client.renderer.Tessellator;
 
 import org.lwjgl.opengl.GL11;
 
-import com.maxpowa.chime.util.User;
+import com.maxpowa.chime.data.User;
 
 public class GuiFaceButton extends GuiButton {
 
 	User user;
 	Color altColor = new Color(0);
-	private boolean hovering = false;
 	
 	public GuiFaceButton(int id, int posX, int posY, User user) {
 		super(id, posX-1, posY-1, 24, 24, "");
@@ -24,8 +23,6 @@ public class GuiFaceButton extends GuiButton {
 	
 	@Override
 	public void drawButton(Minecraft mc, int mouseX, int mouseY) {
-        hovering  = mouseX >= xPosition && mouseY >= yPosition && mouseX < xPosition + width && mouseY < yPosition + height;
-        
         this.drawSolidRect(this.xPosition, this.yPosition, this.xPosition+24, this.yPosition+24, user.averageColor.getRGB());
        
         GL11.glPushMatrix();

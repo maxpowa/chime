@@ -5,10 +5,10 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.maxpowa.chime.Chime;
+import com.maxpowa.chime.data.RequestList;
+import com.maxpowa.chime.data.User;
 import com.maxpowa.chime.util.Notification;
 import com.maxpowa.chime.util.Notification.NotificationType;
-import com.maxpowa.chime.util.RequestList;
-import com.maxpowa.chime.util.User;
 import com.maxpowa.chime.util.Utils;
 
 public class FriendRequestListener implements ChildEventListener {

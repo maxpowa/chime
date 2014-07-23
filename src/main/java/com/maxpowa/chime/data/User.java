@@ -1,4 +1,4 @@
-package com.maxpowa.chime.util;
+package com.maxpowa.chime.data;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -13,6 +13,7 @@ import net.minecraft.util.ResourceLocation;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.maxpowa.chime.util.Utils;
 
 @JsonIgnoreProperties({"online"})
 public class User {

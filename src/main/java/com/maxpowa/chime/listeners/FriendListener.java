@@ -6,10 +6,10 @@ import net.minecraft.client.gui.GuiScreen;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
+import com.maxpowa.chime.data.User;
+import com.maxpowa.chime.data.UserList;
 import com.maxpowa.chime.gui.GuiFriendRequests;
 import com.maxpowa.chime.gui.GuiFriendsList;
-import com.maxpowa.chime.util.User;
-import com.maxpowa.chime.util.UserList;
 import com.maxpowa.chime.util.Utils;
 
 public class FriendListener implements ValueEventListener {

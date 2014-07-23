@@ -3,7 +3,7 @@ package com.maxpowa.chime.listeners;
 import java.util.HashMap;
 
 import com.maxpowa.chime.Chime;
-import com.maxpowa.chime.util.UserList;
+import com.maxpowa.chime.data.UserList;
 
 public class ListenerRegistry {
 

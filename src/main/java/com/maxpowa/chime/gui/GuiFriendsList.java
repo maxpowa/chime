@@ -14,10 +14,12 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import com.maxpowa.chime.Chime;
+import com.maxpowa.chime.data.User;
+import com.maxpowa.chime.data.UserList;
+import com.maxpowa.chime.data.ServerInfo.Type;
+import com.maxpowa.chime.gui.list.FriendListEntry;
+import com.maxpowa.chime.gui.list.UserSelectionList;
 import com.maxpowa.chime.listeners.ListenerRegistry;
-import com.maxpowa.chime.util.ServerInfo.Type;
-import com.maxpowa.chime.util.User;
-import com.maxpowa.chime.util.UserList;
 import com.maxpowa.chime.util.Utils;
 
 import cpw.mods.fml.client.FMLClientHandler;

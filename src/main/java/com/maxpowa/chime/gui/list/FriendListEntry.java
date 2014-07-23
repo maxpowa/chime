@@ -1,4 +1,4 @@
-package com.maxpowa.chime.gui;
+package com.maxpowa.chime.gui.list;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -8,8 +8,9 @@ import net.minecraft.util.EnumChatFormatting;
 
 import org.lwjgl.opengl.GL11;
 
-import com.maxpowa.chime.util.ServerInfo.Type;
-import com.maxpowa.chime.util.User;
+import com.maxpowa.chime.data.User;
+import com.maxpowa.chime.data.ServerInfo.Type;
+import com.maxpowa.chime.gui.GuiFriendsList;
 import com.maxpowa.chime.util.Utils;
 
 import cpw.mods.fml.relauncher.Side;
