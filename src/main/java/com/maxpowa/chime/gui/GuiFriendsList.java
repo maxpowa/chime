@@ -156,7 +156,9 @@ public class GuiFriendsList extends GuiScreen implements GuiYesNoCallback
                 this.refreshScreen();
             }
             else if (button.id == 10) {
-            	Utils.log.info("Clicked face!");
+            	this.editing = true;
+            	GuiUserEditor editor = new GuiUserEditor(this, Chime.myUser);
+            	mc.displayGuiScreen(editor);
             }
             else if (button.id == 12) {
             	Utils.log.info("Click!");
@@ -192,7 +194,7 @@ public class GuiFriendsList extends GuiScreen implements GuiYesNoCallback
         {
             this.editing = false;
 
-            // whatever we want to do when editing calls back
+            this.mc.displayGuiScreen(this);
         }
     }
 
