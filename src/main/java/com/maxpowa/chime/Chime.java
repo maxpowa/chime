@@ -55,7 +55,7 @@ public class Chime {
 	
 	private ConnectionListener conListener = new ConnectionListener();
 	
-//	private boolean isDebug = true;
+	private boolean isDebug = true;
 	
 	private GuiChimeButton button = null;
 
@@ -69,9 +69,9 @@ public class Chime {
     	
     	myProfile = getSession().func_148256_e();
     	
-//    	if (isDebug) {
-//    		myProfile = new GameProfile(UUID.fromString("AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA"),getSession().getPlayerID());
-//    	}
+    	if (isDebug) {
+    		myProfile = new GameProfile(UUID.fromString("AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA"),getSession().getPlayerID());
+    	}
     	
 		authenticateClient();
 		
@@ -110,7 +110,7 @@ public class Chime {
     	// Updates the server's last seen value to keep your status "online"
     	// If this somehow fails to update the server for 60 seconds, you may appear offline to other users.
     	if (event.side == Side.CLIENT && event.phase == Phase.START) {
-    		if (lastTick+10000 < System.currentTimeMillis() && myUser != null) {
+    		if (lastTick+10000 < System.currentTimeMillis() && myUser != null && !myUser.getConfig().isInvisible()) {
     			me.child("lastSeen").setValue(System.currentTimeMillis());
     			lastTick = System.currentTimeMillis();
     		}

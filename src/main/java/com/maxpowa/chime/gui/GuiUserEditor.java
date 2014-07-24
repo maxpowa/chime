@@ -18,6 +18,7 @@ public class GuiUserEditor extends GuiScreen {
 	private GuiYesNoCallback parentScreen;
 	private GuiTextField usernameField;
 	private GuiTextField uuidField;
+	private GuiTextField messageField;
 
 	public GuiUserEditor(GuiYesNoCallback parentScreen, User user) {
         this.parentScreen = parentScreen;
@@ -46,6 +47,13 @@ public class GuiUserEditor extends GuiScreen {
         this.uuidField.setMaxStringLength(36);
         this.uuidField.setEnableBackgroundDrawing(false);
         this.uuidField.setDisabledTextColour(0x8F8F8F);
+        
+		this.messageField = new GuiTextField(this.fontRendererObj, this.width / 2 - 37, this.height / 2 - 45, 201, 12);
+        this.messageField.setEnabled(true);
+        this.messageField.setText(this.user.getMotd());
+        this.messageField.setMaxStringLength(36);
+        this.messageField.setEnableBackgroundDrawing(false);
+        //this.messageField.setTextColor(0x8F8F8F);
 
         this.buttonList.add(new GuiButton(1, this.width / 2 - 24, this.height / 2 + 75, 100, 20, "Save"));
         this.buttonList.add(new GuiButton(0, this.width / 2 + 81, this.height / 2 + 75, 100, 20, "Cancel"));
@@ -55,6 +63,7 @@ public class GuiUserEditor extends GuiScreen {
     {
         this.usernameField.updateCursorCounter();
         this.uuidField.updateCursorCounter();
+        this.messageField.updateCursorCounter();
     }
 	
     public void onGuiClosed()
@@ -66,6 +75,7 @@ public class GuiUserEditor extends GuiScreen {
     {
         this.usernameField.textboxKeyTyped(value, keyCode);
         this.uuidField.textboxKeyTyped(value, keyCode);
+        this.messageField.textboxKeyTyped(value, keyCode);
     }
     
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton)
@@ -73,8 +83,10 @@ public class GuiUserEditor extends GuiScreen {
         super.mouseClicked(mouseX, mouseY, mouseButton);
         this.usernameField.setCursorPositionZero();
         this.uuidField.setCursorPositionZero();
+        this.messageField.setCursorPositionZero();
         this.usernameField.mouseClicked(mouseX, mouseY, mouseButton);
         this.uuidField.mouseClicked(mouseX, mouseY, mouseButton);
+        this.messageField.mouseClicked(mouseX, mouseY, mouseButton);
     }
     
     protected void actionPerformed(GuiButton button)
@@ -113,8 +125,9 @@ public class GuiUserEditor extends GuiScreen {
         mc.getTextureManager().bindTexture(new ResourceLocation("chime:textures/gui/editbg.png"));
         Gui.func_146110_a(this.width / 2 - 213, this.height / 2 - 120, 0, 0, 427, 240, 427, 240);
         /*this.fontRendererObj, this.width / 2 - 86, this.height / 2 - 30, 250, 12*/
-        this.drawString(mc.fontRenderer, "UUID:", this.width / 2 - 86, this.height / 2 - 58, 0xFFFFFF);
         this.drawString(mc.fontRenderer, "Username:", this.width / 2 - 86, this.height / 2 - 71, 0xFFFFFF);
+        this.drawString(mc.fontRenderer, "UUID:", this.width / 2 - 86, this.height / 2 - 58, 0xFFFFFF);
+        this.drawString(mc.fontRenderer, "Message:", this.width / 2 - 86, this.height / 2 - 45, 0xFFFFFF);
         
         String title = "Chime User Information";
         mc.fontRenderer.drawString(title, (this.width-mc.fontRenderer.getStringWidth(title))/2, this.height / 2 - 96, 0x666666);
@@ -124,6 +137,7 @@ public class GuiUserEditor extends GuiScreen {
         
         this.usernameField.drawTextBox();
         this.uuidField.drawTextBox();
+        this.messageField.drawTextBox();
         
         super.drawScreen(mouseX, mouseY, partialTicks);
         

@@ -13,6 +13,7 @@ import net.minecraft.util.ResourceLocation;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.maxpowa.chime.util.Configuration;
 import com.maxpowa.chime.util.Utils;
 
 @JsonIgnoreProperties({"online"})
@@ -36,6 +37,7 @@ public class User {
 	private HashMap<String, String> friends = new HashMap<String,String>();
 	private ServerInfo currentServer = new ServerInfo();
 	private String UUID = "";
+	private Configuration config = new Configuration();
 
 	public String getMotd() {
 		return motd;
@@ -151,6 +153,12 @@ public class User {
 	@JsonIgnore
 	public boolean isOnline() {
 		return ((this.lastSeen + 30000L) >= System.currentTimeMillis());
+	}
+	public Configuration getConfig() {
+		return config;
+	}
+	public void setConfig(Configuration config) {
+		this.config = config;
 	}
 
 }

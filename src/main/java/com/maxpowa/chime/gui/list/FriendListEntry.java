@@ -40,6 +40,8 @@ public class FriendListEntry implements GuiListExtended.IGuiListEntry
 
 		String prefix = this.userData.isOnline() ? "Playing" : "Last seen";
 		String activity = this.userData.getCurrentServer().toString();
+		if (!this.userData.getConfig().isBroadcastingStatus())
+			activity = "Minecraft";
 		if (activity.equalsIgnoreCase("Minecraft") && !this.userData.isOnline())
 			activity = Utils.millisToTimeSpan(System.currentTimeMillis() - this.userData.lastSeen())+ " ago";
 		else if (activity.equalsIgnoreCase("singleplayer") && !this.userData.isOnline())
