@@ -14,6 +14,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import com.maxpowa.chime.Chime;
+import com.maxpowa.chime.data.RequestList;
 import com.maxpowa.chime.data.User;
 import com.maxpowa.chime.data.UserList;
 import com.maxpowa.chime.data.ServerInfo.Type;
@@ -78,9 +79,9 @@ public class GuiFriendsList extends GuiScreen implements GuiYesNoCallback
     {
         this.buttonList.add(this.chatButton = new GuiButton(7, this.width / 2 - 154, this.height - 28, 73, 20, "[Redacted]"));
         this.buttonList.add(this.unfriendButton = new GuiButton(2, this.width / 2 - 75, this.height - 28, 73, 20, "Un-friend"));
-        this.buttonList.add(this.joinButton = new GuiButton(1, this.width / 2 - 154, this.height - 52, 100, 20, "Join (SMP only)"));
-        this.buttonList.add(new GuiButton(4, this.width / 2 - 50, this.height - 52, 100, 20, "Friend Requests"));
-        this.buttonList.add(new GuiButton(3, this.width / 2 + 4 + 50, this.height - 52, 100, 20, "Add friend"));
+        this.buttonList.add(this.joinButton = new GuiButton(1, this.width / 2 - 154, this.height - 52, 90, 20, "Join (SMP only)"));
+        this.buttonList.add(new GuiButton(4, this.width / 2 - 60, this.height - 52, 120, 20, "Friend Requests ("+RequestList.requests.size()+")"));
+        this.buttonList.add(new GuiButton(3, this.width / 2 + 4 + 60, this.height - 52, 90, 20, "Add friend"));
         this.buttonList.add(new GuiButton(8, this.width / 2 + 4, this.height - 28, 73, 20, "Refresh"));
         this.buttonList.add(new GuiButton(0, this.width / 2 + 82, this.height - 28, 73, 20, "Cancel"));
         this.buttonList.add(new GuiTextButton(12, 10, 10, "Please donate to keep this service running!", -1, 0.5f));

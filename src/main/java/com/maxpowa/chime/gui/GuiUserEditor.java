@@ -10,6 +10,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
+import com.maxpowa.chime.Chime;
 import com.maxpowa.chime.data.User;
 
 public class GuiUserEditor extends GuiScreen {
@@ -34,29 +35,31 @@ public class GuiUserEditor extends GuiScreen {
     {
         Keyboard.enableRepeatEvents(true);
 
-		this.usernameField = new GuiTextField(this.fontRendererObj, this.width / 2 - 32, this.height / 2 - 71, 196, 12);
+		this.usernameField = new GuiTextField(this.fontRendererObj, this.width / 2 - 26, this.height / 2 - 65, 186, 12);
         this.usernameField.setEnabled(false);
         this.usernameField.setText(this.user.getUsername());
         this.usernameField.setMaxStringLength(16);
         this.usernameField.setEnableBackgroundDrawing(false);
         this.usernameField.setDisabledTextColour(0x8F8F8F);
         
-		this.uuidField = new GuiTextField(this.fontRendererObj, this.width / 2 - 59, this.height / 2 - 58, 223, 12);
+		this.uuidField = new GuiTextField(this.fontRendererObj, this.width / 2 - 53, this.height / 2 - 53, 213, 12);
         this.uuidField.setEnabled(false);
         this.uuidField.setText(this.user.getUUID());
         this.uuidField.setMaxStringLength(36);
         this.uuidField.setEnableBackgroundDrawing(false);
         this.uuidField.setDisabledTextColour(0x8F8F8F);
         
-		this.messageField = new GuiTextField(this.fontRendererObj, this.width / 2 - 37, this.height / 2 - 45, 201, 12);
-        this.messageField.setEnabled(true);
+		this.messageField = new GuiTextField(this.fontRendererObj, this.width / 2 - 50, this.height / 2 - 41, 216, 12);
+        this.messageField.setEnabled(Chime.myUser == this.user);
         this.messageField.setText(this.user.getMotd());
-        this.messageField.setMaxStringLength(36);
+        this.messageField.setMaxStringLength(38);
         this.messageField.setEnableBackgroundDrawing(false);
-        //this.messageField.setTextColor(0x8F8F8F);
+        this.messageField.setDisabledTextColour(0x8F8F8F);
 
-        this.buttonList.add(new GuiButton(1, this.width / 2 - 24, this.height / 2 + 75, 100, 20, "Save"));
-        this.buttonList.add(new GuiButton(0, this.width / 2 + 81, this.height / 2 + 75, 100, 20, "Cancel"));
+        this.buttonList.add(new GuiButton(1, this.width / 2 + 44, this.height / 2 + 61, 60, 20, "Save"));
+        this.buttonList.add(new GuiButton(0, this.width / 2 + 108, this.height / 2 + 61, 60, 20, "Cancel"));
+        this.buttonList.add(new GuiButton(2, this.width / 2 - 79, this.height / 2 - 16, 60, 20, "Favorite"));
+        this.buttonList.add(new GuiButton(3, this.width / 2 - 15, this.height / 2 - 16, 60, 20, "Current"));
     }
 	
 	public void updateScreen()
@@ -125,14 +128,19 @@ public class GuiUserEditor extends GuiScreen {
         mc.getTextureManager().bindTexture(new ResourceLocation("chime:textures/gui/editbg.png"));
         Gui.func_146110_a(this.width / 2 - 213, this.height / 2 - 120, 0, 0, 427, 240, 427, 240);
         /*this.fontRendererObj, this.width / 2 - 86, this.height / 2 - 30, 250, 12*/
-        this.drawString(mc.fontRenderer, "Username:", this.width / 2 - 86, this.height / 2 - 71, 0xFFFFFF);
-        this.drawString(mc.fontRenderer, "UUID:", this.width / 2 - 86, this.height / 2 - 58, 0xFFFFFF);
-        this.drawString(mc.fontRenderer, "Message:", this.width / 2 - 86, this.height / 2 - 45, 0xFFFFFF);
+        this.drawString(mc.fontRenderer, "Username:", this.width / 2 - 82, this.height / 2 - 65, 0xFFFFFF);
+        this.drawString(mc.fontRenderer, "UUID:", this.width / 2 - 82, this.height / 2 - 53, 0xFFFFFF);
+        this.drawString(mc.fontRenderer, "MOTD:", this.width / 2 - 82, this.height / 2 - 41, 0xFFFFFF);
+        this.drawString(mc.fontRenderer, "Join Server:", this.width / 2 - 82, this.height / 2 - 29, 0xFFFFFF);
         
         String title = "Chime User Information";
-        mc.fontRenderer.drawString(title, (this.width-mc.fontRenderer.getStringWidth(title))/2, this.height / 2 - 96, 0x666666);
+        mc.fontRenderer.drawString(title, (this.width-mc.fontRenderer.getStringWidth(title))/2, this.height / 2 - 82, 0x666666);
+
+        GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+        mc.getTextureManager().bindTexture(new ResourceLocation("chime:textures/gui/windowParts.png"));
+        this.drawTexturedModalRect(this.width / 2 - 82, this.height / 2 - 19, 0, 150, 130, 26);
         
-        GuiHelper.drawFace(mc, user, this.width / 2 - 167, this.height / 2 - 73, 9);
+        GuiHelper.drawFace(mc, user, this.width / 2 - 160, this.height / 2 - 66, 9);
         GL11.glPopMatrix();
         
         this.usernameField.drawTextBox();
