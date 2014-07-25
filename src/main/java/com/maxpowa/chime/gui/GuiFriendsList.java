@@ -18,6 +18,8 @@ import com.maxpowa.chime.data.RequestList;
 import com.maxpowa.chime.data.User;
 import com.maxpowa.chime.data.UserList;
 import com.maxpowa.chime.data.ServerInfo.Type;
+import com.maxpowa.chime.gui.buttons.GuiFaceButton;
+import com.maxpowa.chime.gui.buttons.GuiTextButton;
 import com.maxpowa.chime.gui.list.FriendListEntry;
 import com.maxpowa.chime.gui.list.UserSelectionList;
 import com.maxpowa.chime.listeners.ListenerRegistry;

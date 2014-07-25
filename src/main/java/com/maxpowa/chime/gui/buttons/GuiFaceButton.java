@@ -1,4 +1,4 @@
-package com.maxpowa.chime.gui;
+package com.maxpowa.chime.gui.buttons;
 
 import java.awt.Color;
 
@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.Tessellator;
 import org.lwjgl.opengl.GL11;
 
 import com.maxpowa.chime.data.User;
+import com.maxpowa.chime.gui.GuiHelper;
 
 public class GuiFaceButton extends GuiButton {
 

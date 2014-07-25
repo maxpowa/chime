@@ -1,5 +1,6 @@
 package com.maxpowa.chime.gui;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -12,6 +13,9 @@ import org.lwjgl.opengl.GL11;
 
 import com.maxpowa.chime.Chime;
 import com.maxpowa.chime.data.User;
+import com.maxpowa.chime.gui.buttons.GuiCheckButton;
+
+import cpw.mods.fml.common.FMLCommonHandler;
 
 public class GuiUserEditor extends GuiScreen {
 
@@ -60,6 +64,7 @@ public class GuiUserEditor extends GuiScreen {
         this.buttonList.add(new GuiButton(0, this.width / 2 + 108, this.height / 2 + 61, 60, 20, "Cancel"));
         this.buttonList.add(new GuiButton(2, this.width / 2 - 79, this.height / 2 - 16, 60, 20, "Favorite"));
         this.buttonList.add(new GuiButton(3, this.width / 2 - 15, this.height / 2 - 16, 60, 20, "Current"));
+        this.buttonList.add(new GuiCheckButton(4, this.width / 2 - 82, this.height / 2 + 10, false));
     }
 	
 	public void updateScreen()
@@ -96,6 +101,8 @@ public class GuiUserEditor extends GuiScreen {
     {
     	if (button.id == 0) {
     		this.parentScreen.confirmClicked(false, 0);
+    	} else if (button.id == 4) {
+    		return;
     	} else {
     		this.parentScreen.confirmClicked(true, 0);
     	}

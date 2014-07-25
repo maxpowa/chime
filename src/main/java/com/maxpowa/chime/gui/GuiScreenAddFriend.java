@@ -11,8 +11,13 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.maxpowa.chime.Chime;
 import com.maxpowa.chime.data.User;
+import com.maxpowa.chime.util.Configuration;
+import com.maxpowa.chime.util.Utils;
 import com.mojang.api.profiles.HttpProfileRepository;
 import com.mojang.api.profiles.Profile;
 
@@ -23,7 +28,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class GuiScreenAddFriend extends GuiScreen
 {
     private final GuiScreen parentScreen;
-    private final User user;
+    private User user;
     private GuiTextField uuidField;
     private GuiTextField usernameField;
 	private String message = "";
@@ -85,8 +90,27 @@ public class GuiScreenAddFriend extends GuiScreen
                 this.user.setUsername(this.usernameField.getText());
                 this.user.setUUID(this.uuidField.getText());
                 
-                Chime.public_requests.child("users/"+this.user.getUUID()+"/requests/"+Chime.myUser.getUUID()).setValue(Chime.myUser.getUsername());
-                Chime.me.child("friends/"+this.user.getUUID()).setValue(System.currentTimeMillis());
+                Chime.users.child(user.getUUID()+"/config").addListenerForSingleValueEvent(new ValueEventListener() {
+                	
+                	User user = GuiScreenAddFriend.this.user;
+                	
+					@Override
+					public void onCancelled(FirebaseError data) {
+						Utils.log.warn("Failed to add friend!");
+					}
+
+					@Override
+					public void onDataChange(DataSnapshot data) {
+						if (data.getValue(Configuration.class).isAllowingRequests()) {
+			                Chime.public_requests.child("users/"+user.getUUID()+"/requests/"+Chime.myUser.getUUID()).setValue(Chime.myUser.getUsername());
+			                Chime.me.child("friends/"+user.getUUID()).setValue(System.currentTimeMillis());
+							Utils.log.info("Sent friend request to "+user.getUsername());
+						} else {
+							Utils.log.info(user.getUsername()+" is not accepting requests.");
+						}
+					}
+                	
+                });
                 
                 Minecraft.getMinecraft().displayGuiScreen(this.parentScreen);
             } else if (button.id == 2) {

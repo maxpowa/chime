@@ -1,4 +1,4 @@
-package com.maxpowa.chime.gui;
+package com.maxpowa.chime.gui.buttons;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -7,6 +7,8 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
+
+import com.maxpowa.chime.gui.GuiFriendsList;
 
 public class GuiChimeButton extends GuiButton {
 	

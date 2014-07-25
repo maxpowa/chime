@@ -1,4 +1,4 @@
-package com.maxpowa.chime.gui;
+package com.maxpowa.chime.gui.buttons;
 
 import java.awt.Color;
 

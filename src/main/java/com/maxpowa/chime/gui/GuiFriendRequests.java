@@ -14,6 +14,7 @@ import org.lwjgl.opengl.GL11;
 import com.maxpowa.chime.Chime;
 import com.maxpowa.chime.data.RequestList;
 import com.maxpowa.chime.data.User;
+import com.maxpowa.chime.gui.buttons.GuiTextButton;
 import com.maxpowa.chime.gui.list.FriendRequestEntry;
 import com.maxpowa.chime.gui.list.FriendRequestList;
 import com.maxpowa.chime.listeners.ListenerRegistry;
