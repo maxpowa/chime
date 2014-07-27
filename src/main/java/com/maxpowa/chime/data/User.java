@@ -7,6 +7,8 @@ import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.util.ResourceLocation;
@@ -41,6 +43,10 @@ public class User {
 
 	public String getMotd() {
 		return motd;
+	}
+	@JsonIgnore
+	public String getFormattedMotd() {
+		return StringEscapeUtils.unescapeJava(motd);
 	}
 	public void setMotd(String motd) {
 		this.motd = motd;

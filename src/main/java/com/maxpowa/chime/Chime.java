@@ -52,7 +52,7 @@ public class Chime {
 	public static GuiNotification notificationOverlay;
 	
     public static KeyBinding friendsListKB = new KeyBinding("\u00a7a[Chime] Friends List", Keyboard.KEY_F, "key.categories.misc");
-	
+    
 	private ConnectionListener conListener = new ConnectionListener();
 	
 	private boolean isDebug = true;

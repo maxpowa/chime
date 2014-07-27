@@ -36,7 +36,7 @@ public class FriendListEntry implements GuiListExtended.IGuiListEntry
 
 		this.mc.fontRenderer.drawString(this.userData.getUsername(), p_148279_2_ + 32 + 3, p_148279_3_ + 1, 16777215);
 
-		this.mc.fontRenderer.drawString(this.userData.getMotd(), p_148279_2_ + 35, p_148279_3_ + 12, 8421504);
+		this.mc.fontRenderer.drawString(this.userData.getFormattedMotd(), p_148279_2_ + 35, p_148279_3_ + 12, 8421504);
 
 		String prefix = this.userData.isOnline() ? "Playing" : "Last seen";
 		String activity = this.userData.getCurrentServer().toString();

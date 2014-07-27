@@ -37,7 +37,7 @@ public class FriendRequestEntry implements GuiListExtended.IGuiListEntry
 	public void drawEntry(int p_148279_1_, int p_148279_2_, int p_148279_3_, int p_148279_4_, int p_148279_5_, Tessellator p_148279_6_, int p_148279_7_, int p_148279_8_, boolean p_148279_9_)
     {
         this.mc.fontRenderer.drawString(this.userData.getUsername(), p_148279_2_ + 32 + 3, p_148279_3_ + 1, 16777215);
-        List<String> list = this.mc.fontRenderer.listFormattedStringToWidth(this.userData.getMotd(), p_148279_4_ - 32 - 2);
+        List<String> list = this.mc.fontRenderer.listFormattedStringToWidth(this.userData.getFormattedMotd(), p_148279_4_ - 32 - 2);
 
         for (int l1 = 0; l1 < Math.min(list.size(), 2); ++l1)
         {
