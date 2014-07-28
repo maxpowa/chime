@@ -16,8 +16,6 @@ notifications:
     on_success: change
     on_failure: always
     template:
-      - "%{repository}#%{build_number} (%{branch} - %{commit} : %{author}): %{message}"
+      - "%{repository_name}#%{build_number} (%{commit} : %{author}): %{message}"
       - "Change view : %{compare_url}"
       - "Build details : %{build_url}"
-    use_notice: true
-    skip_join: true
