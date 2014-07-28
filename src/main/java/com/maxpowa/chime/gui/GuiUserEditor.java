@@ -14,7 +14,6 @@ import org.lwjgl.opengl.GL11;
 import com.maxpowa.chime.Chime;
 import com.maxpowa.chime.data.User;
 import com.maxpowa.chime.gui.buttons.GuiCheckButton;
-import com.maxpowa.chime.util.Utils;
 
 public class GuiUserEditor extends GuiScreen {
 
