@@ -3,10 +3,12 @@ jdk:
   - openjdk7
   - oraclejdk7
   - oraclejdk8
+install: true
 script: ./gradlew clean build
 cache:
   directories:
     - $HOME/.gradle/caches
+    - $HOME/.gradle/wrapper
 notifications:
   irc:
     channels:
