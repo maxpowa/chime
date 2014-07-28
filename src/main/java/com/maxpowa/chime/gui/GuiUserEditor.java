@@ -158,7 +158,7 @@ public class GuiUserEditor extends GuiScreen {
 
         GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
         mc.getTextureManager().bindTexture(new ResourceLocation("chime:textures/gui/windowParts.png"));
-        this.drawTexturedModalRect(this.width / 2 - 82, this.height / 2 - 19, 0, 150, 130, 26);
+        this.drawTexturedModalRect(this.width / 2 - 82, this.height / 2 - 19, 0, 150, 130, 26); 
         
         GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
         this.drawCenteredString(mc.fontRenderer, "Invisible", this.width / 2 - 137, this.height / 2 + 44, 0xFFFFFF);
