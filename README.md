@@ -1,7 +1,7 @@
 Chime - A social Minecraft experience
 ========
 
-![Build Status](https://magnum.travis-ci.com/maxpowa/chime.svg?token=9KeYScna3yMHk4vkFdt9&branch=master)
+[![Build Status](https://api.shippable.com/projects/53d6bd19f10833ae02b9032b/badge/master)](https://www.shippable.com/projects/53d6bd19f10833ae02b9032b/builds/history)
 
 A mod that adds some social elements to Minecraft.
 
