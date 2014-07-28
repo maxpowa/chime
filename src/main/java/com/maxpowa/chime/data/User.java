@@ -22,24 +22,24 @@ import com.maxpowa.chime.util.Utils;
 public class User {
 
 	@JsonIgnore
-	private DynamicTexture skin = null;
+	protected DynamicTexture skin = null;
 	@JsonIgnore
-	private ResourceLocation resourceLocation;
+	protected ResourceLocation resourceLocation;
 	@JsonIgnore
-	private BufferedImage bufferedimage;
+	protected BufferedImage bufferedimage;
 	@JsonIgnore
-	private boolean preparingSkin;
+	protected boolean preparingSkin;
 	@JsonIgnore
 	public Color averageColor = new Color(0);
 
-	private long lastSeen = 0L;
-	private String username = "Steve";
-	private String motd = "I'm new here!";
-	private HashMap<String, String> blocks = new HashMap<String,String>();
-	private HashMap<String, String> friends = new HashMap<String,String>();
-	private ServerInfo currentServer = new ServerInfo();
-	private String UUID = "";
-	private Configuration config = new Configuration();
+	protected long lastSeen = 0L;
+	protected String username = "Steve";
+	protected String motd = "I'm new here!";
+	protected HashMap<String, String> blocks = new HashMap<String,String>();
+	protected HashMap<String, String> friends = new HashMap<String,String>();
+	protected ServerInfo currentServer = new ServerInfo();
+	protected String UUID = "";
+	protected Configuration config = new Configuration();
 
 	public String getMotd() {
 		return motd;

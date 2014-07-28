@@ -99,9 +99,12 @@ public class GuiHelper {
 			}
 			var6 = x + 12;
 			var7 = y - 12;
+			if (var6+var5+6 > Minecraft.getMinecraft().currentScreen.width) {
+				var6 -= var5+24;
+			}
 			int var9 = 8;
 			if (tooltipData.size() > 1)
-				var9 += 2 + (tooltipData.size() - 1) * 10;
+				var9 += (tooltipData.size() - 1) * 10;
 			float z = 300F;
 			drawGradientRect(var6 - 3, var7 - 4, z, var6 + var5 + 3, var7 - 3, color2, color2);
 			drawGradientRect(var6 - 3, var7 + var9 + 3, z, var6 + var5 + 3, var7 + var9 + 4, color2, color2);

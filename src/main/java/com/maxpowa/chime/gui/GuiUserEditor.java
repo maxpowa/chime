@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.maxpowa.chime.Chime;
 import com.maxpowa.chime.data.User;
 import com.maxpowa.chime.gui.buttons.GuiCheckButton;
@@ -18,6 +19,7 @@ import com.maxpowa.chime.gui.buttons.GuiCheckButton;
 public class GuiUserEditor extends GuiScreen {
 
 	private User user;
+	private User defaults;
 	private GuiYesNoCallback parentScreen;
 	private GuiTextField usernameField;
 	private GuiTextField uuidField;
@@ -26,7 +28,14 @@ public class GuiUserEditor extends GuiScreen {
 	
 	public GuiUserEditor(GuiYesNoCallback parentScreen, User user) {
         this.parentScreen = parentScreen;
-        this.user = user;
+        this.defaults = user;
+        ObjectMapper om = new ObjectMapper();
+        this.user = new User();
+        try {
+			this.user = om.readValue(om.writeValueAsString(user),User.class);
+		} catch (Exception e){
+			//shit defaults wont exist D:
+		} 
 	}
 	
     /**
@@ -63,10 +72,10 @@ public class GuiUserEditor extends GuiScreen {
         this.buttonList.add(new GuiButton(0, this.width / 2 + 108, this.height / 2 + 61, 60, 20, "Cancel"));
         this.buttonList.add(new GuiButton(2, this.width / 2 - 79, this.height / 2 - 16, 60, 20, "Favorite"));
         this.buttonList.add(new GuiButton(3, this.width / 2 - 15, this.height / 2 - 16, 60, 20, "Current"));
-        this.buttonList.add(new GuiCheckButton(4, this.width / 2 - 150, this.height / 2 + 15, "Do you want to appear offline?", user.getConfig().isInvisible()));
-        this.buttonList.add(new GuiCheckButton(5, this.width / 2 - 104, this.height / 2 + 15, "Do you want to recieve friend requests?", user.getConfig().isAllowingRequests()));
-        this.buttonList.add(new GuiCheckButton(6, this.width / 2 - 58, this.height / 2 + 15, "Do you want to allow friends to join you on multiplayer servers?", user.getConfig().isAllowingJoins()));
-        this.buttonList.add(new GuiCheckButton(7, this.width / 2 - 12, this.height / 2 + 15, "Do you want your friends to see what you're doing?", user.getConfig().isBroadcastingStatus()));
+        this.buttonList.add(new GuiCheckButton(4, this.width / 2 - 150, this.height / 2 + 15, "Appear offline", user.getConfig().isInvisible()));
+        this.buttonList.add(new GuiCheckButton(5, this.width / 2 - 68, this.height / 2 + 15, "Allow others to send friend requests", user.getConfig().isAllowingRequests()));
+        this.buttonList.add(new GuiCheckButton(6, this.width / 2 + 29, this.height / 2 + 15, "Allow friends to join you on multiplayer servers", user.getConfig().isAllowingJoins()));
+        this.buttonList.add(new GuiCheckButton(7, this.width / 2 + 115, this.height / 2 + 15, "Allow friends to see what you're doing", user.getConfig().isBroadcastingStatus()));
     }
 	
 	public void updateScreen()
@@ -104,6 +113,7 @@ public class GuiUserEditor extends GuiScreen {
     	String out = StringEscapeUtils.escapeJava(this.messageField.getText());
     	user.setMotd(out);
     	if (button.id == 0) {
+    		//Chime.myUser = this.defaults;
     		this.parentScreen.confirmClicked(false, 0);
     	} else if (button.id >= 4 && button.id <= 7) {
     		GuiCheckButton btn = (GuiCheckButton) button;
@@ -116,7 +126,7 @@ public class GuiUserEditor extends GuiScreen {
     		else if (button.id == 7)
     			user.getConfig().setBroadcastingStatus(btn.getState());
     	} else if (button.id == 1) {
-    		Chime.myUser = user;
+    		Chime.myUser = this.user;
     		this.parentScreen.confirmClicked(true, 0);
     	}
     }
@@ -162,6 +172,9 @@ public class GuiUserEditor extends GuiScreen {
         
         GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
         this.drawCenteredString(mc.fontRenderer, "Invisible", this.width / 2 - 137, this.height / 2 + 44, 0xFFFFFF);
+        this.drawCenteredString(mc.fontRenderer, "Friend Requests", this.width / 2 - 55, this.height / 2 + 44, 0xFFFFFF);
+        this.drawCenteredString(mc.fontRenderer, "Join Multiplayer", this.width / 2 + 42, this.height / 2 + 44, 0xFFFFFF);
+        this.drawCenteredString(mc.fontRenderer, "Show Status", this.width / 2 + 128, this.height / 2 + 44, 0xFFFFFF);
         
         GuiHelper.drawFace(mc, user, this.width / 2 - 160, this.height / 2 - 66, 9);
         GL11.glPopMatrix();
