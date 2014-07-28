@@ -4,9 +4,7 @@ jdk:
   - oraclejdk7
   - oraclejdk8
 script: ./gradlew clean build
-cache:
-  directories:
-    - $HOME/.gradle
+cache: gradle
 notifications:
   irc:
     channels:
