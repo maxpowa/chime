@@ -4,7 +4,7 @@ jdk:
   - openjdk7
   - oraclejdk7
   - oraclejdk8
-install: ./scripts/java_version.sh
+install: true
 script: ./gradlew clean build
 after_success:
   - printenv
