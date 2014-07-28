@@ -1,0 +1,14 @@
+language: java
+jdk:
+  - openjdk7
+  - oraclejdk7
+  - oraclejdk8
+script: ./gradlew clean build
+notifications:
+  irc:
+    channels:
+      - "irc.esper.net#ChimeIn"
+    on_success: change
+    on_failure: always
+    template:
+      - "%{repository} (%{branch}:%{commit} by %{author}): %{message} (%{build_url})"
