@@ -10,12 +10,4 @@ cache:
     - $HOME/.gradle/caches
     - $HOME/.gradle/wrapper
 notifications:
-  irc:
-    channels:
-      - "irc.esper.net#ChimeIn"
-    on_success: change
-    on_failure: always
-    template:
-      - "%{repository_name}#%{build_number} (%{commit} : %{author}): %{message}"
-      - "Change view : %{compare_url}"
-      - "Build details : %{build_url}"
+  irc: "irc.esper.net#ChimeIn"
