@@ -1,5 +1,6 @@
 #!/bin/bash
 JAVA_VERSION=`java -version 2>&1 | grep "java version" | awk '{print $3}' | sed -e "s/\"//g"`
-TEMP_JSON=`printf '{"%s":{"COMMIT":"%s","JAVA_VERSION":"%s","BRANCH":"%s","JOB_ID":"%s"}}\n' "$BUILD_NUMBER" "$COMMIT" "$JAVA_VERSION" "$BRANCH" "$JOB_ID"`
-curl -X PUT -d $TEMP_JSON https://irc-bot-backend.firebaseio.com/builds.json?auth=cufRWsNn5Xos90zvdJE8qHMp2kCiXwZ6Xw5a2n6p 
+TEMP_JSON=`printf '{"SUCCESS":true,"COMMIT":"%s","JAVA_VERSION":"%s","BRANCH":"%s","JOB_ID":"%s","PULL_REQUEST":"%s"}\n' "$COMMIT" "$JAVA_VERSION" "$BRANCH" "$JOB_ID" "$PULL_REQUEST`
+URL=`printf 'https://irc-bot-backend.firebaseio.com/builds/%s.json?auth=cufRWsNn5Xos90zvdJE8qHMp2kCiXwZ6Xw5a2n6p' "$BUILD_NUMBER"`
+curl -X PUT -d $TEMP_JSON $URL
 echo $TEMP_JSON
