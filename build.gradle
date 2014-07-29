@@ -22,7 +22,7 @@ group= "com.github.maxpowa" // http://maven.apache.org/guides/mini/guide-naming-
 archivesBaseName = "Chime"
 
 minecraft {
-    version = "1.7.2-10.12.2.1147"
+    version = "$System.env.FORGEVERSION"
     assetDir = "eclipse/assets"
     
     replace "@MCVERSION@", project.minecraft.version
