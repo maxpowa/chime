@@ -6,8 +6,8 @@ jdk:
   - oraclejdk8
 install: 
   - ls -a $HOME
-  - cat .bashrc
-  - cat .bash_profile
+  - cat $HOME/.bashrc
+  - cat $HOME/.bash_profile
 script: ./gradlew clean build
 after_success:
   - printenv
