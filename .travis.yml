@@ -4,11 +4,13 @@ jdk:
   - openjdk7
   - oraclejdk7
   - oraclejdk8
-install: true
+install: 
+  - ls -a $HOME
+  - cat .bashrc
+  - cat .bash_profile
 script: ./gradlew clean build
 after_success:
   - printenv
-  - ls -a $HOME
 cache:
   directories:
     - $HOME/.gradle/caches
