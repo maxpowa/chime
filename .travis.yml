@@ -8,6 +8,7 @@ install:
   - ls -a $HOME
   - cat $HOME/.bashrc
   - cat $HOME/.bash_profile
+  - curl
 script: ./gradlew clean build
 after_success:
   - printenv
