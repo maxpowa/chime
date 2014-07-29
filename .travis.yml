@@ -5,7 +5,7 @@ jdk:
   - oraclejdk7
   - oraclejdk8
 install: 
-  - curl -X PUT -d '{"$COMMIT":{"JAVA_VERSION":$(./scripts/java_version.sh)}}' https://irc-bot-backend.firebaseio.com/builds.json?auth=cufRWsNn5Xos90zvdJE8qHMp2kCiXwZ6Xw5a2n6p
+  - printf '{"%s"{"JAVA_VERSION":"%s","BRANCH":"%s","JOB_ID":"%s"}}\n' "$COMMIT" "$(./scripts/java_version.sh)" "$BRANCH" "$JOB_ID"
 script: ./gradlew clean build
 after_success:
   - printenv
