@@ -2,8 +2,9 @@ language: java
 jdk:
   - openjdk6
   - openjdk7
-  - oraclejdk7
-  - oraclejdk8
+env:
+  - FORGEVERSION=1.7.2-10.12.2.1121
+  - FORGEVERSION=1.7.10-10.13.0.1180
 install: 
   - chmod +x ./scripts/db_update.sh
   - chmod +x ./scripts/db_update_failure.sh
