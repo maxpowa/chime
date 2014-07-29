@@ -5,9 +5,7 @@ jdk:
   - oraclejdk7
   - oraclejdk8
 install: 
-  - chmod +x ./scripts/db_data.sh
   - chmod +x ./scripts/db_update.sh
-  - chmod +x ./scripts/java_version.sh
   - ./scripts/db_update.sh
 script: ./gradlew clean build
 after_success:
