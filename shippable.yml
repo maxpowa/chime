@@ -1,6 +1,5 @@
 language: java
 jdk:
-  - openjdk6 
   - openjdk7 
 env:
 #  - FORGEVERSION=1.7.2-10.12.2.1121
