@@ -1,2 +1,2 @@
 #!/bin/bash 
-$(date +%s%N) > starttime
+date +%s%N > starttime
