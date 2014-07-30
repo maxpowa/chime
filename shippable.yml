@@ -8,6 +8,8 @@ env:
 install: 
   - chmod +x ./scripts/db_update.sh
   - chmod +x ./scripts/db_update_failure.sh
+  - chmod +x ./scripts/pre_install.sh
+  - ./scripts/pre_install.sh
 script: ./gradlew clean build
 after_success:
   - ./scripts/db_update.sh
