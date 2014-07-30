@@ -47,7 +47,7 @@ public class Chime {
 	public static Firebase public_requests = new Firebase(rootURL+"/public_requests/");
 	public static Firebase me = null;
 	
-	public static User myUser = null;
+	public static User myUser = null; 
 	public static GameProfile myProfile = null;
 	public static GuiNotification notificationOverlay;
 	
