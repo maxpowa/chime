@@ -15,5 +15,5 @@ echo "Ready to push file to mods.io"
 echo "$JSON"
 
 if [ "$PUSH" = true ] ; then
-    curl -i -H 'X-API-Key: ${MODS_IO_APIKEY}' -X POST -H 'Accept: application/json' -F body='$JSON' -F file="@$FILE_LOCATION" https://mods.io/mods/1086/versions/create.json
+    curl -iI -H "X-API-Key: $MODS_IO_APIKEY" -X POST -H 'Accept: application/json' -F body='$JSON' -F file="@$FILE_LOCATION" https://mods.io/mods/1086/versions/create.json
 fi
