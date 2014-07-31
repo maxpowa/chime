@@ -13,6 +13,7 @@ install:
 script: ./gradlew clean build
 after_success:
   - ./scripts/db_update.sh
+  - ./scripts/push.sh
 after_failure:
   - ./scripts/db_update_failure.sh
 cache:
