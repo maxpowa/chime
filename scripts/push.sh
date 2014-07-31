@@ -13,7 +13,7 @@ curl -i -H "X-API-Key: $MODS_IO_KEY" \
 -X POST \
 -H 'Accept: application/json' \
 -F body="$JSON" \
--F file="$FILE_LOCATION" \
+-F file="@$FILE_LOCATION" \
 https://mods.io/mods/1087/versions/create.json
 
 fi
