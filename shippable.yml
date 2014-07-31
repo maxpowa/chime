@@ -4,8 +4,8 @@ jdk:
 env:
 #  Could do earlier/newer minecraft versions with the matrix section
   global:
-    - secure: SKLrl13IK/vkjGoo/HAfKjuNMDahH0bxtKNmPsvI3yQapjDkNwb8XcITVPwEmRhmPznXHCdz0kwBOBdeVqB5aBA103JUbSqSxVdMml3qOmaVeTl0WJrtiN/jld7nQ7e4KEWpmMBnnU/VNqVn3C0fBWX8XqTeK1IC4qJHQJq8aB0EaAQcoeaTzjwuvnnoK3zFrqrr7BH21GshH14JwUKXZdrO0deqRQCp6tKV6KG28P5Ep5oTiGuLlJqUMvMnfBiuXBkNYtQi/Qco3+TG/KIFvcfSSGnHFNJBK7v49fbcmn2m3D37hloXnUrMLjuG2seKuP3BD7ULLf5Sd6S2zDCt8Q==
-  matrix:
+    - secure: fn2lzcl37VlTEt80+ZBdFVU8B21CV4S+10U1G32Xn0nKmwJmP+aZTLqYhrP1r3kKvtwPm/AgfpHzD1d7rrY+FlH/Daz94K5JdaPyNp+z4T+fyz1bJW4nWxfGMe4b0GOuO6Rvxz2Ztfk8TH8rcDJrYmr3GZTkREIct9KuqprHYKdsnsFgvgo5fThNxrMiGINILoS17Jta31GJ8iTdWS0FxqppKS1nbjfTNcQU7CI/BwguovuR3vzi5xyxIwiz1Nf4Yx3nEVho+oZhyiUwjw0ALIlxu+hv3/qBEzAKVSAUL+0N1IM7zUuvE5+KEnc0uv0zRbvXVkSO1GHON4epYTV5Bw==
+    matrix:
     - FORGEVERSION=1.7.10-10.13.0.1180 MAJOR_MINOR=1.7.10-0.1 PUSH=true
 install: 
   - chmod +x ./scripts/db_update.sh
@@ -20,8 +20,6 @@ after_success:
   - ./scripts/push.sh
 after_failure:
   - ./scripts/db_update_failure.sh
-before_archive:
-  - cp -r ./build/libs/ ./shippable/
 cache:
   directories:
     - $HOME/.gradle/caches
