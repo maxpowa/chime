@@ -2,10 +2,11 @@ language: java
 jdk:
   - openjdk7 
 env:
-#  Could do earlier/newer minecraft versions with a format like this. 
-#  - FORGEVERSION=1.7.10-10.13.0.1190 MAJOR_MINOR=0.1 PUSH=false
-  - FORGEVERSION=1.7.10-10.13.0.1180 MAJOR_MINOR=1.7.10-0.1 PUSH=true
-  secure: SKLrl13IK/vkjGoo/HAfKjuNMDahH0bxtKNmPsvI3yQapjDkNwb8XcITVPwEmRhmPznXHCdz0kwBOBdeVqB5aBA103JUbSqSxVdMml3qOmaVeTl0WJrtiN/jld7nQ7e4KEWpmMBnnU/VNqVn3C0fBWX8XqTeK1IC4qJHQJq8aB0EaAQcoeaTzjwuvnnoK3zFrqrr7BH21GshH14JwUKXZdrO0deqRQCp6tKV6KG28P5Ep5oTiGuLlJqUMvMnfBiuXBkNYtQi/Qco3+TG/KIFvcfSSGnHFNJBK7v49fbcmn2m3D37hloXnUrMLjuG2seKuP3BD7ULLf5Sd6S2zDCt8Q==
+#  Could do earlier/newer minecraft versions with the matrix section
+  global:
+    - secure: SKLrl13IK/vkjGoo/HAfKjuNMDahH0bxtKNmPsvI3yQapjDkNwb8XcITVPwEmRhmPznXHCdz0kwBOBdeVqB5aBA103JUbSqSxVdMml3qOmaVeTl0WJrtiN/jld7nQ7e4KEWpmMBnnU/VNqVn3C0fBWX8XqTeK1IC4qJHQJq8aB0EaAQcoeaTzjwuvnnoK3zFrqrr7BH21GshH14JwUKXZdrO0deqRQCp6tKV6KG28P5Ep5oTiGuLlJqUMvMnfBiuXBkNYtQi/Qco3+TG/KIFvcfSSGnHFNJBK7v49fbcmn2m3D37hloXnUrMLjuG2seKuP3BD7ULLf5Sd6S2zDCt8Q==
+  matrix:
+    - FORGEVERSION=1.7.10-10.13.0.1180 MAJOR_MINOR=1.7.10-0.1 PUSH=true
 install: 
   - chmod +x ./scripts/db_update.sh
   - chmod +x ./scripts/db_update_failure.sh
