@@ -9,11 +9,13 @@ install:
   - chmod +x ./scripts/db_update.sh
   - chmod +x ./scripts/db_update_failure.sh
   - chmod +x ./scripts/pre_install.sh
+  - chmod +x ./scripts/push.sh
   - ./scripts/pre_install.sh
-script: ./gradlew clean build
+script: 
+  - ./gradlew clean build
+  - ./scripts/push.sh
 after_success:
   - ./scripts/db_update.sh
-  - ./scripts/push.sh
 after_failure:
   - ./scripts/db_update_failure.sh
 cache:
