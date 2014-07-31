@@ -5,7 +5,7 @@ env:
 #  Could do earlier/newer minecraft versions with the matrix section
   global:
     - secure: fn2lzcl37VlTEt80+ZBdFVU8B21CV4S+10U1G32Xn0nKmwJmP+aZTLqYhrP1r3kKvtwPm/AgfpHzD1d7rrY+FlH/Daz94K5JdaPyNp+z4T+fyz1bJW4nWxfGMe4b0GOuO6Rvxz2Ztfk8TH8rcDJrYmr3GZTkREIct9KuqprHYKdsnsFgvgo5fThNxrMiGINILoS17Jta31GJ8iTdWS0FxqppKS1nbjfTNcQU7CI/BwguovuR3vzi5xyxIwiz1Nf4Yx3nEVho+oZhyiUwjw0ALIlxu+hv3/qBEzAKVSAUL+0N1IM7zUuvE5+KEnc0uv0zRbvXVkSO1GHON4epYTV5Bw==
-    matrix:
+  matrix:
     - FORGEVERSION=1.7.10-10.13.0.1180 MAJOR_MINOR=1.7.10-0.1 PUSH=true
 install: 
   - chmod +x ./scripts/db_update.sh
