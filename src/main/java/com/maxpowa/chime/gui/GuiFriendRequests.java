@@ -4,8 +4,6 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiListExtended;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiYesNoCallback;
-import net.minecraft.client.gui.ServerListEntryLanScan;
-import net.minecraft.client.gui.ServerListEntryNormal;
 import net.minecraft.util.EnumChatFormatting;
 
 import org.lwjgl.input.Keyboard;
@@ -24,7 +22,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class GuiFriendRequests extends GuiScreen implements GuiYesNoCallback
+public class GuiFriendRequests extends GuiScreen implements GuiYesNoCallback, IChimeGUI
 {
     private GuiScreen previousScreen;
     private FriendRequestList selectionList;
@@ -191,12 +189,12 @@ public class GuiFriendRequests extends GuiScreen implements GuiYesNoCallback
     /**
      * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
      */
-    protected void keyTyped(char p_73869_1_, int p_73869_2_)
+    protected void keyTyped(char c, int keyCode)
     {
         int j = this.selectionList.getSelectedIndex();
-        GuiListExtended.IGuiListEntry iguilistentry = j < 0 ? null : this.selectionList.getListEntry(j);
-
-        if (p_73869_2_ == 63)
+        //GuiListExtended.IGuiListEntry iguilistentry = j < 0 ? null : this.selectionList.getListEntry(j);
+        
+        if (keyCode == Keyboard.KEY_F5)
         {
             this.refreshScreen();
         }
@@ -204,88 +202,25 @@ public class GuiFriendRequests extends GuiScreen implements GuiYesNoCallback
         {
             if (j >= 0)
             {
-                if (p_73869_2_ == 200)
-                {
-                    if (isShiftKeyDown())
-                    {
-                        if (j > 0 && iguilistentry instanceof ServerListEntryNormal)
-                        {
-                            this.userList.swapUsers(j, j - 1);
-                            this.setSelected(this.selectionList.getSelectedIndex() - 1);
-                            this.selectionList.scrollBy(-this.selectionList.getSlotHeight());
-                            this.selectionList.addUserList(this.userList);
-                        }
-                    }
-                    else if (j > 0)
-                    {
-                        this.setSelected(this.selectionList.getSelectedIndex() - 1);
-                        this.selectionList.scrollBy(-this.selectionList.getSlotHeight());
-
-                        if (this.selectionList.getListEntry(this.selectionList.getSelectedIndex()) instanceof ServerListEntryLanScan)
-                        {
-                            if (this.selectionList.getSelectedIndex() > 0)
-                            {
-                                this.setSelected(this.selectionList.getSize() - 1);
-                                this.selectionList.scrollBy(-this.selectionList.getSlotHeight());
-                            }
-                            else
-                            {
-                                this.setSelected(-1);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        this.setSelected(-1);
-                    }
-                }
-                else if (p_73869_2_ == 208)
-                {
-                    if (isShiftKeyDown())
-                    {
-                        if (j < this.userList.countUsers() - 1)
-                        {
-                            this.userList.swapUsers(j, j + 1);
-                            this.setSelected(j + 1);
-                            this.selectionList.scrollBy(this.selectionList.getSlotHeight());
-                            this.selectionList.addUserList(this.userList);
-                        }
-                    }
-                    else if (j < this.selectionList.getSize())
-                    {
-                        this.setSelected(this.selectionList.getSelectedIndex() + 1);
-                        this.selectionList.scrollBy(this.selectionList.getSlotHeight());
-
-                        if (this.selectionList.getListEntry(this.selectionList.getSelectedIndex()) instanceof ServerListEntryLanScan)
-                        {
-                            if (this.selectionList.getSelectedIndex() < this.selectionList.getSize() - 1)
-                            {
-                                this.setSelected(this.selectionList.getSize() + 1);
-                                this.selectionList.scrollBy(this.selectionList.getSlotHeight());
-                            }
-                            else
-                            {
-                                this.setSelected(-1);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        this.setSelected(-1);
-                    }
-                }
-                else if (p_73869_2_ != 28 && p_73869_2_ != 156)
-                {
-                    super.keyTyped(p_73869_1_, p_73869_2_);
-                }
-                else
-                {
-                    this.actionPerformed((GuiButton)this.buttonList.get(1));
+            	if (keyCode == Keyboard.KEY_UP) {
+            		if (j > 0) {
+            			this.setSelected(j-1);
+            		}
+            	} else if (keyCode == Keyboard.KEY_DOWN) {
+            		if (j < this.selectionList.getSize()-1) {
+            			this.setSelected(j+1);
+            		}
+            	} else if (keyCode == Keyboard.KEY_RETURN || keyCode == Keyboard.KEY_NUMPADENTER) {
+                    this.actionPerformed(this.acceptButton);
+            	} else if (keyCode == Keyboard.KEY_DELETE) {
+            		this.actionPerformed(this.rejectButton);
+            	} else {
+                    super.keyTyped(c, keyCode);
                 }
             }
             else
             {
-                super.keyTyped(p_73869_1_, p_73869_2_);
+                super.keyTyped(c, keyCode);
             }
         }
     }
