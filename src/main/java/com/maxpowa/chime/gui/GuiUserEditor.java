@@ -68,8 +68,12 @@ public class GuiUserEditor extends GuiScreen {
 
         this.buttonList.add(new GuiButton(1, this.width / 2 + 44, this.height / 2 + 61, 60, 20, "Save"));
         this.buttonList.add(new GuiButton(0, this.width / 2 + 108, this.height / 2 + 61, 60, 20, "Cancel"));
-        this.buttonList.add(new GuiButton(2, this.width / 2 - 79, this.height / 2 - 16, 60, 20, "Favorite"));
-        this.buttonList.add(new GuiButton(3, this.width / 2 - 15, this.height / 2 - 16, 60, 20, "Current"));
+        GuiButton favButton = new GuiButton(2, this.width / 2 - 79, this.height / 2 - 16, 60, 20, "Favorite");
+        favButton.enabled = false;
+        this.buttonList.add(favButton);
+        GuiButton current = new GuiButton(3, this.width / 2 - 15, this.height / 2 - 16, 60, 20, "Current");
+        current.enabled = false;
+        this.buttonList.add(current);
         this.buttonList.add(new GuiCheckButton(4, this.width / 2 - 150, this.height / 2 + 15, "Appear offline", user.getConfig().isInvisible()));
         this.buttonList.add(new GuiCheckButton(5, this.width / 2 - 68, this.height / 2 + 15, "Allow others to send friend requests", user.getConfig().isAllowingRequests()));
         this.buttonList.add(new GuiCheckButton(6, this.width / 2 + 29, this.height / 2 + 15, "Allow friends to join you on multiplayer servers", user.getConfig().isAllowingJoins()));
