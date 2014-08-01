@@ -12,6 +12,7 @@ env:
     - secure: ZexF9TpZej4Ie65HL1uMbX4DsIMdmqqmanR4NsrJPIbA7KkN9OIDrOegvMQwXioLQFtJONsX8cfKLeFL+JZeFBdbeKA9TDrKW0Ggxh0/OEP99Mot0ZUNMNY6As+rpvmHKE/E1qpZS7x0MZpIvE2jqzLqGGbwSYwJAyivlWH1MTDaWyQAWeYw85VuU41OSK1Hk8F4IFFIf7qK+bNQcCBOO5oEMN9B807y81bsRJeoOxrI9L/WyO2/ZQHtwDGw5K2AzaHz3sr0Amij3rDhRkds9mCzOqn/SwauH/+IkvElh6V9BRAHt2+RUc70mYP0O40cytm91uuBk71e0YNMOfhuNg==
   matrix:
     ## MAKE TAG NOTHING IF WE WANT TO RELEASE A RECOMMENDED
+    ## Change PUSH to true if we want to upload this build
     - FORGEVERSION=1.7.10-10.13.0.1180 MAJOR_MINOR=1.7.10-0.1 TAG=bleeding PUSH=false
 install: 
   - chmod +x ./scripts/db_update.sh
