@@ -2,17 +2,27 @@ language: java
 jdk:
   - openjdk7 
 env:
-#  - FORGEVERSION=1.7.2-10.12.2.1121
-  - FORGEVERSION=1.7.10-10.13.0.1190
-  - FORGEVERSION=1.7.10-10.13.0.1180
+#  Could do earlier/newer minecraft versions with the matrix section
+  global:
+    ## MODS.IO APIKEY
+    - secure: fn2lzcl37VlTEt80+ZBdFVU8B21CV4S+10U1G32Xn0nKmwJmP+aZTLqYhrP1r3kKvtwPm/AgfpHzD1d7rrY+FlH/Daz94K5JdaPyNp+z4T+fyz1bJW4nWxfGMe4b0GOuO6Rvxz2Ztfk8TH8rcDJrYmr3GZTkREIct9KuqprHYKdsnsFgvgo5fThNxrMiGINILoS17Jta31GJ8iTdWS0FxqppKS1nbjfTNcQU7CI/BwguovuR3vzi5xyxIwiz1Nf4Yx3nEVho+oZhyiUwjw0ALIlxu+hv3/qBEzAKVSAUL+0N1IM7zUuvE5+KEnc0uv0zRbvXVkSO1GHON4epYTV5Bw==
+    ## FIREBASE PRODUCTION SECRET
+    - secure: BhMhQ0T1NU/syLKjmhfUkyTHmLq6Nqrm3eDNF0YWH1f0H8jcWt438Xr9cGUcWwXZgGopQ+uLkEM4skuG7mmADVshyJ58aGNSRbKKA5MsRWjIlHvUhgs3tq/7EEjvbjxgvGDr8d4Re/WsICFqkZ2EgQ/j9aJXDIVOmBbmqj0/93vhzCTzU0udvH4aTrA/vi4Atl8GYfM046cywrGEdKay/Kv45NMOAd6pD/QqagfHshMZstVQn+D3yKaTkxSfqZZnh3BWYeET+7hB+LIZuzml3qKOaslo85I1V193Xa0G8PdIg5gRZChdJJsrWMUG54mLAkriDyblaeBsTXkrVTHgnA==
+    ## FIREBASE PRODUCTION URL
+    - secure: ZexF9TpZej4Ie65HL1uMbX4DsIMdmqqmanR4NsrJPIbA7KkN9OIDrOegvMQwXioLQFtJONsX8cfKLeFL+JZeFBdbeKA9TDrKW0Ggxh0/OEP99Mot0ZUNMNY6As+rpvmHKE/E1qpZS7x0MZpIvE2jqzLqGGbwSYwJAyivlWH1MTDaWyQAWeYw85VuU41OSK1Hk8F4IFFIf7qK+bNQcCBOO5oEMN9B807y81bsRJeoOxrI9L/WyO2/ZQHtwDGw5K2AzaHz3sr0Amij3rDhRkds9mCzOqn/SwauH/+IkvElh6V9BRAHt2+RUc70mYP0O40cytm91uuBk71e0YNMOfhuNg==
+  matrix:
+    - FORGEVERSION=1.7.10-10.13.0.1180 MAJOR_MINOR=1.7.10-0.1 TAG=bleeding PUSH=true
 install: 
   - chmod +x ./scripts/db_update.sh
   - chmod +x ./scripts/db_update_failure.sh
   - chmod +x ./scripts/pre_install.sh
+  - chmod +x ./scripts/push.sh
   - ./scripts/pre_install.sh
-script: ./gradlew clean build
+script: 
+  - ./gradlew clean build
 after_success:
   - ./scripts/db_update.sh
+  - ./scripts/push.sh
 after_failure:
   - ./scripts/db_update_failure.sh
 cache:

@@ -17,7 +17,7 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "0.1-b1" // Beta 1 - increment for each successive beta
+version = "$System.env.MAJOR_MINOR" + "." + "$System.env.BUILD_NUMBER" // Beta 1 - increment for each successive beta
 group= "com.github.maxpowa" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "Chime"
 
@@ -27,8 +27,8 @@ minecraft {
     
     replace "@MCVERSION@", project.minecraft.version
     replace "@VERSION@", project.version
-    replace "sweltering-fire-4536", project.property("firebase.url")
-    replace "UON7iIE2AJT2eJcAXXWhRKUiXlwUe1Pu5LzkGYta", project.property("firebase.secret")
+    replace "sweltering-fire-4536", "$System.env.FIREBASE_URL"
+    replace "UON7iIE2AJT2eJcAXXWhRKUiXlwUe1Pu5LzkGYta", "$System.env.FIREBASE_SECRET"
     replaceIn "Chime.java"
 }
 
