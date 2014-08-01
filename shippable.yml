@@ -21,7 +21,7 @@ install:
   - ./scripts/pre_install.sh
 script: 
   - ./gradlew clean build
-  - find .
+  - find . -name "./Build*.tar.gz"
 after_success:
   - ./scripts/db_update.sh
   - ./scripts/push.sh
