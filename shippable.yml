@@ -21,12 +21,13 @@ install:
   - ./scripts/pre_install.sh
 script: 
   - ./gradlew clean build
-  - find . -name "Build*.tar.gz" -delete
 after_success:
   - ./scripts/db_update.sh
   - ./scripts/push.sh
 after_failure:
   - ./scripts/db_update_failure.sh
+after_archive:
+  - find . -name "Build*.tar.gz" -delete
 cache:
   directories:
     - $HOME/.gradle/caches
