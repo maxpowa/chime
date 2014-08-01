@@ -1,12 +1,8 @@
 package com.maxpowa.chime;
 
-import java.util.UUID;
-
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.Session;
-import net.minecraftforge.client.event.GuiOpenEvent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,6 +15,7 @@ import com.maxpowa.chime.data.User;
 import com.maxpowa.chime.gui.GuiBetaFullScreen;
 import com.maxpowa.chime.gui.GuiFriendsList;
 import com.maxpowa.chime.gui.GuiNotification;
+import com.maxpowa.chime.gui.IChimeGUI;
 import com.maxpowa.chime.gui.buttons.GuiChimeButton;
 import com.maxpowa.chime.listeners.ConnectionListener;
 import com.maxpowa.chime.listeners.Initializer;
@@ -104,7 +101,8 @@ public class Chime {
         if (button == null) {
         	button = new GuiChimeButton(0, 20);
         }
-        if (event.type == Type.RENDER && event.phase == Phase.END && mc.currentScreen != null && !(mc.currentScreen instanceof GuiFriendsList) && Initializer.initialized) {
+        if (event.type == Type.RENDER && event.phase == Phase.END && mc.currentScreen != null 
+        		&& !(mc.currentScreen instanceof IChimeGUI) && Initializer.initialized) {
             int mouseX = Mouse.getX() * mc.currentScreen.width / mc.displayWidth;
             int mouseY = mc.currentScreen.height - Mouse.getY() * mc.currentScreen.height / mc.displayHeight - 1; 
             button.yPosition = (mc.currentScreen.height / 2) - 28;
