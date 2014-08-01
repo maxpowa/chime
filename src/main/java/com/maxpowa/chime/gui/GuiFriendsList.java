@@ -86,7 +86,7 @@ public class GuiFriendsList extends GuiScreen implements GuiYesNoCallback
         this.buttonList.add(new GuiButton(3, this.width / 2 + 4 + 60, this.height - 52, 90, 20, "Add friend"));
         this.buttonList.add(new GuiButton(8, this.width / 2 + 4, this.height - 28, 73, 20, "Refresh"));
         this.buttonList.add(new GuiButton(0, this.width / 2 + 82, this.height - 28, 73, 20, "Cancel"));
-        this.buttonList.add(new GuiTextButton(12, 10, 10, "Please donate to keep this service running!", -1, 0.5f));
+        this.buttonList.add(new GuiTextButton(12, 10, 10, "Patreon", -1, 0.5f));
         this.buttonList.add(new GuiFaceButton(10, this.width - 27, 5, Chime.myUser));
         this.setSelected(this.selectionList.getSelectedIndex());
     }

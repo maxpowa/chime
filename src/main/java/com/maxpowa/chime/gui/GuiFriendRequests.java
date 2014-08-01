@@ -74,7 +74,7 @@ public class GuiFriendRequests extends GuiScreen implements GuiYesNoCallback
         this.buttonList.add(this.rejectButton = new GuiButton(1, this.width / 2 - 75, this.height - 28, 73, 20, EnumChatFormatting.RED+"Reject"));
         this.buttonList.add(this.blockButton = new GuiButton(2, this.width / 2 + 4, this.height - 28, 73, 20, "Block"));
         this.buttonList.add(new GuiButton(3, this.width / 2 + 82, this.height - 28, 73, 20, "Cancel"));
-        this.buttonList.add(new GuiTextButton(12, 10, 10, "Please donate to keep this service running!", -1, 0.5f));
+        this.buttonList.add(new GuiTextButton(12, 10, 10, "Patreon", -1, 0.5f));
         this.setSelected(this.selectionList.getSelectedIndex());
     }
 
