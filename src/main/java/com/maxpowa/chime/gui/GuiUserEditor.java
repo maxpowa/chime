@@ -19,7 +19,6 @@ import com.maxpowa.chime.gui.buttons.GuiCheckButton;
 public class GuiUserEditor extends GuiScreen {
 
 	private User user;
-	private User defaults;
 	private GuiYesNoCallback parentScreen;
 	private GuiTextField usernameField;
 	private GuiTextField uuidField;
@@ -28,7 +27,6 @@ public class GuiUserEditor extends GuiScreen {
 	
 	public GuiUserEditor(GuiYesNoCallback parentScreen, User user) {
         this.parentScreen = parentScreen;
-        this.defaults = user;
         ObjectMapper om = new ObjectMapper();
         this.user = new User();
         try {
@@ -113,7 +111,6 @@ public class GuiUserEditor extends GuiScreen {
     	String out = StringEscapeUtils.escapeJava(this.messageField.getText());
     	user.setMotd(out);
     	if (button.id == 0) {
-    		//Chime.myUser = this.defaults;
     		this.parentScreen.confirmClicked(false, 0);
     	} else if (button.id >= 4 && button.id <= 7) {
     		GuiCheckButton btn = (GuiCheckButton) button;

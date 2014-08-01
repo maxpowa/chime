@@ -101,7 +101,7 @@ public class GuiScreenAddFriend extends GuiScreen
 
 					@Override
 					public void onDataChange(DataSnapshot data) {
-						if (data.getValue(Configuration.class).isAllowingRequests()) {
+						if (data.getValue(Configuration.class) == null || data.getValue(Configuration.class).isAllowingRequests()) {
 			                Chime.public_requests.child("users/"+user.getUUID()+"/requests/"+Chime.myUser.getUUID()).setValue(Chime.myUser.getUsername());
 			                Chime.me.child("friends/"+user.getUUID()).setValue(System.currentTimeMillis());
 							Utils.log.info("Sent friend request to "+user.getUsername());
