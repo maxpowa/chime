@@ -55,8 +55,6 @@ public class Chime {
     
 	private ConnectionListener conListener = new ConnectionListener();
 	
-//	private boolean isDebug = true;
-	
 	private GuiChimeButton button = null;
 	public static boolean betaFull = false;
 
@@ -70,7 +68,7 @@ public class Chime {
     	
     	myProfile = getSession().func_148256_e();
     	
-//    	if (isDebug) {
+//    	if (true) {
 //    		myProfile = new GameProfile(UUID.fromString("AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA"),getSession().getPlayerID());
 //    	}
     	
