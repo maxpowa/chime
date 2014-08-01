@@ -9,7 +9,7 @@ import net.minecraft.client.gui.GuiLabel;
 import net.minecraft.client.gui.GuiYesNo;
 import net.minecraft.client.gui.GuiYesNoCallback;
 
-public class GuiConfirmation extends GuiYesNo {
+public class GuiConfirmation extends GuiYesNo implements IChimeGUI {
 
 	private String bodyText;
 	private List<String> bodyTextList = new ArrayList<String>();

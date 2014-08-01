@@ -16,7 +16,7 @@ import com.maxpowa.chime.Chime;
 import com.maxpowa.chime.data.User;
 import com.maxpowa.chime.gui.buttons.GuiCheckButton;
 
-public class GuiUserEditor extends GuiScreen {
+public class GuiUserEditor extends GuiScreen implements IChimeGUI{
 
 	private User user;
 	private GuiYesNoCallback parentScreen;

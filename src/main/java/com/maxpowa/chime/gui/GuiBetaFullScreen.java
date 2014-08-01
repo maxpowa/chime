@@ -15,7 +15,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiYesNoCallback;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiBetaFullScreen extends GuiScreen implements GuiYesNoCallback {
+public class GuiBetaFullScreen extends GuiScreen implements GuiYesNoCallback, IChimeGUI {
 
 	private static final String message = "Hey! Looks like you missed out, the beta is currently full. You can retry later though - a spot will likely open up. To retry, simply relaunch your minecraft and Chime will try to find an open beta slot. The faster we hit goals on Patreon, the faster Chime can become fully open and these slots will no longer be an issue - please seriously consider supporting Chime.";
 	private GuiScreen parentScreen;
