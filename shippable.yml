@@ -27,7 +27,8 @@ after_success:
 after_failure:
   - ./scripts/db_update_failure.sh
 after_archive:
-  - find . -name "Build*.tar.gz" -delete
+  - find . -name "Build*.tar.gz" -exec rm -rf {} \;
+  - find .
 cache:
   directories:
     - $HOME/.gradle/caches
