@@ -3,8 +3,10 @@ package com.maxpowa.chime;
 import java.util.UUID;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.Session;
+import net.minecraftforge.client.event.GuiOpenEvent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,6 +16,7 @@ import org.lwjgl.input.Mouse;
 import com.firebase.client.Firebase;
 import com.firebase.security.token.TokenGenerator;
 import com.maxpowa.chime.data.User;
+import com.maxpowa.chime.gui.GuiBetaFullScreen;
 import com.maxpowa.chime.gui.GuiFriendsList;
 import com.maxpowa.chime.gui.GuiNotification;
 import com.maxpowa.chime.gui.buttons.GuiChimeButton;
@@ -58,6 +61,7 @@ public class Chime {
 //	private boolean isDebug = true;
 	
 	private GuiChimeButton button = null;
+	public static boolean betaFull = false;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
@@ -89,6 +93,14 @@ public class Chime {
     @SubscribeEvent
     public void RenderTickEvent(RenderTickEvent event) {
         Minecraft mc = Minecraft.getMinecraft();
+        	
+        if (betaFull) {
+        	Utils.log.info("Showing Beta Full screen.");
+        	Minecraft.getMinecraft().displayGuiScreen(new GuiBetaFullScreen(Minecraft.getMinecraft().currentScreen));
+        	betaFull = false;
+        	this.deauth();
+        }
+        
         if (button == null) {
         	button = new GuiChimeButton(0, 20);
         }
@@ -153,8 +165,11 @@ public class Chime {
 	public void deauth() {
 		Utils.log.error("Authentication failed, please check your internet connection or buy the game.");
 		Utils.log.error("Disabling due to authentication failure. This event will be logged for audit. (REF#"+Long.toHexString(System.currentTimeMillis())+")");
-		FMLCommonHandler.instance().bus().unregister(this);
-		FMLCommonHandler.instance().bus().unregister(conListener);
+		if (!betaFull) {
+			Utils.log.info("Disabling events to increase performance");
+			FMLCommonHandler.instance().bus().unregister(this);
+			FMLCommonHandler.instance().bus().unregister(conListener);
+		}
 	}
 }
  

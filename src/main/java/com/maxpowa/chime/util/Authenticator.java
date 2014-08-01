@@ -15,6 +15,7 @@ public class Authenticator implements Firebase.AuthListener {
 	@Override
     public void onAuthError(FirebaseError error) {
         Utils.log.error("Authentication Failed! " + error.getMessage());
+		Chime.betaFull = true;
         chime.deauth();
     }
 
