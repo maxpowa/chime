@@ -25,7 +25,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class GuiScreenAddFriend extends GuiScreen
+public class GuiScreenAddFriend extends GuiScreen implements IChimeGUI
 {
     private final GuiScreen parentScreen;
     private User user;
@@ -61,11 +61,11 @@ public class GuiScreenAddFriend extends GuiScreen
         this.buttonList.add(new GuiButton(0, this.width / 2 - 125, this.height / 4 + 96 + 18, 250, 20, "Add friend"));
         this.buttonList.add(new GuiButton(1, this.width / 2 - 125, this.height / 4 + 120 + 18, 250, 20, "Cancel"));
         this.buttonList.add(new GuiButton(2, this.width / 2 - 125, this.height / 4 + 72 + 18, 250, 20, "Fetch UUID"));
-        this.usernameField = new GuiTextField(this.fontRendererObj, this.width / 2 - 125, 66, 250, 20);
+        this.usernameField = new GuiTextField(this.fontRendererObj, this.width / 2 - 125, this.height / 4 + 15, 250, 15);
         this.usernameField.setFocused(true);
         this.usernameField.setText(this.user.getUsername());
         this.usernameField.setMaxStringLength(16);
-        this.uuidField = new GuiTextField(this.fontRendererObj, this.width / 2 - 125, 106, 250, 20);
+        this.uuidField = new GuiTextField(this.fontRendererObj, this.width / 2 - 125, this.height / 4 + 55, 250, 15);
         this.uuidField.setMaxStringLength(36);
         this.uuidField.setText(this.user.getUUID());
         ((GuiButton)this.buttonList.get(0)).enabled = this.uuidField.getText().length() > 0 && this.uuidField.getText().split(":").length > 0 && this.usernameField.getText().length() > 0;
@@ -195,9 +195,9 @@ public class GuiScreenAddFriend extends GuiScreen
     public void drawScreen(int p_73863_1_, int p_73863_2_, float p_73863_3_)
     {
         this.drawDefaultBackground();
-        this.drawCenteredString(this.fontRendererObj, "Add a friend", this.width / 2, 17, 16777215);
-        this.drawString(this.fontRendererObj, "Username" + message, this.width / 2 - 125, 53, 10526880);
-        this.drawString(this.fontRendererObj, "UUID (click Fetch UUID to auto-fill)", this.width / 2 - 125, 94, 10526880);
+        this.drawCenteredString(this.fontRendererObj, "Add a friend", this.width / 2, this.height/4-30, 16777215);
+        this.drawString(this.fontRendererObj, "Username" + message, this.width / 2 - 125, this.height/4+3, 10526880);
+        this.drawString(this.fontRendererObj, "UUID (click Fetch UUID to auto-fill)", this.width / 2 - 125, this.height/4+43, 10526880);
         this.usernameField.drawTextBox();
         this.uuidField.drawTextBox();
         super.drawScreen(p_73863_1_, p_73863_2_, p_73863_3_);
