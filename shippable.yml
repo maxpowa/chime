@@ -1,8 +1,16 @@
+## Duh.
 language: java
+
+## What JDK versions do we want to build with?
 jdk:
   - openjdk7 
+#  - oraclejdk7
+#  - openjdk6
+#  - oraclejdk8
+
+## Build System environment variables
 env:
-#  Could do earlier/newer minecraft versions with the matrix section
+  ## Global environment vars which will be in every build
   global:
     ## MODS.IO APIKEY
     - secure: fn2lzcl37VlTEt80+ZBdFVU8B21CV4S+10U1G32Xn0nKmwJmP+aZTLqYhrP1r3kKvtwPm/AgfpHzD1d7rrY+FlH/Daz94K5JdaPyNp+z4T+fyz1bJW4nWxfGMe4b0GOuO6Rvxz2Ztfk8TH8rcDJrYmr3GZTkREIct9KuqprHYKdsnsFgvgo5fThNxrMiGINILoS17Jta31GJ8iTdWS0FxqppKS1nbjfTNcQU7CI/BwguovuR3vzi5xyxIwiz1Nf4Yx3nEVho+oZhyiUwjw0ALIlxu+hv3/qBEzAKVSAUL+0N1IM7zUuvE5+KEnc0uv0zRbvXVkSO1GHON4epYTV5Bw==
@@ -11,26 +19,47 @@ env:
     ## FIREBASE PRODUCTION URL
     - secure: ZexF9TpZej4Ie65HL1uMbX4DsIMdmqqmanR4NsrJPIbA7KkN9OIDrOegvMQwXioLQFtJONsX8cfKLeFL+JZeFBdbeKA9TDrKW0Ggxh0/OEP99Mot0ZUNMNY6As+rpvmHKE/E1qpZS7x0MZpIvE2jqzLqGGbwSYwJAyivlWH1MTDaWyQAWeYw85VuU41OSK1Hk8F4IFFIf7qK+bNQcCBOO5oEMN9B807y81bsRJeoOxrI9L/WyO2/ZQHtwDGw5K2AzaHz3sr0Amij3rDhRkds9mCzOqn/SwauH/+IkvElh6V9BRAHt2+RUc70mYP0O40cytm91uuBk71e0YNMOfhuNg==
   matrix:
+    ## Each subheading here will cause another build to happen with the given environment variables (can be exponential when combined with JDK versions)
     ## MAKE TAG NOTHING IF WE WANT TO RELEASE A RECOMMENDED
     ## Change PUSH to true if we want to upload this build
-    - FORGEVERSION=1.7.10-10.13.0.1180 MAJOR_MINOR=1.7.10-0.1 TAG=bleeding PUSH=true
+    - FORGEVERSION=1.7.10-10.13.0.1180 MAJOR_MINOR=1.7.10-0.1 TAG=bleeding PUSH=false
+
+##
+#  Build-critical section
+##
+
+## What should we do before running anything
 install: 
   - chmod +x ./scripts/db_update.sh
   - chmod +x ./scripts/db_update_failure.sh
   - chmod +x ./scripts/pre_install.sh
   - chmod +x ./scripts/push.sh
   - ./scripts/pre_install.sh
+
+## What is the actual build script which will determine whether or not build succeeds
 script: 
   - ./gradlew clean build
+
+##
+#  Post-build section
+##
+
+## Scripts to run after a build succeeds
 after_success:
   - ./scripts/db_update.sh
   - ./scripts/push.sh
   - ./gradlew clean
+
+## Scripts to run after a build fails
 after_failure:
   - ./scripts/db_update_failure.sh
   - ./gradlew clean
+
+## After Shippable creates a build artifact archive what should we do
 after_archive:
-  - find . -name "Build*.tar.gz" -exec rm -rf {} \;
+  - find . -name "Build*.tar.gz" -exec rm -rf {} \; # Delete any existing build archives (I don't use them anyways)
+
+## Travis-style caching, Shippable does not use this as it persists its minions
 cache:
   directories:
     - $HOME/.gradle/caches
