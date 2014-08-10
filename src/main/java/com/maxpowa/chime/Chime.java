@@ -1,5 +1,7 @@
 package com.maxpowa.chime;
 
+import java.util.UUID;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.Session;
@@ -21,6 +23,8 @@ import com.maxpowa.chime.listeners.ConnectionListener;
 import com.maxpowa.chime.listeners.Initializer;
 import com.maxpowa.chime.util.Authenticator;
 import com.maxpowa.chime.util.Utils;
+import com.mojang.api.profiles.HttpProfileRepository;
+import com.mojang.api.profiles.Profile;
 import com.mojang.authlib.GameProfile;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
@@ -57,6 +61,8 @@ public class Chime {
 	
 	private GuiChimeButton button = null;
 	public static boolean betaFull = false;
+	
+	private static final boolean debug = !Boolean.parseBoolean("@RELEASE@");
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
@@ -68,11 +74,15 @@ public class Chime {
     	
     	myProfile = getSession().func_148256_e();
     	
-//    	if (true) {
-//    		myProfile = new GameProfile(UUID.fromString("AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA"),getSession().getPlayerID());
-//    	}
+    	if (debug) {
+    		myProfile = new GameProfile(UUID.fromString("AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA"),getSession().getPlayerID());
+    	}
     	
-		authenticateClient();
+    	new Thread(new Runnable(){
+    		public void run() {
+    			authenticateClient();
+    		}
+    	}).start();
 		
 		Chime.notificationOverlay = new GuiNotification(Minecraft.getMinecraft());
     }
@@ -133,14 +143,29 @@ public class Chime {
     	
     	Utils.log.info("Authenticating client...");
     	
-    	if (myProfile.getId() == null) {
+    	if (Chime.myProfile.getId() == null) {
     		this.deauth();
     		return;
+    	} else if (!debug) {
+            HttpProfileRepository profileRepo = new HttpProfileRepository();
+            Profile[] matchingProfiles = profileRepo.findProfilesByNames(Chime.myProfile.getName());
+            if (matchingProfiles.length > 0) {
+    	    	String uuid = matchingProfiles[0].getId().replaceAll(                                            
+    	   			    "(\\w{8})(\\w{4})(\\w{4})(\\w{4})(\\w{12})",                            
+    	   			    "$1-$2-$3-$4-$5"); 
+    	    	if (!uuid.equalsIgnoreCase(Chime.myProfile.getId().toString())) {
+    	    		deauth("Are you using a cracked client? (Error: UUID does not match)");
+    	    		return;
+    	    	}
+            } else {
+            	deauth("Are you using a cracked client? (Error: UUID does not exist)");
+            	return;
+            }
     	}
     	
 		JSONObject auth = new JSONObject();
 		try {
-		    auth.put("id", myProfile.getId().toString());
+		    auth.put("id", Chime.myProfile.getId().toString());
 		    auth.put("token", getSession().getToken());
 		} catch (JSONException e) {
 		    
@@ -151,15 +176,19 @@ public class Chime {
 		TokenGenerator tokenGenerator = new TokenGenerator("UON7iIE2AJT2eJcAXXWhRKUiXlwUe1Pu5LzkGYta");
 		String token = tokenGenerator.createToken(auth);
         
-        me = users.child(myProfile.getId().toString());
+        Chime.me = users.child(myProfile.getId().toString());
 		
-    	me.auth(token, new Authenticator(this));
+    	Chime.me.auth(token, new Authenticator(this));
     	
     	Chime.me.addListenerForSingleValueEvent(new Initializer());
     }
 
 	public void deauth() {
-		Utils.log.error("Authentication failed, please check your internet connection or buy the game.");
+		deauth("Authentication failed, please check your internet connection or buy the game.");
+	}
+
+	public void deauth(String message) {
+		Utils.log.error(message);
 		Utils.log.error("Disabling due to authentication failure. This event will be logged for audit. (REF#"+Long.toHexString(System.currentTimeMillis())+")");
 		if (!betaFull) {
 			Utils.log.info("Disabling events to increase performance");

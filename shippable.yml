@@ -22,7 +22,7 @@ env:
     ## Each subheading here will cause another build to happen with the given environment variables (can be exponential when combined with JDK versions)
     ## MAKE TAG NOTHING IF WE WANT TO RELEASE A RECOMMENDED
     ## Change PUSH to true if we want to upload this build
-    - FORGEVERSION=1.7.10-10.13.0.1180 MAJOR_MINOR=1.7.10-0.1 TAG=bleeding PUSH=false
+    - FORGEVERSION=1.7.10-10.13.0.1180 MAJOR_MINOR=1.7.10-0.1 TAG=bleeding PUSH=true
 
 ##
 #  Build-critical section

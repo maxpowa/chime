@@ -27,6 +27,7 @@ minecraft {
     
     replace "@MCVERSION@", project.minecraft.version
     replace "@VERSION@", project.version
+    replace "@RELEASE@", "true"
     replace "sweltering-fire-4536", "$System.env.FIREBASE_URL"
     replace "UON7iIE2AJT2eJcAXXWhRKUiXlwUe1Pu5LzkGYta", "$System.env.FIREBASE_SECRET"
     replaceIn "Chime.java"
