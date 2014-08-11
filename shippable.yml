@@ -18,11 +18,16 @@ env:
     - secure: BhMhQ0T1NU/syLKjmhfUkyTHmLq6Nqrm3eDNF0YWH1f0H8jcWt438Xr9cGUcWwXZgGopQ+uLkEM4skuG7mmADVshyJ58aGNSRbKKA5MsRWjIlHvUhgs3tq/7EEjvbjxgvGDr8d4Re/WsICFqkZ2EgQ/j9aJXDIVOmBbmqj0/93vhzCTzU0udvH4aTrA/vi4Atl8GYfM046cywrGEdKay/Kv45NMOAd6pD/QqagfHshMZstVQn+D3yKaTkxSfqZZnh3BWYeET+7hB+LIZuzml3qKOaslo85I1V193Xa0G8PdIg5gRZChdJJsrWMUG54mLAkriDyblaeBsTXkrVTHgnA==
     ## FIREBASE PRODUCTION URL
     - secure: ZexF9TpZej4Ie65HL1uMbX4DsIMdmqqmanR4NsrJPIbA7KkN9OIDrOegvMQwXioLQFtJONsX8cfKLeFL+JZeFBdbeKA9TDrKW0Ggxh0/OEP99Mot0ZUNMNY6As+rpvmHKE/E1qpZS7x0MZpIvE2jqzLqGGbwSYwJAyivlWH1MTDaWyQAWeYw85VuU41OSK1Hk8F4IFFIf7qK+bNQcCBOO5oEMN9B807y81bsRJeoOxrI9L/WyO2/ZQHtwDGw5K2AzaHz3sr0Amij3rDhRkds9mCzOqn/SwauH/+IkvElh6V9BRAHt2+RUc70mYP0O40cytm91uuBk71e0YNMOfhuNg==
+    ## CURSE API KEY
+    - secure: fr+PVVssqm4sdioQQfi0AC/m1Mxp2j8AZgWsJdHWo58XdwoGn6QxjwgCuzKqX6QNALQi6MGnJFlrQpAG6SU/Z9Y5NSReoj7WUSiNJydM3clC/J7xsKaV6h0lbmSSbTtb7w7DKyJhYaHvV1A01UAfxAFTcueeU6Jn20j8ex6eWz7wM/5sHRcm8Vh+K3iNf7i2WCDuI17hxYqIm4CutytgAyuUfOfussgoB8SRjY5/wb4YFG8BaxfYED/vtEM1mlgR8eTb0HKGeCi1KnarKbq3g1rKObGS83G61/D7CbaKZ+4WMtnWSkZ64roKgM6jRrQml+euz4hrqgBCQCqnNEB61A==
+    ## Compatible curse version ids (http://minecraft.curseforge.com/api/game/versions)
+    - CURSE_VERSION_IDS=[4449]
   matrix:
     ## Each subheading here will cause another build to happen with the given environment variables (can be exponential when combined with JDK versions)
     ## MAKE TAG NOTHING IF WE WANT TO RELEASE A RECOMMENDED
     ## Change PUSH to true if we want to upload this build
-    - FORGEVERSION=1.7.10-10.13.0.1180 MAJOR_MINOR=1.7.10-0.1 TAG=bleeding PUSH=false
+    ## 
+    - FORGEVERSION=1.7.10-10.13.0.1180 MAJOR_MINOR=1.7.10-0.1 TAG=beta PUSH=false
 
 ##
 #  Build-critical section
@@ -33,7 +38,8 @@ install:
   - chmod +x ./scripts/db_update.sh
   - chmod +x ./scripts/db_update_failure.sh
   - chmod +x ./scripts/pre_install.sh
-  - chmod +x ./scripts/push.sh
+  - chmod +x ./scripts/modsio_push.sh
+  - chmod +x ./scripts/curse_push.sh
   - ./scripts/pre_install.sh
 
 ## What is the actual build script which will determine whether or not build succeeds
@@ -47,7 +53,8 @@ script:
 ## Scripts to run after a build succeeds
 after_success:
   - ./scripts/db_update.sh
-  - ./scripts/push.sh
+  - ./scripts/modsio_push.sh
+  - ./scripts/curse_push.sh
   - ./gradlew clean
 
 ## Scripts to run after a build fails
