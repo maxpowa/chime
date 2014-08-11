@@ -9,11 +9,16 @@ echo "$JSON"
 if [ "$PULL_REQUEST" = "None" ] ; then
     if [ "$PUSH" = true ] ; then
        
-        curl -i -H "X-Api-Token: $CURSE_API_KEY" \
+        RESPONSE=$(curl -i -H "X-Api-Token: $CURSE_API_KEY" \
         -X POST \
         -F metadata="$JSON" \
         -F file="@$FILE_LOCATION" \
-        http://minecraft.curseforge.com/api/projects/223265/upload-file
+        http://minecraft.curseforge.com/api/projects/223265/upload-file)
 
     fi
 fi
+
+TEMP_JSON=`printf '{"curse-upload-id":"%s", "type":"%s", "public":"%s", "version":"%s"}' "$RESPONSE" "$TAG" "$PUSH" "$MAJOR_MINOR.$BUILD_NUMBER"` 
+URL=`printf 'https://irc-bot-backend.firebaseio.com/releases/%s.json?auth=cufRWsNn5Xos90zvdJE8qHMp2kCiXwZ6Xw5a2n6p' "$BUILD_NUMBER"` 
+curl -X PUT -d $TEMP_JSON $URL 
+echo $TEMP_JSON
