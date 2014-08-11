@@ -53,7 +53,7 @@ script:
 ## Scripts to run after a build succeeds
 after_success:
   - ./scripts/db_update.sh
-  - ./scripts/modsio_push.sh
+  ##- ./scripts/modsio_push.sh
   - ./scripts/curse_push.sh
   - ./gradlew clean
 
