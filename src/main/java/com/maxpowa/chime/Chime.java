@@ -22,6 +22,7 @@ import com.maxpowa.chime.gui.buttons.GuiChimeButton;
 import com.maxpowa.chime.listeners.ConnectionListener;
 import com.maxpowa.chime.listeners.Initializer;
 import com.maxpowa.chime.util.Authenticator;
+import com.maxpowa.chime.util.UpdateChecker;
 import com.maxpowa.chime.util.Utils;
 import com.mojang.api.profiles.HttpProfileRepository;
 import com.mojang.api.profiles.Profile;
@@ -63,6 +64,8 @@ public class Chime {
 	public static boolean betaFull = false;
 	
 	private static final boolean debug = !Boolean.parseBoolean("@RELEASE@");
+	
+	public static final String MC_VERSION = "@MCVERSION@";
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
@@ -81,10 +84,12 @@ public class Chime {
     	new Thread(new Runnable(){
     		public void run() {
     			authenticateClient();
+    			UpdateChecker.checkUpdate();
     		}
     	}).start();
 		
 		Chime.notificationOverlay = new GuiNotification(Minecraft.getMinecraft());
+		UpdateChecker.notificationOverlay = new UpdateChecker.GuiNotification(Minecraft.getMinecraft());
     }
     
     @SubscribeEvent
