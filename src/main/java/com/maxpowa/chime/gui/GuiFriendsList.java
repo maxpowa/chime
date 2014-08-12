@@ -307,4 +307,9 @@ public class GuiFriendsList extends GuiScreen implements GuiYesNoCallback, IChim
     {
         return this.userList;
     }
+
+	@Override
+	public GuiScreen getParentScreen() {
+		return this.previousScreen;
+	}
 }

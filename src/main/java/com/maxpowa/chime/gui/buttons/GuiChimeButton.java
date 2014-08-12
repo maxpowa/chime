@@ -9,6 +9,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import com.maxpowa.chime.gui.GuiFriendsList;
+import com.maxpowa.chime.gui.IChimeGUI;
 
 public class GuiChimeButton extends GuiButton {
 	
@@ -38,8 +39,10 @@ public class GuiChimeButton extends GuiButton {
         GL11.glTranslatef((xPosition)*2f, (yPosition)*2f, 0.0f);
         Gui.func_146110_a(0, 0, 0, 0, 34, 39, 34.0f, 39.0f);
         
-        if (Mouse.isButtonDown(0) && hovering && !(mc.currentScreen instanceof GuiFriendsList /** change this to chime gui **/)) {
+        if (Mouse.isButtonDown(0) && hovering && !(mc.currentScreen instanceof IChimeGUI /** change this to chime gui **/)) {
             mc.displayGuiScreen(new GuiFriendsList(mc.currentScreen));
+        } else if (mc.currentScreen instanceof IChimeGUI) {
+        	mc.displayGuiScreen(new GuiFriendsList(((IChimeGUI)mc.currentScreen).getParentScreen()));
         }
         this.zLevel = tempZ;
         GL11.glPopMatrix();

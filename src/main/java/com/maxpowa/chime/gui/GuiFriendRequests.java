@@ -284,4 +284,9 @@ public class GuiFriendRequests extends GuiScreen implements GuiYesNoCallback, IC
     {
         return this.userList;
     }
+
+	@Override
+	public GuiScreen getParentScreen() {
+		return this.previousScreen;
+	}
 }

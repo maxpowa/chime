@@ -220,4 +220,9 @@ public class GuiScreenAddFriend extends GuiScreen implements IChimeGUI
         tessellator.addVertexWithUV(0.0D, 0.0D, 0.0D, 0.0D, (double)p_146278_1_);
         tessellator.draw();
     }
+
+	@Override
+	public GuiScreen getParentScreen() {
+		return this.parentScreen;
+	}
 }

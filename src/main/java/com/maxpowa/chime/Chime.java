@@ -19,6 +19,7 @@ import com.maxpowa.chime.gui.GuiFriendsList;
 import com.maxpowa.chime.gui.GuiNotification;
 import com.maxpowa.chime.gui.IChimeGUI;
 import com.maxpowa.chime.gui.buttons.GuiChimeButton;
+import com.maxpowa.chime.gui.buttons.GuiUpdateButton;
 import com.maxpowa.chime.listeners.ConnectionListener;
 import com.maxpowa.chime.listeners.Initializer;
 import com.maxpowa.chime.util.Authenticator;
@@ -35,7 +36,6 @@ import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.RenderTickEvent;
@@ -61,6 +61,7 @@ public class Chime {
 	private ConnectionListener conListener = new ConnectionListener();
 	
 	private GuiChimeButton button = null;
+	private GuiUpdateButton updateButton = null;
 	public static boolean betaFull = false;
 	
 	private static final boolean debug = !Boolean.parseBoolean("@RELEASE@");
@@ -89,7 +90,6 @@ public class Chime {
     	}).start();
 		
 		Chime.notificationOverlay = new GuiNotification(Minecraft.getMinecraft());
-		UpdateChecker.notificationOverlay = new UpdateChecker.GuiNotification(Minecraft.getMinecraft());
     }
     
     @SubscribeEvent
@@ -114,15 +114,20 @@ public class Chime {
         if (button == null) {
         	button = new GuiChimeButton(0, 20);
         }
+        if (updateButton == null) {
+        	updateButton = new GuiUpdateButton(20, 0);
+        }
         if (event.type == Type.RENDER && event.phase == Phase.END && mc.currentScreen != null 
         		&& !(mc.currentScreen instanceof IChimeGUI) && Initializer.initialized) {
             int mouseX = Mouse.getX() * mc.currentScreen.width / mc.displayWidth;
             int mouseY = mc.currentScreen.height - Mouse.getY() * mc.currentScreen.height / mc.displayHeight - 1; 
             button.yPosition = (mc.currentScreen.height / 2) - 28;
             button.drawButton(mc, mouseX, mouseY);
+            updateButton.drawButton(mc, mouseX, mouseY);
         }
-        if (event.type == TickEvent.Type.RENDER && Chime.notificationOverlay != null) {
-            Chime.notificationOverlay.updateNotificationWindow();
+        if (event.type == Type.RENDER && event.phase == Phase.END) {
+        	if (Chime.notificationOverlay != null)
+        		Chime.notificationOverlay.updateNotificationWindow();
         }
     }
     

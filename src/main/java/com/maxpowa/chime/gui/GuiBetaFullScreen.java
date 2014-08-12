@@ -107,4 +107,9 @@ public class GuiBetaFullScreen extends GuiScreen implements GuiYesNoCallback, IC
             Utils.log.error("Couldn\'t open link", throwable);
         }
     }
+
+	@Override
+	public GuiScreen getParentScreen() {
+		return this.parentScreen;
+	}
 }

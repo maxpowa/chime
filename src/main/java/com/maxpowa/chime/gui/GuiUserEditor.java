@@ -189,4 +189,9 @@ public class GuiUserEditor extends GuiScreen implements IChimeGUI{
         
     }
 
+	@Override
+	public GuiScreen getParentScreen() {
+		return (GuiScreen) this.parentScreen;
+	}
+
 }

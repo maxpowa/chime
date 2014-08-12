@@ -6,6 +6,7 @@ import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiLabel;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiYesNo;
 import net.minecraft.client.gui.GuiYesNoCallback;
 
@@ -59,5 +60,10 @@ public class GuiConfirmation extends GuiYesNo implements IChimeGUI {
             ((GuiLabel)this.labelList.get(k)).func_146159_a(this.mc, p_73863_1_, p_73863_2_);
         }
     }
+
+	@Override
+	public GuiScreen getParentScreen() {
+		return (GuiScreen) this.parentScreen;
+	}
 
 }
