@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 
 import com.maxpowa.chime.Chime;
@@ -16,6 +17,45 @@ public class GuiUpdateInfo extends GuiScreen implements IChimeGUI {
 	private GuiScreen parentScreen;
 	
 	public GuiUpdateInfo(GuiScreen currentScreen) {
+		
+		GuiUpdateButton.openingUpdate = false;
+	}
+	
+	@Override
+	public void initGui() {
+		this.buttonList.add(new GuiButton(12, 20, 20, "Test restart client"));
+		this.buttonList.add(new GuiButton(13, 20, 40, "Test delete current jar"));
+	}
+	
+	@Override
+	protected void actionPerformed(GuiButton button) {
+		if (button.enabled) {
+			if (button.id == 12) {
+				restartForUpdate();
+			} else if (button.id == 13) {
+				deleteCurrentJar();
+			}
+		}
+	}
+	
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+		this.drawDefaultBackground();
+		
+		mc.fontRenderer.drawStringWithShadow("unimplemented", 10, 10, 0xFFFFFF);
+		
+		
+		super.drawScreen(mouseX, mouseY, partialTicks);
+	}
+	
+	
+	
+	public void restartForUpdate() {
+		Minecraft.getMinecraft().shutdown();
+		Minecraft.getMinecraft().shutdownMinecraftApplet();
+	}
+	
+	public void deleteCurrentJar() {
 		URL url = Chime.class.getProtectionDomain().getCodeSource().getLocation();
 		File f;
 		try {
@@ -37,19 +77,6 @@ public class GuiUpdateInfo extends GuiScreen implements IChimeGUI {
             f.deleteOnExit();
             Utils.log.error("Old version ("+f.getName()+") couldn't be deleted immediately, scheduling for deletion on JVM shutdown.");
         }
-		GuiUpdateButton.openingUpdate = false;
-	}
-	
-	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-		this.drawDefaultBackground();
-		
-		mc.fontRenderer.drawStringWithShadow("unimplemented", 10, 10, 0xFFFFFF);
-	}
-	
-	public void restartForUpdate() {
-		Minecraft.getMinecraft().shutdown();
-		Minecraft.getMinecraft().shutdownMinecraftApplet();
 	}
 	
 	@Override
