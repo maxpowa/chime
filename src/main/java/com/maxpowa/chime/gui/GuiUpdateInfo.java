@@ -1,19 +1,12 @@
 package com.maxpowa.chime.gui;
 
 import java.io.File;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.multiplayer.WorldClient;
-import net.minecraft.server.MinecraftServer;
 
-import com.maxpowa.chime.Chime;
 import com.maxpowa.chime.gui.buttons.GuiUpdateButton;
 import com.maxpowa.chime.util.Utils;
 
