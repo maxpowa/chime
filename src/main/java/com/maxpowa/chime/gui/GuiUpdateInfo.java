@@ -57,10 +57,11 @@ public class GuiUpdateInfo extends GuiScreen implements IChimeGUI {
 	
 	public void deleteCurrentJar() {
 		URL url = Chime.class.getProtectionDomain().getCodeSource().getLocation();
+		Utils.log.info("File location:"+url.toString());
 		File f;
 		try {
 		  f = new File(url.toURI());
-		} catch(URISyntaxException e) {
+		} catch(URISyntaxException | IllegalArgumentException e) {
 		  f = new File(url.getPath());
 		}
 		boolean deleted = false;
