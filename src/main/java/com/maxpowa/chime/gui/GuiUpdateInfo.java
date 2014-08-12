@@ -3,18 +3,26 @@ package com.maxpowa.chime.gui;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.server.MinecraftServer;
 
 import com.maxpowa.chime.Chime;
 import com.maxpowa.chime.gui.buttons.GuiUpdateButton;
 import com.maxpowa.chime.util.Utils;
 
+import cpw.mods.fml.relauncher.FMLSecurityManager;
+
 public class GuiUpdateInfo extends GuiScreen implements IChimeGUI {
 
 	private GuiScreen parentScreen;
+	String path;
 
 	public GuiUpdateInfo(GuiScreen currentScreen) {
 
@@ -51,21 +59,31 @@ public class GuiUpdateInfo extends GuiScreen implements IChimeGUI {
 
 
 	public void restartForUpdate() {
+		Utils.log.info("Restarting client to apply update. Please make sure that "+path+" is deleted.");
+		if (Minecraft.getMinecraft().theWorld != null) {
+			Minecraft.getMinecraft().theWorld.sendQuittingDisconnectingPacket();
+			Minecraft.getMinecraft().loadWorld((WorldClient)null);
+			Minecraft.getMinecraft().displayGuiScreen(this);
+		}
 		Minecraft.getMinecraft().shutdown();
-		Minecraft.getMinecraft().shutdownMinecraftApplet();
+		try {
+			System.exit(0);
+		} catch (FMLSecurityManager.ExitTrappedException e) {
+			Utils.log.error("The following error message is normal if you are restarting to apply update.");
+			Utils.log.error(e);
+		}
 	}
 
-	public void deleteCurrentJar() {
-		URL url = Chime.class.getProtectionDomain().getCodeSource().getLocation();
-		Utils.log.info("File location:"+url.toString());
-		File f;
+	public boolean deleteCurrentJar() {
 		try {
-			f = new File(url.toURI());
-		} catch(URISyntaxException e) {
-			f = new File(url.getPath());
-		} catch(IllegalArgumentException e) {
-			f = new File(url.getPath());
+			path = Utils.findPathJar();
+		} catch (IllegalStateException e) {
+			Utils.log.error(e);
+			return false;
 		}
+		Utils.log.info(path);
+		File f = new File(path);
+		
 		boolean deleted = false;
 		try {
 			deleted = f.delete();
@@ -80,6 +98,7 @@ public class GuiUpdateInfo extends GuiScreen implements IChimeGUI {
 			f.deleteOnExit();
 			Utils.log.error("Old version ("+f.getName()+") couldn't be deleted immediately, scheduling for deletion on JVM shutdown.");
 		}
+		return true;
 	}
 
 	@Override
