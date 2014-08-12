@@ -9,7 +9,7 @@ echo "$JSON"
 if [ "$PULL_REQUEST" = "None" ] ; then
     if [ "$PUSH" = true ] ; then
        
-        RESPONSE=$(curl -i -H "X-Api-Token: $CURSE_API_KEY" \
+        RESPONSE=$(curl -H "X-Api-Token: $CURSE_API_KEY" \
         -X POST \
         -F metadata="$JSON" \
         -F file="@$FILE_LOCATION" \
