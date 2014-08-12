@@ -70,7 +70,7 @@ public class Utils {
 	/**
 	 * If the provided class has been loaded from a jar file that is on the local file system, will find the absolute path to that jar file.
 	 * 
-	 * @param context The jar file that contained the class file that represents this class will be found. Specify {@code null} to let {@code LiveInjector}
+	 * @param context The jar file that contained the class file that represents this class will be found. Specify {@code null} to let {@link Chime}
 	 *                find its own jar.
 	 * @throws IllegalStateException If the specified class was loaded from a directory or in some other way (such as via HTTP, from a database, or some
 	 *                               other custom classloading device).

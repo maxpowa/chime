@@ -14,7 +14,6 @@ import com.maxpowa.chime.Chime;
 public class UpdateChecker {
 
 	/*
-	{
 {
   "title": "Chime",
   "game": "Minecraft",
