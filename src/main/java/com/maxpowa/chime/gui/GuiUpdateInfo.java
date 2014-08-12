@@ -22,6 +22,7 @@ public class GuiUpdateInfo extends GuiScreen implements IChimeGUI {
 		GuiUpdateButton.openingUpdate = false;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void initGui() {
 		this.buttonList.add(new GuiButton(12, 20, 20, "Test restart client"));
