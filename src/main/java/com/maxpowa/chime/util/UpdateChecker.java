@@ -87,13 +87,13 @@ public class UpdateChecker {
 		try {
 			URLConnection versionData = new URL("http://widget.mcf.li/mc-mods/minecraft/223265-chime.json").openConnection();
 			JsonNode object = mapper.readTree(new BufferedReader(new InputStreamReader(versionData.getInputStream())));
-			Utils.log.info(object.toString());
+			//Utils.log.info(object.toString());
 			if (object.get("versions").has(Chime.MC_VERSION)) {
 				latest = mapper.treeToValue(object.get("versions").get(Chime.MC_VERSION).get(0), ChimeVersion.class);
-				Utils.log.info(object.get("versions").get(Chime.MC_VERSION).get(0).toString());
+				//Utils.log.info(object.get("versions").get(Chime.MC_VERSION).get(0).toString());
 			} else {
 				Utils.log.info("Update checker was unable to find a release for this Minecraft version, showing latest release.");
-				Utils.log.info(object.get("download").toString());
+				//Utils.log.info(object.get("download").toString());
 				latest = mapper.treeToValue(object.get("download"), ChimeVersion.class);
 			}
 		} catch (IOException e) {
