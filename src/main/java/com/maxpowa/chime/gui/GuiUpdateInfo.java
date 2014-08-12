@@ -72,7 +72,7 @@ public class GuiUpdateInfo extends GuiScreen implements IChimeGUI {
 			path = Utils.findPathJar();
 		} catch (IllegalStateException e) {
 			Utils.log.error(e);
-			return false;
+			return true;
 		}
 		Utils.log.info(path);
 		File f = new File(path);
@@ -90,8 +90,9 @@ public class GuiUpdateInfo extends GuiScreen implements IChimeGUI {
 		} else {
 			f.deleteOnExit();
 			Utils.log.error("Old version ("+f.getName()+") couldn't be deleted immediately, scheduling for deletion on JVM shutdown.");
+			return true;
 		}
-		return true;
+		return false;
 	}
 
 	@Override

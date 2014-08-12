@@ -9,6 +9,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
+import com.maxpowa.chime.Chime;
 import com.maxpowa.chime.gui.GuiUpdateInfo;
 import com.maxpowa.chime.util.UpdateChecker;
 
@@ -27,6 +28,27 @@ public class GuiUpdateButton extends GuiButton {
     public GuiUpdateButton(int posX, int posY) {
         super(-1, posX, posY, 18, 16, "");
     }
+    
+    private static boolean hasNewerVersion() {
+    	if (UpdateChecker.latest == null)
+    		return false;
+    	else if (UpdateChecker.latest.getVersion().equalsIgnoreCase(Chime.VERSION))
+    		return false;
+    	else if (UpdateChecker.latest.getBuildNumber() <= getBuildNumber(Chime.VERSION))
+    		return false;
+    	else
+    		return true;
+    }
+    
+    public static int getBuildNumber(String version) {
+		String[] splitVer = version.split("[.]");
+		String b = splitVer[splitVer.length-1];
+		try {
+			return Integer.parseInt(b);
+		} catch (NumberFormatException ex) {
+			return -1;
+		}
+	}
 
     @Override
     public void drawButton(Minecraft mc, int mouseX, int mouseY) {
@@ -34,15 +56,15 @@ public class GuiUpdateButton extends GuiButton {
         hoveringClose = mouseX >= xPosition + width - 3 && mouseY >= yPosition && mouseX < xPosition + width + 6 && mouseY < yPosition + height;
         
         if (Mouse.isButtonDown(0)) {
-        	if (hovering && !openingUpdate) {
-        		openingUpdate = true;
-        		mc.displayGuiScreen(new GuiUpdateInfo(mc.currentScreen));
-        	}
+//        	if (hovering && !openingUpdate) {
+//        		openingUpdate = true;
+//        		mc.displayGuiScreen(new GuiUpdateInfo(mc.currentScreen));
+//        	}
         	if (hoveringClose)
         		UpdateChecker.dismissed = true;
         }
         
-        if (offset <= 33 && UpdateChecker.latest != null) {
+        if (offset <= 33 && hasNewerVersion()) {
     		
     		if (notification.isEmpty()) {
     			notification = formatNotification();

@@ -67,6 +67,7 @@ public class Chime {
 	private static final boolean debug = !Boolean.parseBoolean("@RELEASE@");
 	
 	public static final String MC_VERSION = "@MCVERSION@";
+	public static final String VERSION = "@VERSION@";
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {

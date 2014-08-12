@@ -20,6 +20,15 @@ public class ChimeVersion {
 	public String getVersion() {
 		return name.replace("Chime-", "").replace(".jar", "");
 	}
+	public int getBuildNumber() {
+		String[] splitVer = getVersion().split("[.]");
+		String b = splitVer[splitVer.length-1];
+		try {
+			return Integer.parseInt(b);
+		} catch (NumberFormatException ex) {
+			return -1;
+		}
+	}
 	public String getMCVersion() {
 		return version;
 	}
