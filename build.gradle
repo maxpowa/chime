@@ -31,11 +31,16 @@ minecraft {
     replace "sweltering-fire-4536", "$System.env.FIREBASE_URL"
     replace "UON7iIE2AJT2eJcAXXWhRKUiXlwUe1Pu5LzkGYta", "$System.env.FIREBASE_SECRET"
     replaceIn "Chime.java"
+    
+    //Change this 5000 to higher if builds ever get up there.	vvvv
+    replace "@SortingIndex(191919191)", "@SortingIndex(1000" + (5000-"$System.env.BUILD_NUMBER".toInteger()) + ")"
+    replaceIn "ChimeLoadingPlugin.java"
 }
 
 jar {
     manifest {
-        attributes("FMLCorePlugin": "com.maxpowa.chime.asm.FMLLoadingPlugin", "FMLCorePluginContainsFMLMod": "true")
+        attributes 'FMLCorePlugin': 'com.maxpowa.chime.init.ChimeLoadingPlugin'
+        attributes 'FMLCorePluginContainsFMLMod': 'true'
     }
 }
 

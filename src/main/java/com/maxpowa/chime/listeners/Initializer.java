@@ -30,7 +30,7 @@ public class Initializer implements ValueEventListener {
 		}
 		if (!Chime.myUser.getConfig().isInvisible()) {
 			Chime.me.child("currentServer").setValue(new ServerInfo());
-			Chime.me.child("lastSeen").setValue(System.currentTimeMillis()); // Should make me appear online to other clients \o/
+			Chime.me.child("lastSeen").setValue(System.currentTimeMillis()); // Should make me appear online to other clients \o/=
 		}
 		Chime.me.child("friends").addChildEventListener(new FriendsListListener());
 		

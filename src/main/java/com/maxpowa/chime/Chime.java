@@ -1,5 +1,6 @@
 package com.maxpowa.chime;
 
+import java.io.File;
 import java.util.UUID;
 
 import net.minecraft.client.Minecraft;
@@ -23,6 +24,7 @@ import com.maxpowa.chime.gui.buttons.GuiUpdateButton;
 import com.maxpowa.chime.listeners.ConnectionListener;
 import com.maxpowa.chime.listeners.Initializer;
 import com.maxpowa.chime.util.Authenticator;
+import com.maxpowa.chime.util.Config;
 import com.maxpowa.chime.util.UpdateChecker;
 import com.maxpowa.chime.util.Utils;
 import com.mojang.api.profiles.HttpProfileRepository;
@@ -44,7 +46,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-@Mod(modid="Chime", name="Chime", version="@VERSION@ for @MCVERSION@")
+@Mod(modid="Chime", name="Chime", version="@VERSION@ for @MCVERSION@", guiFactory="com.maxpowa.chime.util.ChimeGuiFactory")
 public class Chime {
 
 	public static final String rootURL = "https://sweltering-fire-4536.firebaseio.com";
@@ -83,10 +85,14 @@ public class Chime {
     		myProfile = new GameProfile(UUID.fromString("AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA"),getSession().getPlayerID());
     	}
     	
+    	Config.setupConfig(new File("config/Chime/Chime.cfg"));
+    	FMLCommonHandler.instance().bus().register(new Config());
+    	
     	new Thread(new Runnable(){
     		public void run() {
     			authenticateClient();
-    			UpdateChecker.checkUpdate();
+    			if (Config.ENABLE_UPDATE_CHECKER)
+    				UpdateChecker.checkUpdate();
     		}
     	}).start();
 		
@@ -137,7 +143,7 @@ public class Chime {
     @SubscribeEvent
     public void onClientTick(ClientTickEvent event) {
     	// Updates the server's last seen value to keep your status "online"
-    	// If this somehow fails to update the server for 60 seconds, you may appear offline to other users.
+    	// If this somehow fails to update the server for 30 seconds, you may appear offline to other users.
     	if (event.side == Side.CLIENT && event.phase == Phase.START) {
     		if (lastTick+10000 < System.currentTimeMillis() && myUser != null && !myUser.getConfig().isInvisible()) {
     			me.child("lastSeen").setValue(System.currentTimeMillis());

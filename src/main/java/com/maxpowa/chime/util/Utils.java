@@ -3,6 +3,7 @@ package com.maxpowa.chime.util;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
+import java.net.URLConnection;
 import java.net.URLDecoder;
 import java.net.UnknownHostException;
 import java.nio.charset.Charset;
@@ -56,6 +57,20 @@ public class Utils {
 		}
 		return ia.isSiteLocalAddress();
 	}
+	
+	/**
+	 * Java 7 method
+	 * @param name
+	 * @param Default
+	 * @return
+	 */
+    public static long getHeaderFieldLong(URLConnection conn, String name, long Default) {
+        String value = conn.getHeaderField(name);
+        try {
+            return Long.parseLong(value);
+        } catch (Exception e) { }
+        return Default;
+    }
 	
 	/**
 	 * Will find the absolute path to Chime.class

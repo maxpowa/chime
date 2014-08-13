@@ -8,17 +8,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
-import org.lwjgl.opengl.GL11;
+import java.net.URLConnection;
+import java.nio.charset.Charset;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
 
+import org.lwjgl.opengl.GL11;
+
+import com.google.common.io.Files;
 import com.maxpowa.chime.gui.buttons.GuiUpdateButton;
 import com.maxpowa.chime.util.UpdateChecker;
 import com.maxpowa.chime.util.Utils;
@@ -28,10 +30,8 @@ import cpw.mods.fml.relauncher.FMLSecurityManager;
 public class GuiUpdateInfo extends GuiScreen implements IChimeGUI {
 
 	/*
-	 * Download link: http://addons.cursecdn.com/files/2211%5C456/Chime-1.7.10-0.1.198.jar
-	 * 				  http://addons.cursecdn.com/files/idsp/lit/filename
-	 * 
-	 * 
+	 * Download link: http://addons.cursecdn.com/files/2211/456/Chime-1.7.10-0.1.198.jar
+	 * 				  http://addons.cursecdn.com/files/Xchars/3chars/filename
 	 */
 	
 	private GuiScreen parentScreen;
@@ -90,8 +90,8 @@ public class GuiUpdateInfo extends GuiScreen implements IChimeGUI {
 				try {
 					HttpURLConnection downconn = (HttpURLConnection) new URL(UpdateChecker.latest.getDownloadURL()).openConnection();
 					bytesDownloaded = 0;
-					Utils.log.info(downconn.getHeaderFields());
-					totalBytes = downconn.getContentLengthLong();
+					//Utils.log.info(downconn.getHeaderFields());
+					totalBytes = getContentLengthLong(downconn);
 					downloadFromStream(downconn.getInputStream(), new File(downloadLocation, UpdateChecker.latest.getFilename()));
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -99,6 +99,10 @@ public class GuiUpdateInfo extends GuiScreen implements IChimeGUI {
 				}
 			}
 		}
+	}
+	
+	public long getContentLengthLong(URLConnection conn) {
+	    return Utils.getHeaderFieldLong(conn, "content-length", -1);
 	}
 
 	@Override
@@ -142,6 +146,26 @@ public class GuiUpdateInfo extends GuiScreen implements IChimeGUI {
 			Utils.log.error(e);
 		}
 	}
+	
+	public void createStartupFile() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("{ \"current\":\"")
+			.append(UpdateChecker.latest.getFilename())
+			.append("\", \"delete\":\"");
+		try {
+			sb.append(new File(Utils.findPathJar()).getName());
+		} catch (IllegalStateException ex) {
+			sb.append("no_filename");
+		}
+		
+		sb.append("\" }");
+		//Utils.log.info(sb.toString());
+		try {
+			Files.write(sb.toString(), new File("config/chime/removeOnStart.json"), Charset.forName("UTF-8"));
+		} catch (IOException e) {
+			Utils.log.warn("Unable to create removeOnStart.json, previous versions may persist.");
+		}
+	}
 
 	public boolean deleteCurrentJar() {
 		try {
@@ -166,6 +190,8 @@ public class GuiUpdateInfo extends GuiScreen implements IChimeGUI {
 		} else {
 			f.deleteOnExit();
 			Utils.log.error("Old version ("+f.getName()+") couldn't be deleted immediately, scheduling for deletion on JVM shutdown.");
+			createStartupFile();
+			Utils.log.info("Just in case, the previous version will also attempt to be deleted on next startup");
 			return true;
 		}
 		return false;

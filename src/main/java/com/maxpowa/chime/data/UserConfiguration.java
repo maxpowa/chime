@@ -1,6 +1,6 @@
-package com.maxpowa.chime.util;
+package com.maxpowa.chime.data;
 
-public class Configuration {
+public class UserConfiguration {
 	
 	private boolean invisible = false;
 	private boolean allowingRequests = true;

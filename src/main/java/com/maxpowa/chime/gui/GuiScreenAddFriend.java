@@ -16,7 +16,7 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.maxpowa.chime.Chime;
 import com.maxpowa.chime.data.User;
-import com.maxpowa.chime.util.Configuration;
+import com.maxpowa.chime.data.UserConfiguration;
 import com.maxpowa.chime.util.Utils;
 import com.mojang.api.profiles.HttpProfileRepository;
 import com.mojang.api.profiles.Profile;
@@ -101,7 +101,7 @@ public class GuiScreenAddFriend extends GuiScreen implements IChimeGUI
 
 					@Override
 					public void onDataChange(DataSnapshot data) {
-						if (data.getValue(Configuration.class) == null || data.getValue(Configuration.class).isAllowingRequests()) {
+						if (data.getValue(UserConfiguration.class) == null || data.getValue(UserConfiguration.class).isAllowingRequests()) {
 			                Chime.public_requests.child("users/"+user.getUUID()+"/requests/"+Chime.myUser.getUUID()).setValue(Chime.myUser.getUsername());
 			                Chime.me.child("friends/"+user.getUUID()).setValue(System.currentTimeMillis());
 							Utils.log.info("Sent friend request to "+user.getUsername());
