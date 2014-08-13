@@ -33,6 +33,12 @@ minecraft {
     replaceIn "Chime.java"
 }
 
+jar {
+    manifest {
+        attributes("FMLCorePlugin": "com.maxpowa.chime.asm.FMLLoadingPlugin", "FMLCorePluginContainsFMLMod": "true")
+    }
+}
+
 processResources
 {
     // this will ensure that this task is redone when the versions change.
