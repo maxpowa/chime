@@ -50,4 +50,7 @@ public class ChimeVersion {
 		DateFormat dateTime = new SimpleDateFormat("yyyy-mm-ddTHH:mm:ss");
 		return dateTime.parse(created_at.split("[+-]", 2)[0]);
 	}
+	public String getFilename() {
+		return name;
+	}
 }

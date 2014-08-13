@@ -56,10 +56,10 @@ public class GuiUpdateButton extends GuiButton {
         hoveringClose = mouseX >= xPosition + width - 3 && mouseY >= yPosition && mouseX < xPosition + width + 6 && mouseY < yPosition + height;
         
         if (Mouse.isButtonDown(0)) {
-//        	if (hovering && !openingUpdate) {
-//        		openingUpdate = true;
-//        		mc.displayGuiScreen(new GuiUpdateInfo(mc.currentScreen));
-//        	}
+        	if (hovering && !openingUpdate) {
+        		openingUpdate = true;
+        		mc.displayGuiScreen(new GuiUpdateInfo(mc.currentScreen));
+        	}
         	if (hoveringClose)
         		UpdateChecker.dismissed = true;
         }
