@@ -84,7 +84,7 @@ public class UpdateChecker {
 
 	public static void checkUpdate() {
 		try {
-			URLConnection versionData = new URL("http://widget.mcf.li/mc-mods/minecraft/223265-chime.json").openConnection();
+			URLConnection versionData = new URL("http://widget.mcf.li/223265.json").openConnection();
 			JsonNode object = mapper.readTree(new BufferedReader(new InputStreamReader(versionData.getInputStream())));
 			//Utils.log.info(object.toString());
 			if (object.get("versions").has(Chime.MC_VERSION)) {
