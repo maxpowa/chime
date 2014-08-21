@@ -84,10 +84,10 @@ public class GuiUpdateButton extends GuiButton {
             GL11.glScalef(0.5f, 0.5f, 1.0f);
             GL11.glTranslatef((xPosition)*2f, (yPosition)*2f, 0.0f);
     		mc.getTextureManager().bindTexture(notificationParts);
-    		//Draws a textured rectangle at z = 0.       x,  y,  u,  v,                  width,   height, textureWidth, textureHeight
-    		Gui.func_146110_a(			   -20,	 0-offset*2,   	  0,	  0,			10,       33,           21,            67);
-    		Gui.func_146110_a(			   -10,	 0-offset*2,	  0,	 34,	width*2+20,       33,           21,            67);
-    		Gui.func_146110_a(		width*2+10,	 0-offset*2,	 11,	  0,			10,       33,           21,            67);
+    		//Draws a textured rectangle at z = 0.       x,  y,  u,  v,                  width,   height, textureWidth, textureHight
+    		Gui.func_146110_a(			   -20,	 0-offset*2,   	  0,	  0,			10,       33,           21,            68);
+    		Gui.func_146110_a(			   -10,	 0-offset*2,	  0,	 33,	width*2+20,       33,           21,            67);
+    		Gui.func_146110_a(		width*2+10,	 0-offset*2,	 11,	  0,			10,       33,           21,            68);
     		GL11.glPushMatrix();
     		GL11.glScalef(2.0f, 2.0f, 1.0f);
     		mc.fontRenderer.drawString(EnumChatFormatting.YELLOW+notification+EnumChatFormatting.RED+" \u2715", -5, 4-offset, 0xFFFFFF);
