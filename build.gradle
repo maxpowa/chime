@@ -17,31 +17,31 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "$System.env.MAJOR_MINOR" + "." + "$System.env.BUILD_NUMBER" // Beta 1 - increment for each successive beta
+MAJOR_MINOR = "$System.env.MAJOR_MINOR"
+if (MAJOR_MINOR == "null") {
+    MAJOR_MINOR = "1.7.10-dev"
+}
+BUILD_NUMBER = "$System.env.BUILD_NUMBER"
+if (BUILD_NUMBER == "null") {
+    BUILD_NUMBER = "beta"
+}
+
+version = MAJOR_MINOR + "." + BUILD_NUMBER // Beta 1 - increment for each successive beta
 group= "com.github.maxpowa" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "Chime"
 
 minecraft {
-    version = "$System.env.FORGEVERSION"
-    assetDir = "eclipse/assets"
-    
+    version = "1.7.10-10.13.2.1286"
+    runDir = "eclipse"
+
     replace "@MCVERSION@", project.minecraft.version
     replace "@VERSION@", project.version
     replace "@RELEASE@", "true"
-    replace "sweltering-fire-4536", "$System.env.FIREBASE_URL"
-    replace "UON7iIE2AJT2eJcAXXWhRKUiXlwUe1Pu5LzkGYta", "$System.env.FIREBASE_SECRET"
+    if ("$System.env.FIREBASE_URL" != "null")
+        replace "sweltering-fire-4536", "$System.env.FIREBASE_URL"
+    if ("$System.env.FIREBASE_SECRET" != "null")
+        replace "UON7iIE2AJT2eJcAXXWhRKUiXlwUe1Pu5LzkGYta", "$System.env.FIREBASE_SECRET"
     replaceIn "Chime.java"
-    
-    //Change this 5000 to higher if builds ever get up there.	vvvv
-    replace "@SortingIndex(191919191)", "@SortingIndex(1000" + (5000-"$System.env.BUILD_NUMBER".toInteger()) + ")"
-    replaceIn "ChimeLoadingPlugin.java"
-}
-
-jar {
-    manifest {
-        attributes 'FMLCorePlugin': 'com.maxpowa.chime.init.ChimeLoadingPlugin'
-        attributes 'FMLCorePluginContainsFMLMod': 'true'
-    }
 }
 
 processResources
@@ -53,19 +53,19 @@ processResources
     // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
-        
+
         expand 'version':project.version, 'mcversion':project.minecraft.version
     }
-    
+
     from {configurations.packageLibs.collect {zipTree(it)}}
 }
 
 configurations { packageLibs }
 
-dependencies { 
-	packageLibs 'com.firebase:firebase-client:1.0.15' 
-	packageLibs 'com.firebase:firebase-token-generator:1.0.5'
-	packageLibs 'org.json:json:20090211'
+dependencies {
+    packageLibs 'com.firebase:firebase-client:1.0.15'
+    packageLibs 'com.firebase:firebase-token-generator:1.0.5'
+    packageLibs 'org.json:json:20090211'
 }
 
 task deobfJar(type: Jar) {
@@ -81,7 +81,7 @@ task sourceJar(type: Jar) {
 
 // build a dependency jar
 task depJar(type: Jar) {
-	from processResources
+    from processResources
     classifier = 'deps'
 }
 
