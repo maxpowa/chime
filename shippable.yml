@@ -27,7 +27,7 @@ env:
     ## MAKE TAG NOTHING IF WE WANT TO RELEASE A RECOMMENDED
     ## Change PUSH to true if we want to upload this build
     ## 
-    - FORGEVERSION=1.7.10-10.13.0.1180 MAJOR_MINOR=1.7.10-0.1 TAG=beta PUSH=false
+    - FORGEVERSION=1.7.10-10.13.2.1286 MAJOR_MINOR=1.7.10-0.1 TAG=beta PUSH=false
 
 ##
 #  Build-critical section
