@@ -74,3 +74,6 @@ gradle.properties
 .cproject
 # PDT-specific
 .buildpath
+logs/
+config/
+options.txt

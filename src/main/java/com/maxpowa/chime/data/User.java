@@ -17,153 +17,171 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.maxpowa.chime.util.Utils;
 
-@JsonIgnoreProperties({"online"})
+@JsonIgnoreProperties({ "online" })
 public class User {
 
-	@JsonIgnore
-	protected DynamicTexture skin = null;
-	@JsonIgnore
-	protected ResourceLocation resourceLocation;
-	@JsonIgnore
-	protected BufferedImage bufferedimage;
-	@JsonIgnore
-	protected boolean preparingSkin;
-	@JsonIgnore
-	public Color averageColor = new Color(0);
+    @JsonIgnore
+    protected DynamicTexture skin = null;
+    @JsonIgnore
+    protected ResourceLocation resourceLocation;
+    @JsonIgnore
+    protected BufferedImage bufferedimage;
+    @JsonIgnore
+    protected boolean preparingSkin;
+    @JsonIgnore
+    public Color averageColor = new Color(0);
 
-	protected long lastSeen = 0L;
-	protected String username = "Steve";
-	protected String motd = "I'm new here!";
-	protected HashMap<String, String> blocks = new HashMap<String,String>();
-	protected HashMap<String, String> friends = new HashMap<String,String>();
-	protected ServerInfo currentServer = new ServerInfo();
-	protected String UUID = "";
-	protected UserConfiguration config = new UserConfiguration();
+    protected long lastSeen = 0L;
+    protected String username = "Steve";
+    protected String motd = "I'm new here!";
+    protected HashMap<String, String> blocks = new HashMap<String, String>();
+    protected HashMap<String, String> friends = new HashMap<String, String>();
+    protected ServerInfo currentServer = new ServerInfo();
+    protected String UUID = "";
+    protected UserConfiguration config = new UserConfiguration();
 
-	public String getMotd() {
-		return motd;
-	}
-	@JsonIgnore
-	public String getFormattedMotd() {
-		return StringEscapeUtils.unescapeJava(motd);
-	}
-	public void setMotd(String motd) {
-		this.motd = motd;
-	}
-	public HashMap<String, String> getBlocks() {
-		return blocks;
-	}
-	public void setBlocks(HashMap<String, String> blocks) {
-		this.blocks = blocks;
-	}
-	public HashMap<String, String> getFriends() {
-		return friends;
-	}
-	public void setFriends(HashMap<String, String> friends) {
-		this.friends = friends;
-	}
-	public long getLastSeen() {
-		return System.currentTimeMillis();
-	}
-	public void setLastSeen(long lastSeen) {
-		this.lastSeen = lastSeen;
-	}
-	public String getUsername() {
-		return username;
-	}
-	public void setUsername(String username) {
-		this.username = username;
-		this.resourceLocation = new ResourceLocation("skins/" + username);
-	}
-	public String getUUID() {
-		return this.UUID;
-	}
-	public void setUUID(String uuid) {
-		this.UUID = uuid;
-	}
-	public ServerInfo getCurrentServer() {
-		return currentServer;
-	}
-	public void setCurrentServer(ServerInfo currentServer) {
-		this.currentServer = currentServer;
-	}
-	@JsonIgnore
-	public void prepareSkin() {
-		this.preparingSkin = true;
-		this.skin = (DynamicTexture)Minecraft.getMinecraft().getTextureManager().getTexture(this.resourceLocation);
+    public String getMotd() {
+        return motd;
+    }
 
-		try
-		{
-			URL url = new URL(String.format("http://skins.minecraft.net/MinecraftSkins/%s.png",this.getUsername()));
-			this.bufferedimage = ImageIO.read(url);
-		}
-		catch (Exception exception)
-		{
-			Utils.log.error("Invalid icon for user " + this.getUsername() + " (" + this.getUUID() + ")", exception);
-			this.bufferedimage = null;
-			return;
-		}
+    @JsonIgnore
+    public String getFormattedMotd() {
+        return StringEscapeUtils.unescapeJava(motd);
+    }
 
-		if (this.skin == null)
-		{
-			this.skin = new DynamicTexture(bufferedimage.getWidth(), bufferedimage.getHeight());
-			Minecraft.getMinecraft().getTextureManager().loadTexture(this.resourceLocation, this.skin);
-		}
+    public void setMotd(String motd) {
+        this.motd = motd;
+    }
 
-		if (this.averageColor == null) {
-			int[] pixels = new int[bufferedimage.getWidth()*bufferedimage.getHeight()];
-			bufferedimage.getRGB(0, 0, bufferedimage.getWidth(), bufferedimage.getHeight(), pixels, 0, bufferedimage.getWidth());
-			
-			long pixelCount = 0;
-			long redTot = 0;
-			long greenTot = 0;
-			long blueTot = 0;
-			
-			for (int i : pixels) {
-				Color c = new Color(i);
-				if (c.getAlpha() > 0) {
-					pixelCount++;
-					redTot += c.getRed();
-					greenTot += c.getGreen();
-					blueTot += c.getBlue();
-				}
-				
-			}
+    public HashMap<String, String> getBlocks() {
+        return blocks;
+    }
 
-			averageColor = new Color((redTot / pixelCount) / 255f, (greenTot / pixelCount) / 255f, (blueTot / pixelCount) / 255f);
-		}
+    public void setBlocks(HashMap<String, String> blocks) {
+        this.blocks = blocks;
+    }
 
-		bufferedimage.getRGB(0, 0, bufferedimage.getWidth(), bufferedimage.getHeight(), this.skin.getTextureData(), 0, bufferedimage.getWidth());
-		this.skin.updateDynamicTexture();
-		this.preparingSkin = false;
-	}
-	@JsonIgnore
-	public ResourceLocation getSkin() {
-		if (bufferedimage == null && !preparingSkin)
-			this.prepareSkin();
-		return this.resourceLocation;
-	}
-	@JsonIgnore
-	public int getSkinWidth() {
-		return this.bufferedimage == null ? 0 : this.bufferedimage.getWidth();
-	}
-	@JsonIgnore
-	public int getSkinHeight() {
-		return this.bufferedimage == null ? 0 : this.bufferedimage.getHeight();
-	}
-	@JsonIgnore
-	public long lastSeen() {
-		return this.lastSeen;
-	}
-	@JsonIgnore
-	public boolean isOnline() {
-		return ((this.lastSeen + 30000L) >= System.currentTimeMillis());
-	}
-	public UserConfiguration getConfig() {
-		return config;
-	}
-	public void setConfig(UserConfiguration config) {
-		this.config = config;
-	}
+    public HashMap<String, String> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(HashMap<String, String> friends) {
+        this.friends = friends;
+    }
+
+    public long getLastSeen() {
+        return System.currentTimeMillis();
+    }
+
+    public void setLastSeen(long lastSeen) {
+        this.lastSeen = lastSeen;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+        this.resourceLocation = new ResourceLocation("skins/" + username);
+    }
+
+    public String getUUID() {
+        return this.UUID;
+    }
+
+    public void setUUID(String uuid) {
+        this.UUID = uuid;
+    }
+
+    public ServerInfo getCurrentServer() {
+        return currentServer;
+    }
+
+    public void setCurrentServer(ServerInfo currentServer) {
+        this.currentServer = currentServer;
+    }
+
+    @JsonIgnore
+    public void prepareSkin() {
+        this.preparingSkin = true;
+        this.skin = (DynamicTexture) Minecraft.getMinecraft().getTextureManager().getTexture(this.resourceLocation);
+
+        try {
+            URL url = new URL(String.format("http://skins.minecraft.net/MinecraftSkins/%s.png", this.getUsername()));
+            this.bufferedimage = ImageIO.read(url);
+        } catch (Exception exception) {
+            Utils.log.error("Invalid icon for user " + this.getUsername() + " (" + this.getUUID() + ")", exception);
+            this.bufferedimage = null;
+            return;
+        }
+
+        if (this.skin == null) {
+            this.skin = new DynamicTexture(bufferedimage.getWidth(), bufferedimage.getHeight());
+            Minecraft.getMinecraft().getTextureManager().loadTexture(this.resourceLocation, this.skin);
+        }
+
+        if (this.averageColor == null) {
+            int[] pixels = new int[bufferedimage.getWidth() * bufferedimage.getHeight()];
+            bufferedimage.getRGB(0, 0, bufferedimage.getWidth(), bufferedimage.getHeight(), pixels, 0, bufferedimage.getWidth());
+
+            long pixelCount = 0;
+            long redTot = 0;
+            long greenTot = 0;
+            long blueTot = 0;
+
+            for (int i : pixels) {
+                Color c = new Color(i);
+                if (c.getAlpha() > 0) {
+                    pixelCount++;
+                    redTot += c.getRed();
+                    greenTot += c.getGreen();
+                    blueTot += c.getBlue();
+                }
+
+            }
+
+            averageColor = new Color((redTot / pixelCount) / 255f, (greenTot / pixelCount) / 255f, (blueTot / pixelCount) / 255f);
+        }
+
+        bufferedimage.getRGB(0, 0, bufferedimage.getWidth(), bufferedimage.getHeight(), this.skin.getTextureData(), 0, bufferedimage.getWidth());
+        this.skin.updateDynamicTexture();
+        this.preparingSkin = false;
+    }
+
+    @JsonIgnore
+    public ResourceLocation getSkin() {
+        if (bufferedimage == null && !preparingSkin)
+            this.prepareSkin();
+        return this.resourceLocation;
+    }
+
+    @JsonIgnore
+    public int getSkinWidth() {
+        return this.bufferedimage == null ? 0 : this.bufferedimage.getWidth();
+    }
+
+    @JsonIgnore
+    public int getSkinHeight() {
+        return this.bufferedimage == null ? 0 : this.bufferedimage.getHeight();
+    }
+
+    @JsonIgnore
+    public long lastSeen() {
+        return this.lastSeen;
+    }
+
+    @JsonIgnore
+    public boolean isOnline() {
+        return ((this.lastSeen + 30000L) >= System.currentTimeMillis());
+    }
+
+    public UserConfiguration getConfig() {
+        return config;
+    }
+
+    public void setConfig(UserConfiguration config) {
+        this.config = config;
+    }
 
 }

@@ -6,7 +6,7 @@ public class Notification {
     public String desc;
     public int unread = 1;
     public NotificationType type = NotificationType.MESSAGE;
-    
+
     public Notification(String title, String desc, int unread, NotificationType type) {
         this.title = title;
         this.desc = desc;
@@ -18,4 +18,3 @@ public class Notification {
         MESSAGE, FRIENDREQUEST, ONLINE, OFFLINE, STATUS
     }
 }
-

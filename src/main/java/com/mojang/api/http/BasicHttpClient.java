@@ -10,7 +10,7 @@ import java.net.URL;
 import java.util.List;
 
 /*
-    TODO: refactor so unit tests can be written :)
+ TODO: refactor so unit tests can be written :)
  */
 public class BasicHttpClient implements HttpClient {
 
@@ -33,7 +33,8 @@ public class BasicHttpClient implements HttpClient {
 
     @Override
     public String post(URL url, Proxy proxy, HttpBody body, List<HttpHeader> headers) throws IOException {
-        if (proxy == null) proxy = Proxy.NO_PROXY;
+        if (proxy == null)
+            proxy = Proxy.NO_PROXY;
         HttpURLConnection connection = (HttpURLConnection) url.openConnection(proxy);
         connection.setRequestMethod("POST");
 

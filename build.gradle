@@ -42,6 +42,22 @@ minecraft {
     if ("$System.env.FIREBASE_SECRET" != "null")
         replace "UON7iIE2AJT2eJcAXXWhRKUiXlwUe1Pu5LzkGYta", "$System.env.FIREBASE_SECRET"
     replaceIn "Chime.java"
+    
+    CHIME_BUILD_NUMBER = "$System.env.BUILD_NUMBER"
+    if (CHIME_BUILD_NUMBER == "null") {
+        CHIME_BUILD_NUMBER = 1
+    }
+    
+    //Change this 5000 to higher if builds ever get up there.	vvvv
+    replace "@SortingIndex(191919191)", "@SortingIndex(1000" + (5000-project.minecraft.CHIME_BUILD_NUMBER.toDouble().round()) + ")"
+    replaceIn "ChimeLoadingPlugin.java"
+}
+
+jar {
+    manifest {
+        attributes 'FMLCorePlugin': 'com.maxpowa.chime.init.ChimeLoadingPlugin'
+        attributes 'FMLCorePluginContainsFMLMod': 'true'
+    }
 }
 
 processResources

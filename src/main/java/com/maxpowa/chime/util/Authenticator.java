@@ -5,17 +5,17 @@ import com.firebase.client.FirebaseError;
 import com.maxpowa.chime.Chime;
 
 public class Authenticator implements Firebase.AuthListener {
-	
-	private Chime chime = null;
-	
-    public Authenticator(Chime chime) {
-		this.chime = chime;
-	}
 
-	@Override
+    private Chime chime = null;
+
+    public Authenticator(Chime chime) {
+        this.chime = chime;
+    }
+
+    @Override
     public void onAuthError(FirebaseError error) {
         Utils.log.error("Authentication Failed! " + error.getMessage());
-		Chime.betaFull = true;
+        Chime.betaFull = true;
         chime.deauth();
     }
 
