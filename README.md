@@ -1,7 +1,7 @@
 Chime - A social Minecraft experience
 ========
 
-[![Build Status](https://api.shippable.com/projects/53d6bd19f10833ae02b9032b/badge/master)](https://www.shippable.com/projects/53d6bd19f10833ae02b9032b/builds/history)
+[![Build Status](https://api.shippable.com/projects/547bf280d46935d5fbbefbeb/badge?branchName=master)](https://app.shippable.com/projects/547bf280d46935d5fbbefbeb/builds/latest)
 
 A mod that adds some social elements to Minecraft.
 
