@@ -1,12 +1,12 @@
-## Duh. 
+## Duh.
 language: java
 
 ## What JDK versions do we want to build with?
 jdk:
-  - openjdk7 
+  - openjdk7
 #  - oraclejdk7
 #  - openjdk6
-#  - oraclejdk8 
+#  - oraclejdk8
 
 ## Build System environment variables
 env:
@@ -26,22 +26,26 @@ env:
     ## Each subheading here will cause another build to happen with the given environment variables (can be exponential when combined with JDK versions)
     ## MAKE TAG NOTHING IF WE WANT TO RELEASE A RECOMMENDED
     ## Change PUSH to true if we want to upload this build
-    ## 
-    - MAJOR_MINOR=1.7.10-0.1 TAG=alpha PUSH=true
+    ##
+    - MINECRAFT_VERSION=1.7.10 MAJOR_MINOR=1.7.10-0.1 TAG=alpha PUSH=false
+
+## Don't send emails to contributors.
+notifications:
+   email: false
 
 ##
 #  Build-critical section
 ##
 
 ## What should we do before running anything
-install: 
+install:
   - chmod +x ./scripts/pre_install.sh
   - chmod +x ./scripts/modsio_push.sh
   - chmod +x ./scripts/curse_push.sh
   - ./scripts/pre_install.sh
 
 ## What is the actual build script which will determine whether or not build succeeds
-script: 
+script:
   - ./gradlew clean build
 
 ##
