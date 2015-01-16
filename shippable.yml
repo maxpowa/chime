@@ -27,7 +27,7 @@ env:
     ## MAKE TAG NOTHING IF WE WANT TO RELEASE A RECOMMENDED
     ## Change PUSH to true if we want to upload this build
     ## 
-    - MAJOR_MINOR=1.7.10-0.1 TAG=dev PUSH=true
+    - MAJOR_MINOR=1.7.10-0.1 TAG=alpha PUSH=true
 
 ##
 #  Build-critical section
