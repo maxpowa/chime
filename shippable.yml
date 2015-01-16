@@ -27,7 +27,7 @@ env:
     ## MAKE TAG NOTHING IF WE WANT TO RELEASE A RECOMMENDED
     ## Change PUSH to true if we want to upload this build
     ## 
-    - MAJOR_MINOR=1.7.10-0.1 TAG=beta PUSH=false
+    - MAJOR_MINOR=1.7.10-0.1 TAG=dev PUSH=true
 
 ##
 #  Build-critical section
@@ -35,8 +35,6 @@ env:
 
 ## What should we do before running anything
 install: 
-  - chmod +x ./scripts/db_update.sh
-  - chmod +x ./scripts/db_update_failure.sh
   - chmod +x ./scripts/pre_install.sh
   - chmod +x ./scripts/modsio_push.sh
   - chmod +x ./scripts/curse_push.sh
@@ -52,14 +50,12 @@ script:
 
 ## Scripts to run after a build succeeds
 after_success:
-  - ./scripts/db_update.sh
   - ./scripts/modsio_push.sh
   - ./scripts/curse_push.sh
   - ./gradlew clean
 
 ## Scripts to run after a build fails
 after_failure:
-  - ./scripts/db_update_failure.sh
   - ./gradlew clean
 
 ## After Shippable creates a build artifact archive what should we do
