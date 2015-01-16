@@ -66,8 +66,6 @@ after_failure:
 after_archive:
   - find . -name "Build*.tar.gz" -exec rm -rf {} \; # Delete any existing build archives (I don't use them anyways)
 
-## Travis-style caching, Shippable does not use this as it persists its minions
-cache:
-  directories:
-    - $HOME/.gradle/caches
-    - $HOME/.gradle/wrapper
+## Cache our minion, since it takes a while to download forge and forge deps.
+## We can reset by putting [reset_minion] in a commit message
+cache: true
