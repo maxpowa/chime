@@ -9,7 +9,7 @@ echo "$JSON"
 if [ "$PULL_REQUEST" = false ] ; then
     if [ "$PUSH" = true ] ; then
 
-        RESPONSE=`curl -v -H "X-Api-Token: $CURSE_API_KEY" -X POST  -F metadata="$JSON"  -F file="@$FILE_LOCATION"  http://minecraft.curseforge.com/api/projects/223265/upload-file`
+        RESPONSE=`curl -v -H "X-Api-Token: $CURSE_API_KEY" -X POST  -F metadata="$JSON"  -F file="@$FILE_LOCATION" https://minecraft.curseforge.com/api/projects/223265/upload-file`
         echo $RESPONSE
 
     fi
