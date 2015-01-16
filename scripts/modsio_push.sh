@@ -7,7 +7,7 @@ JSON=`printf '{"version": { "name": "%s.%s", "minecraft": "%s", "changelog": "Se
 echo "Ready to push file to mods.io"
 echo "$JSON"
 
-if [ "$PULL_REQUEST" = "None" ] ; then
+if [ "$PULL_REQUEST" = false ] ; then
     if [ "$PUSH" = true ] ; then
        
         curl -i -H "X-API-Key: $MODS_IO_KEY" \

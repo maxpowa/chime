@@ -50,7 +50,6 @@ script:
 
 ## Scripts to run after a build succeeds
 after_success:
-  - printenv
   - ./scripts/modsio_push.sh
   - ./scripts/curse_push.sh
   - ./gradlew clean

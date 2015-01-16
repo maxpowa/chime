@@ -6,7 +6,7 @@ JSON=`printf '{"changelog": "See http://github.com/maxpowa/chime/commit/%s for f
 echo "Ready to push file to curse"
 echo "$JSON"
 
-if [ "$PULL_REQUEST" = "None" ] ; then
+if [ "$PULL_REQUEST" = false ] ; then
     if [ "$PUSH" = true ] ; then
        
         RESPONSE=$(curl -H "X-Api-Token: $CURSE_API_KEY" \
